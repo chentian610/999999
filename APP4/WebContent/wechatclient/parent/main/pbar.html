@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>家长端</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.poppicker.css" />
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.hxx-title-select{
+				font-family: classtao;
+			}
+			.hxx-title-select:after{
+				content: '\e66d';
+			}
+		</style>
+	</head>
+	<body>
+		<header id="TitleBar" class="mui-bar mui-bar-nav">
+		    <h1 id="TitleBarName" class="mui-title hxx-title-select">
+		    </h1>
+		</header>
+		<div id="abox" class="hxx-alert-box" style="display:none;">
+			<div class="hxx-alert-head">
+				<b id="pop_title"></b>
+			</div>
+			<div class="hxx-alert-body">
+				<ul id="list" class="mui-table-view">
+				</ul>
+			</div>
+		</div>
+		<div style="top:45px;position:absolute;width:100%;height:90%" id="contentDiv">
+			<iframe src="" style="width:100%;height:100%" id="ContentIframe">
+			</iframe>
+		</div>
+		<nav class="mui-bar mui-bar-tab">
+			<a dataTab="d1" class="mui-tab-item" href="phome">
+				<span class="mui-icon hxx-icon icon-dongtaishixin"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a dataTab="d2" class="mui-tab-item" href="pfind">
+				<span class="mui-icon hxx-icon icon-faxian"></span>
+				<span class="mui-tab-label">发现</span>
+			</a>
+			<a dataTab="d3" class="mui-tab-item" href="pset">
+				<span class="mui-icon hxx-icon icon-wode"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/pbar.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

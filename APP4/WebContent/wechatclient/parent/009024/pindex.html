@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>花名册</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+		<style type="text/css">
+			.mui-search::before{
+				top: 26%;
+			}
+			.mui-bar .mui-input-row .mui-input-clear~.mui-icon-clear{
+				top: 10px;
+			}
+			.mui-search .mui-placeholder{
+				line-height: 43px;
+			}
+			.mui-bar .mui-title{
+				position: absolute;
+				right: 50px;
+			}
+			.mui-content>.mui-table-view:first-child{
+				margin-top: 0;
+			}
+			.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell{
+				padding-left: 22px;
+			}
+			.mui-table-view-cell.mui-collapse>.mui-navigate-right:after, .mui-table-view-cell.mui-collapse>.mui-push-right:after{
+			    border: 1px solid #bbb;
+			    border-radius: 50%;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active>.mui-navigate-right:after, .mui-table-view-cell.mui-collapse.mui-active>.mui-push-right:after{
+				border: 1px solid #bbb;
+			    border-radius: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">班级花名册</h1>
+		</header> -->
+		<div class="mui-content">
+			<ul  class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right">
+						教师
+					</a>
+					<ul class="mui-table-view mui-table-view-chevron" id="teacherList">
+						<!--<li class="mui-table-view-cell">
+							<a class="mui-navigate-right" >
+								陈宇
+							</a>
+						</li>-->
+					</ul>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right">
+						学生花名册
+					</a>
+					<ul class="mui-table-view mui-table-view-chevron" id="studentList">
+						<!--<li class="mui-table-view-cell">
+							<span class="hxx-list-num">1号</span>陈宇 
+							<span class="hxx-list-sex">男</span>
+						</li>-->
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div id="tap_center1" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png" />
+			<h4>网络请求失败<br />点击重新加载</h4>
+		</div>
+		<div id="tap_center2" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png" />
+			<h4>数据为空</h4>
+		</div>
+		<div id="tap_center3" class="hxx-middle-center">
+			<a>
+				<span class="mui-spinner"></span>
+			</a>
+		</div>
+	</body>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/pindex.js" type="text/javascript" charset="utf-8"></script>
+</html>

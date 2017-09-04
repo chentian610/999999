@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fileMap">
+    <insert id="insertFileBatch" parameterType="List">
+        INSERT INTO kt_bas_file(
+          school_id,
+          parent_id,
+          module_code,
+          file_type,
+          file_name,
+          file_url,
+          file_resize_url,
+          file_real_name,
+          file_size,
+          play_time,
+          create_by,
+          create_date,
+          version
+        ) VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">(
+            #{item.school_id},
+            #{item.parent_id},
+            #{item.module_code},
+            #{item.file_type},
+            #{item.file_name},
+            #{item.file_url},
+            #{item.file_resize_url},
+            #{item.file_real_name},
+            #{item.file_size},
+            #{item.play_time},
+            #{item.create_by},
+            #{item.create_date},
+            0
+        )
+        </foreach>
+    </insert>
+
+    <insert id="insertFile" parameterType="FileVO">
+        INSERT INTO kt_bas_file(
+            school_id,
+            parent_id,
+            module_code,
+            file_type,
+            file_name,
+            file_url,
+            file_resize_url,
+            file_real_name,
+            file_size,
+            play_time,
+            create_by,
+            create_date,
+            version
+        ) VALUES(
+            #{school_id},
+            #{parent_id},
+            #{module_code},
+            #{file_type},
+            #{file_name},
+            #{file_url},
+            #{file_resize_url},
+            #{file_real_name},
+            #{file_size},
+            #{play_time},
+            #{create_by},
+            #{create_date},
+            0
+        )
+    </insert>
+
+    <select id="getFileList" parameterType="FileVO" resultType="FileVO">
+        SELECT
+          file_id AS file_id,
+          school_id AS school_id,
+          file_type AS file_type,
+          file_url AS file_url,
+          file_resize_url AS file_resize_url,
+          play_time AS play_time,
+          create_by AS create_by,
+          create_date AS create_date,
+          version AS version
+        FROM kt_bas_file
+        <where>
+            <if test="file_id != null">
+                AND file_id = #{file_id}
+            </if>
+            <if test="school_id != null">
+                AND school_id = #{school_id}
+            </if>
+            <if test="parent_id != null">
+                AND parent_id = #{parent_id}
+            </if>
+            <if test="module_code != null and module_code != ''">
+                AND module_code = #{module_code}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteFileByID" parameterType="Integer">
+        DELETE FROM kt_bas_file WHERE file_id = #{file_id}
+    </delete>
+
+    <delete id="deleteFile" parameterType="FileVO">
+        DELETE FROM kt_bas_file WHERE school_id = #{school_id} AND module_code = #{module_code} AND parent_id = #{parent_id}
+    </delete>
+</mapper>
+

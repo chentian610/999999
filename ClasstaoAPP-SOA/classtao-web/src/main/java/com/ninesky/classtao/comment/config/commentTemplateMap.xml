@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="commentTemplateMap">
+	<!--插入表kt_bus_comment_template -->
+	<insert id="insertCommentTemplate" parameterType="CommentTemplateVO">insert into
+		kt_bus_comment_template
+		(
+		school_id,
+		user_id,
+		comment,
+		is_read,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{user_id},
+		#{comment},
+		0,
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bus_comment_template -->
+	<update id="updateCommentTemplate" parameterType="CommentTemplateVO">update
+		kt_bus_comment_template set
+		comment = #{comment},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version + 1
+		where template_id = #{template_id}
+	</update>
+	<!--查询表kt_bus_comment_template -->
+	<select id="getCommentTemplateList" parameterType="CommentTemplateVO"
+		resultType="CommentTemplateVO">select
+		template_id as template_id,
+		school_id as school_id,
+		user_id as user_id,
+		comment as comment,
+		is_read as is_read,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bus_comment_template
+		where school_id=#{school_id}
+		and user_id=#{user_id} order by template_id DESC
+	</select>
+	<!--删除表kt_bus_comment_template -->
+	<delete id="deleteCommentTemplate" parameterType="CommentTemplateVO">delete from
+		kt_bus_comment_template
+		where template_id = #{template_id}
+	</delete>
+</mapper>
+

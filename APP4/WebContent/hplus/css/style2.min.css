@@ -1,0 +1,47 @@
+.label-info>button {
+	display: block;
+	position: relative;
+	cursor: pointer;
+	float: left;
+	width: 25px;
+	height: 20px;
+	margin: 5px 0;
+	padding: 0;
+	text-indent: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	border: 0;
+	background: 0 0;
+	font-size: 12px;
+	line-height: 1;
+	text-align: center;
+	font-weight: 700
+}
+
+.label-info>button:after {
+	content: '+';
+	display: block;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	text-indent: 0
+}
+
+.label-info>button[data-action=collapse]:after {
+	content: '-'
+}
+
+#nestable2 .label-info>button {
+	font-family: FontAwesome;
+	height: 34px;
+	width: 33px;
+	color: #c1c1c1
+}
+
+#nestable2 .label-info>button:after {
+	content: "\f067"
+}
+
+#nestable2 .label-info>button[data-action=collapse]:after {
+	content: "\f068"
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>修改密码</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		   <!--  <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">密码修改</h1> -->
+		    <a class="mui-btn mui-btn-link mui-pull-right" id="update">修改</a>
+		</header>
+		<div class="mui-content">
+		    <div class="mui-input-row">
+				<input id="oldPasswd" type="password" class="mui-input-clear" placeholder="原密码">
+				<input id="newPasswd1" type="password" class="mui-input-clear" placeholder="新密码">
+				<input id="newPasswd2" type="password" class="mui-input-clear" placeholder="重复新密码">
+			</div>
+		</div>
+	</body>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var uOldPasswd = document.getElementById("oldPasswd"),
+			uNewPasswd1 = document.getElementById("newPasswd1"),
+			uNewPasswd2 = document.getElementById("newPasswd2");
+		var oPitem = {},
+			oPdata = {};
+			
+		mui.ready(function(){
+			BindEvent();
+		});
+		
+		function BindEvent(){
+			document.getElementById("update").addEventListener('tap',function(){
+				var self = this;
+				if (self.disable) {
+					return;
+				}
+				if (uOldPasswd.value == '') {
+					mui.toast('原密码不可为空');
+					return;
+				}
+				if (uNewPasswd1.value == '' || uNewPasswd2.value == '') {
+					mui.toast('新密码不可为空');
+					return;
+				}
+				if (uNewPasswd1.value != uNewPasswd2.value) {
+					mui.toast('两次输入的密码不同');
+					return;
+				}
+				self.disable = true;
+				cache.myajax("userAction/updatePassword", {
+					data: {
+						phone: cache.getPhone(),
+						pass_word_old: md5(uOldPasswd.value),
+						pass_word: md5(uNewPasswd1.value)
+					},
+					success: function(data) {
+						self.disable = false;
+						mui.toast('密码修改成功');
+						mui.back();
+					},
+					error: function(err) {
+						mui.toast('密码修改失败');
+						self.disable = false;
+						
+					}
+				});	
+			});
+			//BindEvent end
+		};
+		
+	</script>
+</html>

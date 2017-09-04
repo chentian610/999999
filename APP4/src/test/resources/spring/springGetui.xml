@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+   	<bean id="gtApp" class="com.gexin.rp.sdk.http.IGtPush">
+		<constructor-arg name="appKey" value="UPpQ9jWbbc5rpaZZHDmKb"/>
+		<constructor-arg name="masterSecret" value="oeNMFfVkDX6cnfgQvZwEu6" />
+	</bean>
+<!-- 	<bean id="gtAppTeacherIOS" class="com.gexin.rp.sdk.http.IGtPush"> -->
+<!-- 		<constructor-arg name="appKey" value="kvEohBQKnD7bHouLhsENe8"/> -->
+<!-- 		<constructor-arg name="masterSecret" value="82AMpC1zz89dhFwehDp9d3" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="gtAppParent" class="com.gexin.rp.sdk.http.IGtPush"> -->
+<!-- 		<constructor-arg name="appKey" value="UPpQ9jWbbc5rpaZZHDmKb"/> -->
+<!-- 		<constructor-arg name="masterSecret" value="oeNMFfVkDX6cnfgQvZwEu6" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="gtAppParentIOS" class="com.gexin.rp.sdk.http.IGtPush"> -->
+<!-- 		<constructor-arg name="appKey" value="UPpQ9jWbbc5rpaZZHDmKb"/> -->
+<!-- 		<constructor-arg name="masterSecret" value="oeNMFfVkDX6cnfgQvZwEu6" /> -->
+<!-- 	</bean> -->
+</beans>

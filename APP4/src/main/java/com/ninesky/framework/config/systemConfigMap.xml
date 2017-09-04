@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="systemConfigMap">
+	<select id="getConfigList" resultType="HashMap">
+		select config_key,config_value from kt_sys_config
+	</select>
+
+	<select id="getConfigByKey" parameterType="String" resultType="HashMap">
+		select config_key,config_value from kt_sys_config
+		where config_key=#{config_key}
+	</select>
+</mapper>
+

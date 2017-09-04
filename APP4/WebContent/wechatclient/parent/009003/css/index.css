@@ -1,0 +1,210 @@
+html,body{
+ 	background-color: #ffffff;
+ }
+ .mui-content>.mui-table-view:first-child{
+ 	margin-top:0;
+ }
+.mui-bar{
+	height: 3.52rem;
+}
+.mui-bar-nav~.mui-content {
+    padding-top: 3.52rem;
+}
+.mui-bar .mui-icon:active {
+    opacity: 1;
+}
+.mui-title{
+	 font-size: 1.44rem;
+	 color: #484848;
+	 line-height: 3.52rem;
+}
+#mui-bottom{
+	border-bottom:2px solid #f0f0f0;
+}
+.submit-but{
+	width: 100%;
+	height: 3.92rem;
+	z-index: 9999;
+	bottom: 0;
+	background:#57cebf ;
+}
+.mui-bar{
+	z-index: 1000;
+	border-bottom:none;
+	background-color: #ffffff;
+	-webkit-box-shadow:none;
+    box-shadow:none;
+}
+#submit-p{
+	display: block;
+	position:absolute;
+	width: 100%;
+	height: 3.92rem;
+	border:none;
+	border-radius:0;
+	color: #fff;
+	font-size: 1.44rem;
+	z-index: 9999;
+	display: block;
+	left: 0.88rem;
+	background:none;
+}
+.submint-point{
+   float: left;
+   display:inline-block;
+   width: 1.6rem;
+   height:1.6rem;
+   font-size: 1.6rem;
+   color: #ffffff;
+   z-index: 9999;
+   margin-left: 11.52rem;
+   margin-top: 1.2rem;
+}
+.addhw-time{
+	font-size:1.44rem;
+	color:#9b9b9b;
+	height: 3.2rem;
+	line-height: 3.2rem;
+	padding-left: 15px;
+	background: #f2f2f2;
+}
+.mui-table-view:after,.mui-table-view:before{
+	background: none;
+}
+/*共同提交文本样式*/
+.conter-all{
+	position: relative;
+	display: block;
+	min-height:11.6rem;
+	padding: 0 1.2rem;
+	border-bottom: 1px solid #f4f4f4;
+}
+.mui-table-view-cell:after{
+	background:none;
+	position: relative;
+}
+.mui-table-view-cell:last-child:after, .mui-table-view-cell:last-child:before {
+    height:11.84rem;
+	width:6.64rem;
+}
+.mui-table-view-cell .course-finish{
+	position: absolute;
+	display: block;
+	float: left;
+	font-size:1.28rem;
+	color:#fff;
+	width:3.2rem;
+	height:3.2rem;
+	background:#57cebf;
+    border-radius:100%;
+    text-align: center;
+    line-height: 3.2rem;
+    top:0.8rem;
+}
+.title-finish{
+	display: block;
+	float: left;
+	font-size:1.44rem;
+	color:#5a5a5a;
+    font-weight: 600;
+    margin-left:0.8rem;
+    margin-top: 0.64rem;
+}
+.SubmitTime{
+	position: absolute;
+	font-size:12px;
+	color:#9b9b9b;
+	left: 5.2rem;
+	top:4.32rem;
+}
+.remain-time-finish{
+	position:absolute;
+	float: right;
+	display: block;
+	font-size:0.96rem;
+	color:#9b9b9b;
+	right:1.2rem ;
+	top:4.32rem;
+}
+.t-content-finish{
+	position: absolute;
+	font-size:1.28rem;
+	font-weight:500;
+	overflow: hidden;
+	color: #9b9b9b;
+	top:6.8rem;
+	left: 5.2rem;
+	right: 1.2rem;
+	text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.t-time-finish{
+	position: absolute;
+	font-size: 	0.96rem;
+	color:#bdbdbd;
+	top:9.6rem;
+	right: 1.2rem;
+	white-space:nowrap; 
+}
+.t-time-finish>em{
+	color:#57cebf;
+	position: static;
+}
+.Pname{
+	position: absolute;
+	font-size:1.44rem;
+	color:#5a5a5a;
+	left:5.2rem;
+	top:1.6rem;
+}
+/*公用样式提交部分结束*/
+
+/*---------------完成,打上灰色水印--------------------*/
+.conter-all-finish:before{
+	display: block;
+	content:"";
+	background: url(../../images/timeover.png) no-repeat left top;
+	background-size:100% 100%;
+	height: 6.64rem !important;
+    width: 6.64rem !important;
+    position: absolute;
+    z-index: 999;
+    left:-1.2rem;
+  
+}
+.conter-all-finish{
+	background-color:#fafafa; 
+	overflow: hidden;
+	position: relative;
+	min-height: 11.6rem;
+}
+.conter-all-finish .course-finish{
+	background-color:#bdbdbd; 
+	
+}
+.conter-all-finish .Pname, .conter-all-finish .t-time-finish>em{
+	color:#bdbdbd;
+}
+.hxx-middle-center img {
+	width: 80px;
+}
+
+.hxx-middle-center {
+	position: fixed;
+	width: 200px;
+	height: 120px;
+	/*padding: 20px;*/
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	text-align: center;
+	z-index: 9;
+	display: none;
+}
+
+.hxx-middle-center h4 {
+	font-size: 15px;
+	color: #9b9b9b;
+}

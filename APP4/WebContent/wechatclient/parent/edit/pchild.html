@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>孩子资料</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css"/>
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<style type="text/css">
+			.mui-navigate-right b{
+				float: left;
+			}
+			.mui-table-view b{font-size: 15px;font-weight: 400;}
+			.mui-navigate-right span{
+				float: right;
+				margin-right: 20px;
+			}
+			.mui-navigate-right img{
+				width: 48px;
+				height: 48px;
+				border-radius: 24px;
+				float: right;
+				margin-right: 20px;
+			}
+			.hxx-pchild-btn-block{
+				background: #fff;
+				text-align: center;
+				margin: 15px 0 0;
+				height: 44px;
+				line-height: 44px;
+				border-top: 1px solid #cecece;
+				border-bottom: 1px solid #cecece;
+				color: #ff2943;
+			}
+			
+			.mui-table-view{margin-top: 15px;}
+			.mui-table-view-cell span{float:right;font-size: 15px;color: #999;}
+			.swiper-container{
+				width: 100%;
+		        padding-top: 20px;
+		        padding-bottom: 20px;
+			}
+			.swiper-slide {
+		        background-position: center;
+		        background-size: cover;
+		        width: 100px;
+		        height: 100px;
+		        text-align: center;
+		    }
+		    .swiper-slide img{
+				height: 64px;
+				width: 64px;
+				border-radius: 32px;
+				box-shadow: 2px 2px 2px #333333;
+			}
+			.swiper-slide span{
+				display: block;
+				text-align: center;
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <!-- <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">孩子资料</h1> -->
+		    <a id="tjc" href="#" class="mui-btn mui-btn-link mui-pull-right">添加孩子</a>
+		</header>
+		<div class="mui-content">
+			   <!-- Swiper -->
+		    <div class="swiper-container">
+		        <div id="userhead" class="swiper-wrapper">
+		            <!--<div class="swiper-slide"></div>
+		            <div class="swiper-slide"></div>
+		            <div class="swiper-slide"></div>
+		            <div class="swiper-slide"></div>
+		            <div class="swiper-slide"></div>-->
+		        </div>
+		        <!-- Add Pagination -->
+		        <div class="swiper-pagination"></div>
+		    </div>
+			<!--<div class="hxx-img-group">
+				<ul id="userhead">
+				</ul>
+			</div>-->
+			<ul class="mui-table-view">
+				<li id="c_head" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<b style="margin-top: 15px;">头像</b>
+						<img id="u_img" src="../images/default_img_user.png"/>
+					</a>
+				</li>
+				<li id="c_relative" class="mui-table-view-cell">
+					<a href="#" class="mui-navigate-right">
+						<b>关系</b>
+						<span id="u_gx"></span>
+					</a>
+				</li>
+				<li id="SexSelectBtn" class="mui-table-view-cell">
+					<a href="#" class="mui-navigate-right">
+						<b>性别</b>
+						<span id="SexText"></span>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#">
+						<b>班级</b>
+						<span id="u_class"></span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#">
+						<b>学号</b>
+						<span id="u_stu"></span>
+					</a>
+				</li>
+			</ul>
+			<div id="deletec" class="hxx-pchild-btn-block">
+				删除
+			</div>
+		</div>
+		<div id="tap_center3" class="hxx-middle-center">
+			<a>
+				<span class="mui-spinner"></span>
+			</a>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.picker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var uTap3 = document.getElementById("tap_center3");
+				uAddChild  = document.getElementById('tjc');
+				uHead = document.getElementById('userhead');
+				uImg = document.getElementById('u_img');
+				uGx = document.getElementById('u_gx');
+				uSexText = document.getElementById('SexText');
+				uClass = document.getElementById('u_class');
+				uStu = document.getElementById('u_stu');
+				uDeletec = document.getElementById('deletec');
+			var	oSwiper = null,
+				oPicker = null;
+			oPdata.selectStudentId = 0;
+			oPdata.isRepeated = 0;
+			oPdata.swiperIndex = 0;
+			oPdata.childs = [];
+			oPdata.child = {};
+			
+			mui.ready(function(){
+				cache.showDom(uTap3);
+				InitPage();
+				BindEvent();
+				InitSwper();
+				InitPicker();
+			});
+			
+			function InitPicker(){
+				oPicker = new mui.PopPicker({
+					layer:1
+				});
+				oPicker.setData(cache.getDict('003015'));
+				uSexSelect = new mui.PopPicker({layer: 1});
+				uSexSelect.setData([{
+					"text": "男",
+					"value": 0,
+				},{
+					"text": "女",
+					"value": 1,
+				}])
+			}
+			
+			function InitSwper(){
+				oSwiper = new Swiper('.swiper-container', {
+					initialSlide : 0,
+			        pagination: '.swiper-pagination',
+			        effect: 'coverflow',
+			        grabCursor: true,
+			        centeredSlides: true,
+			        slidesPerView: 'auto',
+			        coverflow: {
+			            rotate: 50,
+			            stretch: 0,
+			            depth: 100,
+			            modifier: 1,
+			            slideShadows : true
+			        },
+			        onInit:function(){
+			        		cache.hideDom(uTap3);
+			        },
+			        onTransitionEnd:function(e){
+				        oPdata.swiperIndex = e.activeIndex;
+				        	oPdata.child = oPdata.childs[oPdata.swiperIndex];
+				        	cache.setChild(oPdata.child);
+				        	SetStudentInfo(oPdata.child);
+				        	cache.hideDom(uTap3);
+			        }
+			   });
+			};
+			
+			function InitPage(){
+				try{
+					oPdata.childs = cache.getChilds();
+					oPdata.swiperIndex = parseInt(cache.getChildIndex());
+					oPdata.child = oPdata.childs[oPdata.swiperIndex];
+				}catch(e){
+					console.log(e);
+					return;
+				}
+				uHead.innerHTML = '';
+				if (!cache.isArray(oPdata.childs) || oPdata.childs.length<1) {
+					mui.toast('该家长未关联孩子');
+					return;
+				}
+				for (var i = 0; i < oPdata.childs.length; i++) {
+					if (i == 0) {
+						SetStudentInfo(oPdata.childs[i]);
+					}
+					var img = document.createElement('img');
+					img.onerror = function(){
+						img.src = '../images/default_img_user.png';
+					};
+					img.src = oPdata.childs[i].head_url;
+					var span = document.createElement('span');
+					span.innerText = oPdata.childs[i].student_name;
+					var li = document.createElement('div');
+					li.className = 'swiper-slide';
+					li.appendChild(img);
+					li.appendChild(span);
+					uHead.appendChild(li);
+				}
+				cache.hideDom(uTap3);
+			};
+			
+			function BindEvent(){
+				//检查缓存。刷新页面
+				window.addEventListener('InitPage',function(){
+					oSwiper.destroy();
+					oSwiper = null;
+					InitPage();
+					InitSwper();
+					InitPicker();
+				});
+				//删除选中的孩子
+				uDeletec.addEventListener('tap',function(){
+					cache.myajax("userAction/deleteChild", {
+						data: {
+							user_type :"003015",
+							parent_id: oPdata.child.parent_id
+						},
+						success: function(data) {
+							oPdata.childs = cache.getChilds();
+							if (!cache.isArray(oPdata.childs) || oPdata.childs.length<1) {
+								cache.setChildIndex(-1);
+								cache.setChild({});
+								return;
+							}
+							cache.deleChild(oPdata.child.parent_id);
+							oSwiper.removeSlide(oPdata.swiperIndex);
+							oPdata.childs = cache.getChilds();
+							if (oPdata.childs.length<1) {
+								InitStudentInfo();
+								return;
+							}
+							oSwiper.slideTo(0);
+							oPdata.child = oPdata.childs[0];
+							SetStudentInfo(oPdata.child);
+						},
+						error: function() {
+						}
+					});
+				});
+				//添加孩子
+				uAddChild.addEventListener('tap',function(){
+					var self = this;
+					if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},1000);
+					mui.openWindow({
+						url: "paddid.html",
+						id: "paddid",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				//更改孩子头像
+				document.getElementById('c_head').addEventListener('tap',function(){
+					mui.openWindow({
+						url: "pAlterChildHead.html",
+						id: "pAlterChildHead",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						extras:{
+							item: oPdata.child	
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				
+				//更改孩子与父母关系
+				document.getElementById('c_relative').addEventListener('tap',function(){
+					oPicker.show(function(e){
+						cache.myajax("userAction/updateChildInfo",{
+							data: {
+								student_code: oPdata.child.student_code,
+								relation: e[0].value
+							},
+							success: function(data) {
+								cache.insertChild(data.result.data);
+								uGx.innerText = e[0].text;
+							},
+							error: function(data) {
+							}
+						});
+					});
+				});
+				
+				mui(document).on('tap','#SexSelectBtn',function(){
+					var self = this;
+					uSexSelect.show(function(e){
+						cache.myajax("userAction/updateChildInfo",{
+							data: {
+								student_code: oPdata.child.student_code,
+								student_sex: e[0].value
+							},
+							success: function(data) {
+								var oRe = data.result.data;
+								cache.insertChild(oRe);
+								uSexText.innerText = e[0].text;
+							},
+							error: function(data) {
+							}
+						});
+					});
+				});
+				//bindEvent end
+			};
+			
+			mui.hxx_back = mui.back;
+			mui.back = function(){
+				var childs = cache.getChilds();;
+				if (cache.isArray(childs)&&childs.length==0) {
+					mui.toast("请至少添加一个孩子");
+				}else{
+					mui.hxx_back();	
+				}
+			}
+			
+			//显示选择的孩子的详细信息
+			function SetStudentInfo(c){
+				oPdata.selectStudentId = cache.theValue(c.parent_id);
+				uImg.src = cache.theValue(c.head_url);
+				uGx.innerText = cache.dictCode2Value(c.relation);
+				uSexText.innerText = c.student_sex == 0?'男':'女';
+				uClass.innerText = cache.theValue(c.class_name);
+				uStu.innerText = cache.theValue(c.student_code);
+			}
+			
+			function InitStudentInfo(){
+				oPdata.selectStudentId = '';
+				uImg.src = '';
+				uGx.innerText = '';
+				uSexText.innerText = '';
+				uClass.innerText = '';
+				uStu.innerText = '';
+			}
+		</script>
+	</body>
+</html>

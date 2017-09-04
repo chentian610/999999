@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>修改手机号码</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/edit.css" />
+		<style type="text/css">
+			.hxx-input-item-head {
+				margin: 30px 10px 0;
+				position: relative;
+			}
+			
+			.hxx-input-item {
+				position: relative;
+				margin: 0 10px;
+			}
+			
+			.hxx-input-item a,
+			.hxx-input-item-head a {
+				border-left: 1px #A9AAB4 solid;
+				padding-left: 5px;
+				position: absolute;
+				right: 10px;
+				top: 10px;
+				color: #4fcb19;
+			}
+			
+			.hxx-btn-block {
+				margin: 10px;
+				padding: 10px;
+				border-radius: 5px;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div id="j">
+				<div class="hxx-input-item-head">
+					<input id='jphone' type="text" placeholder="输入旧手机号">
+				</div>
+				<div class="hxx-input-item">
+					<input id='validate' type="text" placeholder="输入验证码">
+					<a id="pas">获取验证码</a>
+				</div>
+				<div id="btn0" class="hxx-btn-block mui-btn-success">
+					确定
+				</div>
+			</div>
+			<div id="x" style="display: none;">
+				<div class="hxx-input-item-head">
+					<input id='xphone' type="text" placeholder="输入新手机号">
+				</div>
+				<div class="hxx-input-item">
+					<input id='xvalidate' type="text" placeholder="输入验证码">
+					<a id="xpas">获取验证码</a>
+				</div>
+				<div id="btn1" class="hxx-btn-block mui-btn-success">
+					确定
+				</div>
+			</div>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var uPass = document.getElementById("pas"),
+				uXPass = document.getElementById("xpas"),
+				uLogin = document.getElementById("btn0"),
+				uSubmit = document.getElementById("btn1"),
+				uOld = document.getElementById("j"),
+				uNew = document.getElementById("x"),
+				uValidate = document.getElementById("validate"),
+				uXValidate = document.getElementById("xvalidate"),
+				uOldPhone = document.getElementById('jphone'),
+				uNewPhone = document.getElementById('xphone');
+			var oPitem = {};
+			
+			mui.ready(function() {
+				BindEvent();
+			});
+
+			function BindEvent() {
+				//获取验证码
+				uPass.addEventListener('tap', function() {
+					if(uPass.disable == 0) {
+						mui.toast('休息，休息一会儿');
+						return;
+					}
+					uPass.disable = 0;
+
+					if(!cache.checkPhoneNum(uOldPhone.value)) {
+						mui.toast('手机号码无效');
+						uPass.disable = 1;
+						return;
+					}
+					uPass.innerText = '获取验证码中...';
+					uPass.style.color = '#A9AAB4';
+					cache.myajax("userAction/getValidateCode", {
+						data: {
+							"phone": uOldPhone.value
+						},
+						success: function(data) {
+							uPass.disable = 1;
+							uPass.innerText = '重新发送（120）';
+							var aRe = data.result.data;
+							cache.setValidateCode(cache.theValue(aRe.validate_code));
+							var t = 120;
+							timer = setInterval(function() {
+								t--;
+								uPass.innerText = '重新发送（' + t + '）';
+								if(t <= 0) {
+									uPass.disable = 1;
+									uPass.innerText = '重新发送';
+									clearInterval(timer);
+									timer = null;
+									if(cache.checkPhoneNum(uOldPhone.value)) {
+										uPass.style.color = '#4FCB19';
+									} else {
+										uPass.style.color = '#A9AAB4';
+									}
+								}
+							}, 1000);
+						},
+						error: function(data) {
+							uPass.innerText = '重新发送';
+							if(timer !== null) {
+								clearInterval(timer);
+							}
+							timer = null;
+							if(cache.checkPhoneNum(uOldPhone.value)) {
+								uPass.style.color = '#4FCB19';
+							} else {
+								uPass.style.color = '#A9AAB4';
+							}
+							uPass.disable = 1;
+							mui.toast('获取验证码失败，请检查网络');
+						}
+					});
+				});
+				//登录旧手机号
+				uLogin.addEventListener('tap', function() {
+					var self = this;
+					if(!cache.checkPhoneNum(uOldPhone.value)) {
+						mui.toast('手机号码无效');
+						return;
+					}
+					if(uValidate.value != cache.getValidateCode()) {
+						mui.toast('验证码无效');
+						return;
+					}
+					if(this.disable == 0) {
+						mui.toast('请求已发送，请稍候');
+						return;
+					}
+					this.disable = 0;
+
+					cache.myajax("loginAction/login", {
+						data: {
+							phone: uOldPhone.value,
+							validate_code: uValidate.value
+						},
+						success: function(data) {
+							this.disable = 1;
+							uPass.innerText = '获取验证码';
+							uPass.style.color = '#4FCB19';
+							uValidate.value = "";
+							uOldPhone.value = "";
+							cache.hideDom(uOld);
+							cache.showDom(uNew);
+						},
+						error: function(err) {
+							this.disable = 1;
+							uPass.innerText = '重新发送';
+							uPass.style.color = '#4FCB19';
+							if(timer != null) {
+								clearInterval(timer);
+							}
+						}
+					}, true);
+				})
+
+				//获取验证码
+				uXPass.addEventListener('tap', function() {
+					var slef = this;
+					if(slef.disable == 0) {
+						mui.toast('休息，休息一会儿');
+						return;
+					}
+					slef.disable = 0;
+
+					if(!cache.checkPhoneNum(uNewPhone.value)) {
+						mui.toast('手机号码无效');
+						slef.disable = 1;
+						return;
+					}
+					slef.innerText = '获取验证码中...';
+					slef.style.color = '#A9AAB4';
+					cache.myajax("userAction/getValidateCode", {
+						data: {
+							"phone": uNewPhone.value
+						},
+						success: function(data) {
+							slef.disable = 1;
+							slef.innerText = '重新发送（120）';
+							var aRe = data.result.data;
+							cache.setValidateCode(cache.theValue(aRe.validate_code));
+							var t = 120;
+							timer = setInterval(function() {
+								t--;
+								slef.innerText = '重新发送（' + t + '）';
+								if(t <= 0) {
+									slef.disable = 1;
+									slef.innerText = '重新发送';
+									clearInterval(timer);
+									timer = null;
+									if(cache.checkPhoneNum(uNewPhone.value)) {
+										slef.style.color = '#4FCB19';
+									} else {
+										slef.style.color = '#A9AAB4';
+									}
+								}
+							}, 1000);
+						},
+						error: function(data) {
+							slef.innerText = '重新发送';
+							if(timer !== null) {
+								clearInterval(timer);
+							}
+							timer = null;
+							if(cache.checkPhoneNum(uNewPhone.value)) {
+								slef.style.color = '#4FCB19';
+							} else {
+								slef.style.color = '#A9AAB4';
+							}
+							slef.disable = 1;
+							mui.toast('获取验证码失败，请检查网络');
+						}
+					});
+				});
+
+				//更新新手机号
+				uSubmit.addEventListener('tap', function() {
+					var self = this;
+					if(!cache.checkPhoneNum(uNewPhone.value)) {
+						mui.toast('手机号码无效');
+						return;
+					}
+					if(uXValidate.value != cache.getValidateCode()) {
+						mui.toast('验证码无效');
+						return;
+					}
+					if(self.disable) {
+						mui.toast('请求已发送，请稍候');
+						return;
+					}
+					self.disable = true;
+
+					cache.myajax("userAction/resetPhone", {
+						data: {
+							phone: uNewPhone.value,
+							validate_code: uXValidate.value
+						},
+						success: function(data) {
+							mui.toast('修改成功!');
+							mui.back();
+							self.disable = false;
+						},
+						error: function(err) {
+							self.disable = false;
+							uXPass.innerText = '重新发送';
+							uXPass.style.color = '#4FCB19';
+							if(timer != null) {
+								clearInterval(timer);
+							}
+						}
+					});
+				})
+			};
+		</script>
+	</body>
+
+</html>

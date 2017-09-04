@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="teacherAttendMap">
+  <!--插入表kt_bus_teacher_attend-->
+  <insert id="insertTeacherAttend" parameterType="TeacherAttendVO">
+    insert into kt_bus_teacher_attend(
+      attend_id,
+      school_id,
+      user_id,
+      attend_type,
+      attend_time,
+      longitude,
+      latitude,
+      address,
+      attend_status,
+      create_by,
+      create_date,
+      version
+      ) VALUES (
+      #{attend_id},
+      #{school_id},
+      #{user_id},
+      #{attend_type},
+      #{attend_time},
+      #{longitude},
+      #{latitude},
+      #{address},
+      #{attend_status},
+      #{create_by},
+      #{create_date},
+      1
+    )</insert>
+  <!--更新表kt_bus_teacher_attend-->
+  <update id="updateTeacherAttend" parameterType="TeacherAttendVO">
+    update kt_bus_teacher_attend
+    set
+    attend_time = #{attend_time},
+    longitude = #{longitude},
+    latitude = #{latitude},
+    address = #{address},
+    attend_status = #{attend_status},
+    update_by = #{update_by},
+    update_date = #{update_date},
+    version = version+1
+    WHERE attend_id=#{attend_id}
+  </update>
+  <!--查询表kt_bus_teacher_attend-->
+  <select id="getTeacherAttendList" parameterType="TeacherAttendVO" resultType="TeacherAttendVO">
+    SELECT
+	attend_type,
+	attend_time,
+	longitude,
+	latitude,
+	address,
+	attend_status
+    FROM
+	kt_bus_teacher_attend
+    WHERE
+	school_id = #{school_id}
+    AND user_id = #{user_id}
+    AND DATE_FORMAT(attend_time, '%x-%m') = #{search_time}
+  </select>
+  <!--删除表kt_bus_teacher_attend-->
+  <delete id="deleteTeacherAttend" parameterType="TeacherAttendVO">
+    delete from kt_bus_teacher_attend
+    where id = #{id}
+  </delete>
+
+  <select id="getTeacherAttendCount" parameterType="TeacherAttendVO" resultType="TeacherAttendVO">
+    select attend_status,COUNT(*) as count from kt_bus_teacher_attend where school_id=#{school_id}
+    and DATE_FORMAT(attend_time, '%Y-%m-%d')=#{search_time} group by attend_status
+  </select>
+
+  <select id="getTeacherAttendNormalCount" parameterType="TeacherAttendVO" resultType="TeacherAttendVO">
+    select user_id ,COUNT(*) as count from kt_bus_teacher_attend where school_id=#{school_id}
+    and DATE_FORMAT(attend_time, '%Y-%m-%d')=#{search_time} and attend_status='046001' GROUP BY user_id
+  </select>
+
+  <select id="getTeacherCount" parameterType="TeacherAttendVO" resultType="Integer">
+    select COUNT(DISTINCT user_id) as count from kt_bus_teacher_attend where school_id=#{school_id}
+    and DATE_FORMAT(attend_time, '%Y-%m-%d')=#{search_time}
+  </select>
+
+  <select id="getTeacherAttend" parameterType="TeacherAttendVO" resultType="TeacherAttendVO">
+    select attend_id,attend_type,attend_time,longitude,latitude,address,attend_status
+    from kt_bus_teacher_attend
+    where school_id=#{school_id} and user_id=#{user_id}
+    and DATE_FORMAT(attend_time, '%Y-%m-%d')=#{search_time}
+  </select>
+
+  <select id="getTeacherAttendByStatus" parameterType="TeacherAttendVO" resultType="TeacherAttendVO">
+    select user_id ,attend_time from kt_bus_teacher_attend where school_id=#{school_id}
+    and DATE_FORMAT(attend_time, '%Y-%m-%d')=#{search_time} and attend_status=#{attend_status}
+  </select>
+
+  <select id="getAbsenceTeacher" parameterType="TeacherAttendVO" resultType="TeacherAttendVO">
+    select DISTINCT teacher_name from kt_bas_teacher where school_id=#{school_id} and is_graduate=0
+    and phone not in (
+    select phone from kt_sys_user where user_id in(
+    select user_id from kt_bus_teacher_attend where school_id=#{school_id}
+    and DATE_FORMAT(attend_time, '%Y-%m-%d')=#{search_time})
+)
+  </select>
+</mapper>
+

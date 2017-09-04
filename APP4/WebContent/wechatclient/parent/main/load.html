@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title></title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			html {
+				width: 100%;
+				height: 100%;
+			}
+			.hxx-pull-center-tip {
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				width: 0;
+				height: 60px;
+				width: 150px;
+				margin: auto;
+				text-align: center;
+				background-color: rgba(0, 0, 0, 0.5);
+				line-height: 60px;
+				font-size: 20px;
+				color: #fff;
+				border-radius: 10px;
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="tip" class="hxx-pull-center-tip">资源加载中</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/InvokeLocalFunction.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.ready(function() {
+				//清除缓存
+				localStorage.clear();
+				//检查手机系统
+				if(mui.os.android) {
+					cache.setAppType('005010');
+				} else if(mui.os.ios) {
+					cache.setAppType('005005');
+				} else {
+					cache.setAppType('005015');
+				}
+				//初始化学校信息
+				initSchool();
+				//登录信息初始化
+				initUser();
+			});
+			
+			function initUser(){
+				cache.myajax("wechatAuthAction/getLoginUser", {
+					data:{},
+					success: function(data) {
+						var r = data.result.data;
+						//登录信息初始化
+						cache.setUser(r);
+						var childs = cache.getChilds();
+						var student_id = getParamValue("studentId");
+						if(student_id != null){
+							for(var i = 0; i < childs.length; i++){
+								if(childs[i].student_id == student_id){
+									cache.setChild(childs[i]);
+									cache.setChildIndex(i);
+								}
+							}
+						}
+						//缓存数据初始化
+						cache.getAllCache(GoNext);
+					},
+					error: function(data) {
+						alert(JSON.stringify(data));
+						mui.toast('初始化用户信息失败');		
+					}
+				});
+			}
+
+			function GoNext() {
+				cache.setAutoLogin(true);
+				switch (cache.hasChilds()){
+				case 1:
+					mui.openWindow({
+						'url': '../edit/pwelcome.html',
+						'id': 'pwelcome',
+						createNew: true,
+						show: {
+							aniShow: "fade-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+					self.disable = false;
+					return;
+				default:
+					cache.setAutoLogin(true);
+					mui.openWindow({
+						url: "pbar.html",
+						id: "pbar",
+						createNew: true,
+						show: {
+							aniShow: "fade-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+					self.disable = false;
+			    }
+			};
+			
+		</script>
+	</body>
+
+</html>

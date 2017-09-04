@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>设置</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+		<style type="text/css">
+			.mui-middle{
+				padding-right: 20px;
+			}
+			.mui-table{
+				background-color: #fff;
+				border: 1px #999999;
+				padding: 12px;
+				color: #000000;
+			}
+			.mui-navigate-right img{
+				width: 80px;
+				height: 80px;
+				border-radius: 50%;
+				position: absolute;
+				top: 11px;
+				left: 15px;
+			}
+			.mui-navigate-right div{
+				height: 80px;
+				margin-left: 80px;
+				padding: 15px 15px 0;
+			}
+			.mui-content .mui-table-view{margin-top: 15px;font-size: 15px;}
+			.mui-bar .mui-btn-link{font-size: 15px;}
+			.mui-table-view .mui-pull-right{color: #CECECE;}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <h1 class="mui-title">设置</h1>
+		    <!-- <a id="xtsz" class="mui-btn mui-btn-link mui-pull-right">系统设置</a> -->
+		</header>
+		<div class="mui-content no-bg">
+			<ul class="mui-table-view">
+				<li id="bt0" class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<img id="u_img" src="../images/default_img_user.png"/>
+						<div>
+							<h4 id="u_name"></h4>
+							<h5 id="u_phone"></h5>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li id="bt1" class="mui-table-view-cell">
+					<a class="mui-navigate-right ">更换手机号码<span id="u_phone1" class="mui-pull-right mui-middle">phone</span></a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li id="bt3" class="mui-table-view-cell">
+					<a class="mui-navigate-right ">孩子信息</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var	uBt = document.getElementById('xtsz');
+				uBt0 = document.getElementById('bt0');
+				uBt1 = document.getElementById('bt1');
+				uBt2 = document.getElementById('bt2');
+				uBt3 = document.getElementById('bt3');
+				uImg = document.getElementById('u_img');
+			var oPitem = {};
+			parent.ChangeHightLineTab("pset");
+			mui.ready(function(){
+				BindEvent();
+				InitInfo();
+			});
+			
+			function InitInfo(){
+				uImg.src = cache.getHeadPath();
+				uImg.onerror = function(){
+					uImg.src = '../images/default_img_user.png';
+				}
+				document.getElementById('u_name').innerText = cache.getUserName();
+				document.getElementById('u_phone').innerText = cache.getPhone();
+				document.getElementById('u_phone1').innerText = cache.getPhone();
+			};
+			
+			function BindEvent(){
+				//用户信息修改
+				window.addEventListener('InitInfo',function(){
+					setTimeout(function(){
+						InitInfo();
+					},100);
+				});
+				
+				//进入系统设置
+				/* uBt.addEventListener('tap',function(){
+					if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},600);
+					mui.openWindow({
+						url: "system.html",
+						id: "psystem",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				}); */
+				
+				//进入用户信息设置
+				uBt0.addEventListener('tap',function(){
+					if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},600);
+					mui.openWindow({
+						url: "../edit/pedit1.html",
+						id: "pedit",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				
+				uBt1.addEventListener('tap',function(){
+					if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},600);
+					mui.openWindow({
+						url: "../edit/tcphone.html",
+						id: "tcphone",
+						createNew: true,
+						extras: {
+						},
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				
+				//孩子信息
+				uBt3.addEventListener('tap',function(){
+					if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},600);
+					mui.openWindow({
+						url: "../edit/pchild.html",
+						id: "pchild",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+			};
+		</script>
+	</body>
+</html>

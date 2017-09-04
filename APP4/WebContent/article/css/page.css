@@ -1,0 +1,127 @@
+body{font-family: "Microsoft yahei"}
+ul,li{padding: 0;margin: 0;list-style: none;}
+.clear {zoom:1;}
+.clear:after {content:".";display:block;clear:both;height:0;visibility:hidden;}
+
+.box-page{float:right;margin:25px 0;height:24px;line-height:24px;overflow:hidden;zoom:1;/*color: #1ab394;*/}
+.box-pages{margin:15px 0 0;}
+.box-page span{float:left;padding:0 10px;line-height:22px;background:url("../images/btn.jpg") repeat-x;border:1px solid #e3e3e3;}
+.box-page input{float:left;margin:0 5px;width:30px;text-align:center;height:24px;border:1px solid #e3e3e3;}
+.box-page a{float:left;margin:0 0 0 8px;padding:0 10px;line-height:22px;border:1px solid #e3e3e3;display: inline-block;color: #1ab394;}
+.box-page a:hover{background:#1ab394;color:#FFF;height:24px;text-decoration:none;padding:0 10px;border:1px solid #1ab394;}
+.box-page a.aco{background:#1ab394;color:#FFF;height:24px;text-decoration:none;border:1px solid #1ab394;}
+.box-page a.disable{background:url("../images/btn.jpg") repeat-x;}
+.box-page a.disable:hover{background:#1ab394;color:#FFF;border:1px solid #1ab394;height:24px;text-decoration:none;}
+.box-page a.sur:hover{background:#1ab394;color:#FFF;border:1px solid #1ab394;height:24px;text-decoration:none;}
+.box-page em{float:left;line-height:24px;font-style: normal}
+.box-page em.tz{margin-left:20px;}
+
+.list-edit{overflow: hidden}
+.opt-btn{text-align: right}
+.opt-btn button{margin: 0 5px;}
+.class-list{margin-top: 20px;}
+.class-list li{border-bottom: 1px solid #e3e3e5;font-size: 14px;padding: 5px 0;}
+.class-list li span{float: left;display: inline-block;height: 30px;line-height: 30px;}
+.class-list li input[type="checkbox"]{float: left;margin: 9px 6px 0 0;}
+.class-list li .r-btn{float: right;}
+.all-btn{margin-top: 20px;}
+.all-l-btn{float: left}
+.all-r-btn{float: right;}
+
+.ss-btn-box{border-bottom: 1px solid #e5e5e5;padding-bottom: 8px;}
+.ss-box{width:300px;height:30px;float: left;position: relative}
+.ss-box input{height: 30px;border: 1px solid #e5e5e5;border-radius: 3px;width: 300px;background: url("../images/ssico.png") left center no-repeat;padding-left: 25px;}
+.ss-box em{display: none;position: absolute;width: 24px;height:24px;background: url("../images/btn_claer.png") center no-repeat;top: 3px;right: 3px;background-size: 20px;-webkit-background-size: 20px;text-indent: -9999px;}
+.btn-box{float: right}
+.r-sel-box{float: right;height: 30px;width: 600px}
+.r-sel-box .form-control{display:inline-block;width:30%;height:30px;line-height: 30px;padding: 0 12px;float: left;margin-left: 10px;}
+
+.roster-ul{margin-top: 20px;width: 100%;}
+.roster-ul li{border-bottom: 1px solid #e5e5e5;padding: 10px 0;line-height: 30px;font-size: 15px;}
+.roster-ul input[type="checkbox"]{float: left;margin: 9px 10px 0 0;}
+.roster-ul span{display: inline-block;float: left;width: 20%;text-align: center}
+.roster-ul span.position{width:40%;overflow: hidden}
+.roster-ul span.position em{display: inline-block;height:30px;background: url("../images/icon_mdown.png") right center no-repeat;font-style: normal;padding-right: 30px;}
+.roster-ul .r-opt-btn{float: right;height:30px;display: inline-block;}
+
+.new-added{border-bottom: 1px solid #e5e5e5;padding: 10px 0;line-height: 30px;font-size: 15px;}
+.new-added input[type="text"]{float: left;border: 1px solid #e5e5e5;height: 30px;margin: 0 1%;padding: 0 2px;width:18%}
+.new-add-btn{text-align: center;margin-top: 20px;}
+.new-add-btn button{width:150px;}
+
+.article-list{margin-top: 10px;}
+.article-list li{height:45px;border-bottom: 1px solid #e5e5e5;margin-top: 10px;position: relative;padding-right: 150px;overflow: hidden}
+.article-list li .art-opt-btn{position: absolute;right:0;top:8px;}
+.article-list li .art-opt-btn .btn-sm{height: 25px;line-height: 25px;padding: 0 10px;overflow: hidden;margin: 0 2px;}
+.article-list li h3{height: 20px;line-height: 20px;font-size: 14px;margin: 0;}
+.article-list li p{font-size: 12px;padding: 0;}
+.article-list li p span{margin-right: 10px;}
+
+.column-list{margin-top: 10px;}
+.column-list li{border-bottom: 1px solid #e5e5e5;margin-top: 10px;position: relative;overflow: hidden;padding: 0 180px 3px 0;}
+.column-list li .col-opt-btn{position: absolute;right: 0;top: 0;}
+.column-list li .col-opt-btn .btn-sm{height: 25px;line-height: 25px;padding: 0 10px;overflow: hidden}
+.column-list li span{display: inline-block;height: 30px;line-height: 30px;font-size: 14px;font-weight: 700;}
+.column-list li .input-text{display: inline-block; width:240px;height: 30px;border: 1px solid #e5e5e5;padding: 3px;position: absolute;top: 0;left: 0;}
+.new-add-column{margin-top: 10px;}
+
+.form-info{margin: 10px 0 30px;}
+.form-info h3{height:30px;line-height: 30px;border-bottom: 1px solid#e5e5e5;}
+.form-to{margin-top: 10px;}
+.form-to span{display: inline-block;height: 35px;float: left;line-height: 35px;font-size: 15px;}
+.form-to select{float: left;width:40%;}
+.add-user{border-top:1px solid #e5e5e5;margin-top: 20px;padding-top: 20px;}
+
+.apply-sch-list li{float: left;height:150px;border-bottom: 1px solid #e5e5e5;width: 45%;padding: 0 5% 0 160px;position: relative}
+.apply-sch-list li img{width:148px;height:148px;position: absolute;top: 0;left: 0;}
+.apply-sch-list li span{display: block}
+.apply-sch-list li a{display: inline-block;margin-top: 10px;}
+
+.sch-head-info{border-bottom: 1px solid #e5e5e5;padding-bottom: 5px;}
+.l-sch-info{height: 40px;line-height: 40px;float: left}
+.sch-con-info{margin-top: 25px;}
+.sch-con-info h3{font-size: 18px;color: #333;}
+.sch-form-info{margin-top: 10px;}
+.sch-form-info input.input-phone{float: left;width: 200px;}
+.sch-form-info label{float: left;line-height: 30px;margin-left: 10px;}
+.sch-form-info label input{float: left;margin: 9px 5px 0 0;}
+.sch-form-info span{float: left;display: inline-block;line-height: 30px;margin-left: 10px;}
+.sch-logo{width: 100%;position: relative;float: left;height: 100px;}
+.btn-upload{left: 37%; margin-top: 10px;z-index: 0;cursor: pointer}
+.sch-logo input{width: 200px;height:30px;display: inline-block;position: absolute;top: 20px;left: 110px;opacity: 0;z-index: 1;cursor: pointer;}
+.sch-logo img{display: inline-block;float: left;width: 100px;height:100px;}
+.sch-logo span{display: inline-block;line-height: 30px;margin-top: 60px;}
+.sch-form-info .btn-modify{margin-left: 10px;}
+.model-list li{width: 200px;float: left;margin: 10px 20px 0 0;}
+.model-list li div{width:200px;height: 200px;display: -webkit-box;-webkit-box-pack: center;-webkit-box-align: center;text-align: center;}
+.model-list li p{height:30px;line-height: 30px;font-size: 14px;}
+.gn-list li{position: relative;float: left; width: 180px; height: 100px;margin:20px 21px;padding:13px 10px;text-align: center;cursor: pointer;}
+.gn-list li img{display: inline-block;width: 74px;height: 74px;border-radius: 50%;float: left;}
+.gn-list li span{display: inline-block;width: 76px;font-size: 18px;color: #333;text-align: left;line-height: 20px;padding-top: 25px;}
+.gn-list li i{display: none;width: 48px;height: 48px;position: absolute;top: -20px;right: -20px;background: url(../images/icon_checked.png) no-repeat;}
+.gn-list li.licur{background: #ededed;}
+
+/*弹窗*/
+.tc-box{width: 500px;background: #fff;border-radius: 10px;display: none;padding: 15px;}
+.tc-box em{display: inline-block;width:50px;height:50px;position: absolute;top: 15px;right: 15px;background: url("../images/btn_close.png") right top no-repeat;text-indent: -9999px;cursor: pointer;z-index: 9;}
+.tc-tit{height:40px;border-bottom: 1px solid #e5e5e5;line-height: 40px;font-size: 18px;color: #333;text-align: center;position: relative;z-index: 0;}
+.tc-con{padding: 15px 0;}
+.tc-btn{text-align: center}
+.tc-btn button{margin: 0 10px;}
+.way-list li{margin-bottom: 10px;}
+.way-list li label{display: block;height:30px;line-height: 30px;}
+.way-list li label input{float: left;margin: 9px 6px 0 0;}
+.way-list li p{line-height: 30px;}
+.way-list li p span{display: inline-block;float: left;margin-right: 10px;}
+.way-list li p input{float: left;width: 100px;border: 1px solid #e5e5e5;margin-right: 10px;padding: 0 3px;}
+.way-list li p select{float: left;width: 100px;border: 1px solid #e5e5e5;margin-right: 10px;padding: 7px 3px;}
+.position-ul li{float: left;height: 30px;background: #e0e0e0;color: #333;line-height: 30px;border-radius: 3px;margin: 0 5px;padding: 0 15px;text-align: center;cursor: pointer;}
+.position-ul li.licheck{background: #1ab394;color: #fff;}
+.move-ul li{margin-top: 10px;font-size: 14px;border-bottom: 1px solid #e8e8e8;}
+.move-ul li label{display: block;height:30px;line-height: 30px;}
+.move-ul li label input{float: left;margin: 9px 6px 0 0;}
+.textarea-css{font-size: 14px;width: 100%;height: 100px;border: 1px solid #e5e5e5;padding: 5px}
+.zwf-news-div{border: 1px solid #e5e5e5;font-size: 14px;width: 100%;height:35px;}
+.zwf-news-div-css {border: 1px solid #4876FF;font-size: 14px;position:fixed;z-index:10008;background: #fff;}
+.zwf-news-span-div-css{width: 100%;height: 20px;font-size: 14px;}
+.zwf-news-code-css{ margin-left: 30px;}

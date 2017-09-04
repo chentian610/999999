@@ -1,0 +1,119 @@
+.hxx-popbox{
+	width:90%;
+	position: absolute;
+	left: 5%;
+	background: #fff;
+	top:50%;
+	margin-top:-167px;
+	border-radius: 10px;
+	z-index: 999;
+	display: none;
+}
+
+.hxx-popbox-head{
+	font-size: 15px;
+	text-align: center;
+	padding: 10px 0;
+	border-bottom: 1px solid #E8E6E6;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted{
+	border-bottom: 1px solid #E8E6E6;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .add.mui-active{
+	border-bottom: 3px solid #4CCA23;
+	color:#4CCA23;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .dock.mui-active{
+	border-bottom: 3px solid #F73232;
+	color:#F73232;
+}
+
+.hxx-popbox-cell{
+	float:left;
+	width:33.33%;
+	margin-top: 20px;
+}
+.hxx-scroll{
+	width:100%;
+	height: 190px;
+	overflow: scroll;
+}
+
+
+.hxx-scroll1 .hxx-popbox-num{
+	width:44px;
+	height: 45px;
+	border-radius: 100%;
+	line-height: 44px;
+	text-align: center;
+	border:1px solid #4CCA23;
+	margin:0 auto;
+	color:#4CCA23;
+	font-size: 18px;
+}
+
+.hxx-scroll1 .hxx-popbox-num.active{
+	color:#FFF;
+	background-color:#4CCA23 ;
+}
+
+.hxx-scroll2{
+	display: none;
+}
+
+.hxx-scroll2 .hxx-popbox-num{
+	width:44px;
+	height: 45px;
+	border-radius: 100%;
+	line-height: 44px;
+	text-align: center;
+	border:1px solid #F73232;
+	margin:0 auto;
+	color:#F73232;
+	font-size: 18px;
+}
+
+.hxx-scroll2 .hxx-popbox-num.active{
+	color:#FFF;
+	background-color:#F73232 ;
+}
+
+.hxx-popbox-txt{
+	text-align: center;
+	color:#646464;
+	margin-top: 5px;
+	font-size: 14px;
+	
+}
+.mui-control-content{
+	border-bottom: 0 none;
+}
+
+.hxx-popbox-btn{
+	width:100%;
+	border-top: 1px solid #E8E6E6;
+	margin-top: 20px;
+}
+.hxx-popbox-btn-cancel{
+	width:48%;
+	padding: 10px 0 !important;
+	border:0 none !important;
+	border-radius: 0 0 10px 0  !important;
+}
+.hxx-popbox-btn-confim{
+	width:50%;
+	border:0 none !important;
+	padding: 10px 0 !important;
+	border-right:1px solid #E8E6E6 !important;
+	border-radius: 0 0 0 10px !important;
+}
+
+.mask{
+	width:100%;
+	position: absolute;
+	z-index: 8;
+	background-color: rgba(0,0,0,0.3);
+}

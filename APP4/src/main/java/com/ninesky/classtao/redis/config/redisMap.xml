@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="redisMap">
+	<!--查询表kt_bas_table -->
+	<select id="getTeacherCountByClass" parameterType="Integer" resultType="Integer">
+	select
+		count(*) 
+		from kt_bas_teacher
+		where class_id=#{class_id}
+	</select>
+	
+		<!--查询表kt_bas_table -->
+	<select id="getTeacherCountBySchoolID" parameterType="Integer" resultType="Integer">
+	 select count(1) from (select
+		distinct user_id  
+		from kt_bas_teacher
+		where school_id=#{school_id}) as t
+	</select>
+	
+	
+			<!--查询表kt_bas_table -->
+	<select id="getTeacherCountBySchool" parameterType="Integer" resultType="Integer">
+	select
+		count(1) 
+		from (select distinct phone from kt_bas_teacher
+		where school_id=#{school_id}) t
+	</select>
+	
+				<!--查询表kt_bas_table -->
+	<select id="getTeacherCountByGrade" parameterType="Integer" resultType="Integer">
+	select
+		count(1) 
+		from (select distinct phone from kt_bas_teacher
+		where grade_id=#{grade_id}) t
+	</select>
+	
+	
+	<!--查询表kt_bas_table -->
+	<select id="getStudentCountByClass" parameterType="Integer" resultType="Integer">
+	select
+		count(*) 
+		from kt_bas_student
+		where class_id=#{class_id}
+	</select>
+	
+		<!--查询表kt_bas_table -->
+	<select id="getStudentCountByGrade" parameterType="Integer" resultType="Integer">
+	select
+		count(*) 
+		from kt_bas_student
+		where grade_id=#{grade_id}
+	</select>
+	
+			<!--查询表kt_bas_table -->
+	<select id="getStudentCountBySchool" parameterType="Integer" resultType="Integer">
+	select
+		count(*) 
+		from kt_bas_student
+		where school_id=#{school_id}
+	</select>
+	
+		<!--查询表kt_bas_table -->
+	<select id="getBedRoomCountByTeam" parameterType="ReceiveVO" resultType="Integer">
+		select count(*) from kt_bas_position_bed where bedroom_id = #{team_id}
+	</select>
+	
+	<select id="getTeacherCountByClassID" parameterType="Integer" resultType="Integer">
+		select
+		count(1) 
+		from (select distinct phone from kt_bas_teacher
+		where class_id=#{class_id}) t
+	</select>
+	
+	<select id="getStudentInfo" parameterType="Integer" resultType="StudentVO">
+		select 
+		student_name,
+		head_url,
+		class_id,
+		all_letter,
+		first_letter
+		from kt_bas_student 
+		where student_id=#{student_id}
+	</select>
+
+	<select id="getAgentInfo" parameterType="Integer" resultType="StudentVO">
+		select
+		student_name,
+		head_url,
+		class_id,
+		all_letter,
+		first_letter
+		from kt_bas_student
+		where student_id=#{student_id}
+	</select>
+	
+	<select id="getParentInfo" parameterType="Integer" resultType="ParentVO">
+		select 
+		parent_name,
+		head_url,
+		phone
+		from kt_bas_parent
+		where student_id=#{student_id}
+	</select>
+	
+	<select id="getTeacherInfo" parameterType="Integer" resultType="UserVO">
+		select
+		user_name,
+		phone,
+		head_url
+		from kt_sys_user
+		where user_id=#{user_id}
+	</select>
+	
+	<select id="getClassInfo" parameterType="Integer" resultType="ClassVO">
+	select 
+	grade_id,
+	class_id
+	from kt_bas_classroom
+	where school_id=#{school_id} and is_graduate=0
+	</select>
+	
+	<select id="getBedRommInfo" parameterType="Integer" resultType="BedroomVO">
+		select bedroom_id from kt_bas_bedroom where school_id=#{school_id}
+	</select>
+	
+	<select id="getStudentByTeamID" parameterType="Integer" resultType="Integer">
+	select student_id from kt_bas_student where class_id=#{class_id}
+	</select>
+	
+	<select id="getClassListByID" parameterType="Integer" resultType="ClassVO">
+	SELECT 
+		class_id as class_id,
+		school_id as school_id,
+		grade_id as grade_id
+	FROM kt_bas_classroom 
+	WHERE school_id = #{school_id} AND is_graduate = 0 or is_graduate IS NULL
+	</select>
+	
+	<select id="getContactListByID" parameterType="Integer" resultType="ContactVO">
+	SELECT 
+		contact_id as contact_id,
+		school_id as school_id,
+		course as course
+	FROM kt_bas_contact WHERE school_id = #{school_id} AND course LIKE '015045%'
+	</select>
+	<select id="getPayTeamListByID" parameterType="Integer" resultType="TeamVO">
+	SELECT team_type,team_id,group_id FROM kt_bus_pay_group WHERE pay_id = #{pay_id} ORDER BY group_id,team_id
+	</select>
+</mapper>
+

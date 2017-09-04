@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schoolConfigMap">
+    <insert id="insertServerConfig" parameterType="SchoolConfigVO">
+        INSERT INTO kt_bas_school_config (
+          school_id,
+          disk_id,
+          disk,
+          disk_price,
+          memory_id,
+          memory,
+          memory_price,
+          bandwidth_id,
+          bandwidth,
+          bandwidth_price,
+          create_by,
+          create_date,
+          version
+        ) VALUE (
+          #{school_id},
+          #{disk_id},
+          #{disk},
+          #{disk_price},
+          #{memory_id},
+          #{memory},
+          #{memory_price},
+          #{bandwidth_id},
+          #{bandwidth},
+          #{bandwidth_price},
+          #{create_by},
+          #{create_date},
+          0
+        )
+    </insert>
+    <select id="getSchoolServerConfig" parameterType="Integer" resultType="SchoolConfigVO">
+        SELECT
+           	school_id AS school_id,
+            disk_id AS disk_id,
+            disk AS disk,
+            disk_price AS disk_price,
+            memory_id AS memory_id,
+            memory AS memory,
+            memory_price AS memory_price,
+            bandwidth_id AS bandwidth_id,
+            bandwidth AS bandwidth,
+            bandwidth_price AS bandwidth_price,
+            create_by AS create_by,
+            create_date AS create_date,
+            version AS version
+        FROM kt_bas_school_config
+        WHERE school_id = #{school_id}
+    </select>
+    <delete id="deleteSchoolServerBySchoolID" parameterType="Integer">delete from
+        kt_bas_school_config
+        where school_id = #{school_id}
+    </delete>
+</mapper>

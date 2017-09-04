@@ -1,0 +1,75 @@
+.photo-box{padding-bottom: 5rem;}
+.photo-box li{width:33.3%;float: left;}
+.photo-box li img{width: 100%;}
+.btn-enter{position: fixed;width: 100%;height:5rem;bottom: 0;left: 0;background-image: linear-gradient(to bottom,rgba(68,70,70,.8),rgba(21,26,25,.8))}
+.btn-enter a{display: block;float: left;height: 5rem;}
+.btn-enter a.dl-link{width: 33.3%;text-align: center}
+.btn-enter a.dl-link span{display: inline-block;height: 5rem;background: url("../images/icon_user_small.png") left center no-repeat;background-size: 2.3rem 2.2rem;line-height: 5rem;font-size: 1.5rem;color: #a9aab4;padding-left: 3rem;}
+.btn-enter a:last-child{width: 66.7%;border-left: 1px solid rgba(151,151,151,.28);box-sizing: border-box;-webkit-box-sizing: border-box;padding: .5rem 2rem .5rem 2rem;}
+.btn-enter div{height:4rem;background: url("../images/icon_arrow_right.png") right center no-repeat;background-size: 1.2rem 2.2rem;position: relative;box-sizing: border-box;-webkit-box-sizing: border-box;padding: 0 1.5rem 0 4rem ;color: #a9aab4;}
+.btn-enter div img{width: 3.333rem;position: absolute;top: .5rem;left: 0;}
+.btn-enter div h3{font-size: 1.5rem;height: 2.5rem;line-height: 2.5rem;overflow: hidden;}
+.btn-enter div p{height: 1rem;line-height: 1rem;overflow: hidden;}
+
+.dialog{width: 240px;background: #fff;border-radius:10px;box-shadow: 0 3px 5px rgba(0,0,0,.3);display: none;text-align: center;padding-bottom: 15px;}
+.dialog img{width: 100%;border-radius: 10px 10px 0 0}
+.dialog h3{font-size: 18px;color: #000;font-weight: 400;padding-top: 10px;}
+.dialog p{font-size:15px;color: #333;padding: 6px 5px;overflow: hidden;line-height: 18px;}
+.dialog span{font-size: 13px;color: #999}
+
+#dl-box{background: rgba(0,0,0,.65);width: 100%;height: 100%;position: fixed;top: 0;left: 0;bottom: 0;display: none}
+#dl-box em.close-btn{width: 42px;height: 42px;background: url("../images/btn_close.png") no-repeat;background-size: 42px;-webkit-background-size: 42px;position: absolute;top:10px;right: 10px;}
+.dl-info{padding:110px 20px 20px;}
+.sch-info img.sch-logo{width: 108px;height: 108px;border-radius: 50%;margin: 0 auto;display: block}
+.sch-info p img{width: 141px;height: 32px;margin: 20px auto 0;display: block}
+.dl-form{padding:20px;}
+.dl-form li{border-bottom: 1px solid rgba(255,255,255,.5);padding: 8px 0;position: relative}
+.dl-form li:last-child{border-bottom: none}
+.dl-form li input::-webkit-input-placeholder{color:#fff;}
+.dl-form li input{border: none;display: block;height: 35px;width: 100%;text-align: center}
+.dl-form li input.phone{background: rgba(255,255,255,0) url("../images/icon_login_user.png") left center no-repeat;background-size: 25px;-webkit-background-size: 25px;color: #fff;font-size: 15px;}
+.dl-form li input.password{background: rgba(255,255,255,0) url("../images/icon_login_pass word.png") left center no-repeat;background-size: 25px;-webkit-background-size: 25px;color: #fff;font-size: 15px;}
+.dl-form li a{position: absolute;width: 70px;height: 35px;text-align: center;top: 10px;right: 0;line-height: 35px;color: #f1f1f1;font-size: 14px;}
+.dl-form li button{height: 42px;border: 1px solid rgba(255,255,255,.5);color: #f1f1f1;border-radius:5px;background: none;width: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;margin-top: 10px;}
+.dl-other{padding: 0 20px;}
+
+
+.head{height: 40px;background: #59cca7;z-index: 9;position: relative}
+.head a.btn-back{display: block;width: 32px;height:32px;background: url("../images/btn_back.png") no-repeat;background-size: 32px;-webkit-background-size: 32px;position: absolute;top:4px;left: 10px;text-indent: -9999px;}
+.head a.btn-share{display: block;width: 32px;height:32px;background: url("../images/btn_share.png") no-repeat;background-size: 32px;-webkit-background-size: 32px;position: absolute;top:4px;right: 10px;text-indent: -9999px;}
+.slide-tit{height: 40px;position: relative;margin-left: 50px;}
+.slide-tit .moving_bg{position: absolute;left: 0;width: 25%;height: 2px;bottom: 1px;display: block;content: '';background: #fff;}
+.slide-tit span{display: block;width: 25%;float: left;height: 36px;line-height: 36px;text-align: center;font-size: 1.5rem;color: #fff;}
+.fixed-head{position: fixed;top: 0;left: 0;right: 0;}
+.slide-content{width:100%;overflow:hidden;position:absolute;z-index: 0;top:40px;bottom: 0;left: 0;overflow-y: scroll;-webkit-overflow-scrolling: touch;}
+.sec-box-list{float: left;text-align: left;box-sizing: border-box;overflow: hidden}
+.name-tit{position: relative;width: 80%;margin: 0 auto;height: 40px;line-height: 40px;text-align: center;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-size: 16px;color: #fff;}
+
+.event-list{background: #f4f4f4;padding-left: 60px;}
+.event-list ul{background: #fff;}
+.event-list li{position: relative;height: 61px;padding: 20px 10px 20px 0;}
+.event-list li a{display: block;position: relative;height: 61px;padding-left: 110px;}
+.event-list li span{position: absolute;width: 18px;height: 18px;display: block;line-height: 18px;text-align: center;color: #fff;background: #ffda58;border: 1px solid #ffb81a;border-radius: 50%;top: 50%;left: -10px;margin-top: -9px;z-index: 1;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif}
+.event-list li .icon-area{width: 85px;height: 61px;position: absolute;left: 10px;top: 0;}
+.event-list li .icon-area em{width: 100%;height: 1px;background: #f4f4f4;content: '.';position: absolute;top: 50%;left: 0;z-index: 0;}
+.event-list li .icon-area img{width: 61px;height: 61px;float: right;position: relative}
+.event-list li .text-area{height:61px;line-height: 20px;position: relative;display: -webkit-box; -webkit-box-pack: center;-webkit-box-align: center;}
+.event-list li .text-inner{text-align: left;width: 100%;}
+.event-list li .text-area h3{font-size: 1.6rem;line-height: 1.6rem;}
+.event-list li .text-area p{color: #a9aab4;}
+
+.about{padding: 10px;}
+.about img{width:80%;margin: 10px auto;display: block}
+.about-con{font-size: 1.5rem;line-height: 1.8333rem;padding: 0 25px;}
+.about-con span{color: #ff4200}
+
+.sch-new{background: #f4f4f4;padding: 15px 10px;}
+.sch-new li{background: #fff;border: 1px solid #efeff4;border-radius: 5px;padding: 15px 25px;margin-bottom: 10px;}
+.sch-new li a{display: block;color: #333;}
+.sch-new li h3{font-size: 1.5rem;line-height: 20px;margin-bottom: 10px;}
+.sch-new li a p{color: #a9aab4;height: 30px;line-height: 30px;background: url("../images/icon-time.jpg") left center no-repeat;background-size: 16px;-webkit-background-size: 16px;padding-left: 20px;margin-top: 5px;}
+
+.event-inner{padding: 10px 15px;line-height: 2rem;font-size: 1.5rem;}
+
+.rec-student{background: #f0ede6 url("../images/stu-bg.jpg") left 15px  no-repeat;background-size: 100% auto;}
+.stu-inner{padding: 50px 45px;line-height: 2rem;font-size: 1.5rem;color: #666;}

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="studentRegisterMap">
+
+  <!--插入表kt_bus_student_register-->
+  <insert id="insertStudentRegister" parameterType="StudentRegisterVO">
+  insert into kt_bus_student_register(
+    register_id,
+    school_id,
+    enrollment_year,
+    student_name,
+    sex,
+    id_number,
+    middle_school,
+    is_accommodate,
+    create_by,
+    create_date,
+    version
+    ) VALUES (
+    #{register_id},
+    #{school_id},
+    #{enrollment_year},
+    #{student_name},
+    #{sex},
+    #{id_number},
+    #{middle_school},
+    #{is_accommodate},
+    #{create_by},
+    #{create_date},
+    1
+    )
+   </insert>
+
+  <!--更新表kt_bus_student_register-->
+  <update id="updateStudentRegister" parameterType="StudentRegisterVO">
+  update kt_bus_student_register
+  set
+  student_name = #{student_name},
+  sex = #{sex},
+  middle_school = #{middle_school},
+  is_accommodate = #{is_accommodate},
+  update_by = #{update_by},
+  update_date = #{update_date},
+  version = version+1
+  where school_id=#{school_id} and enrollment_year=#{enrollment_year} and id_number=#{id_number}
+  </update>
+
+  <!--查询表kt_bus_student_register-->
+  <select id="getStudentRegister" parameterType="StudentRegisterVO" resultType="StudentRegisterVO">
+    select
+    register_id as register_id
+    from kt_bus_student_register
+    where school_id=#{school_id} and enrollment_year=#{enrollment_year} and id_number=#{id_number}
+   </select>
+
+  <select id="getStudentRegisterList" parameterType="StudentRegisterVO" resultType="StudentRegisterVO">
+    select
+    register_id as register_id,
+    student_name,
+    sex,
+    id_number,
+    middle_school,
+    is_accommodate
+    from kt_bus_student_register
+    where school_id=#{school_id} and enrollment_year=#{enrollment_year}
+    <if test="app_sql != null and app_sql != ''">
+      and register_id ${app_sql}
+    </if>
+    order by register_id DESC
+  </select>
+
+  <select id="getRegisterYear" parameterType="Integer" resultType="Integer">
+    select DISTINCT enrollment_year from kt_bus_student_register
+    where school_id=#{school_id}
+    ORDER BY enrollment_year DESC
+  </select>
+
+  <select id="getRegisterCount" parameterType="StudentRegisterVO" resultType="Integer">
+    select COUNT(*) as count from kt_bus_student_register
+    where school_id=#{school_id} and enrollment_year=#{enrollment_year}
+  </select>
+</mapper>
+

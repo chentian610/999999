@@ -1,0 +1,311 @@
+/*.dynamic {
+	animation: Audioname 0.9s ease 0 infinite;
+	-o-animation: Audioname 0.9s ease infinite;
+	-ms-animation: Audioname 0.9s ease infinite;
+	-moz-animation: Audioname 0.9s ease infinite;
+	-webkit-animation: Audioname 0.9s ease infinite;
+}
+
+@-webkit-keyframes Audioname {
+	form {
+		width: 0px;
+	}
+	to {
+		width: 2rem;
+	}
+}*/
+
+.mui-content{
+	background-color: #F2F2F2;
+}
+.hxx-table-view{
+	position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    background-color: #fff;
+}
+.hxx-table-view-cell{
+	position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    background-color: #fff;
+}
+/*发送按钮样式*/
+.hxx-txt-title label,
+.hxx-btn-date label,
+.hxx-btn-recv label,
+.hxx-btn-course label {
+	position: absolute;
+	font-size: 16px;
+	color: #5a5a5a;
+	left: 15px;
+	top: 11px;
+}
+.hxx-btn-date span,
+.hxx-btn-recv span,
+.hxx-btn-course span {
+	position: absolute;
+	font-family: classtao;
+	font-size: 20px;
+	color: #57cebf;
+	right: 15px;
+	top: 11px;
+}
+.hxx-btn-recv {
+	position: relative;
+	text-align: center;
+	min-height: 45px;
+}
+.hxx-btn-recv p {
+	font-size: 16px;
+	line-height: 1.7rem;
+	color: #5A5A5A;
+	text-align: left;
+	padding: 0 1rem 0 5rem;
+}
+.hxx-btn-course{
+	position: relative;
+	padding: 7px 1rem 0 5rem;
+	height: 45px;
+}
+.hxx-btn-course p{
+	display: inline-block;
+	background:#57cebf;
+	width:30px;
+	height:30px;
+	border-radius:50%;
+	font-size: 12px;
+	color: #fff;
+	text-align: center;
+	line-height: 30px;
+}
+.hxx-btn-date{
+	position: relative;
+	height: 45px;
+	padding: 0;
+}
+.hxx-btn-date input{
+	margin: 0;
+	padding: 0;
+	height: 45px;
+	border: none;
+	font-size:16px;
+	color:#57cebf;
+	padding: 0 2.5rem 0 8rem;
+}
+.hxx-txt-title{
+	position: relative;
+	height: 45px;
+	padding-left: 5rem;
+}
+.hxx-txt-title input{
+	margin: 0;
+	padding: 0;
+	height: 45px;
+	border: none;
+	font-size:16px;
+	color:#57cebf;
+}
+.hxx-txt-content h5{
+	margin-bottom: 15px;
+	padding: 0;
+	font-size:16px;
+	color:#9b9b9b;
+	text-align:left;
+}
+.hxx-txt-content textarea{
+	margin-bottom: 10px;
+	padding: 0;
+}
+.hxx-txt-content ul{
+	font-size: 0;
+}
+.hxx-txt-content h3 span{
+	font-family: classtao;
+}
+.hxx-txt-content h4{
+	text-align: right;
+}
+.hxx-txt-content h4 .active{
+	color: #fff;
+}
+.hxx-txt-content div span{
+	font-family: classtao;
+	font-size: 2.5rem;
+	margin: 0;
+	padding: 5px;
+	color: #57cebf;
+}
+/*附件*/
+.mui-row{
+	margin-bottom: 20px;
+}
+.BtnAudioPaly{
+	font-family: classtao;
+	height: 8.5rem;
+	border: 1px solid #F2F2F2;
+}
+.BtnAudioPaly h2{
+	font-family: classtao;
+	text-align: center;
+	color:#4a90e2;
+	font-size: 6rem;
+}
+.BtnAudioPaly h2:after{
+	content: '';
+	position: absolute;
+	top: 20px;
+	left: 50%;
+	margin-left: -15px;
+	width: 1px;
+	height: 3rem;
+	display: block;
+	border-radius: 50%;
+	background-color: #4a90e2;
+}
+.BtnAudioPaly h2.active:after {
+	animation: Audioname 0.9s ease 0 infinite;
+	-o-animation: Audioname 0.9s ease infinite;
+	-ms-animation: Audioname 0.9s ease infinite;
+	-moz-animation: Audioname 0.9s ease infinite;
+	-webkit-animation: Audioname 0.9s ease infinite;
+}
+
+@-webkit-keyframes Audioname {
+	form {
+		width: 0px;
+	}
+	to {
+		width: 30px;
+	}
+}
+.BtnAudioPaly h4{
+	text-align: center;
+	color:#4a90e2;
+	font-size:18px;
+	letter-spacing:0px;
+}
+.hxx-affix-item{
+	font-family: classtao;
+	height: 8.5rem;
+	border: 1px solid #F2F2F2;
+}
+.hxx-affix-item .hxx-affix-downlad{
+	margin: 0;
+	padding: 0;
+	border: 1px solid #57cebf;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	font-size:1.12rem;
+	color:#57cebf;
+	text-align:center;
+	line-height: 8.5rem;
+	background-color: #fff;
+	z-index: 6;
+}
+.BtnImg img{
+	width: 100%;
+	height: 100%;
+}
+.hxx-affix-item span{
+	position: absolute;
+	display: block;
+	top: 0;
+	right: 0;
+	width: 2rem;
+	height: 2rem;
+	line-height: 2rem;
+	padding: 0 !important;
+	margin: 0;
+	color: #000 !important;
+	border-radius: 50%;
+	background-color: #FFF;
+	z-index: 7;
+}
+.hxx-btn-append{
+	height: 44px;
+	margin: 14px 15px 10px;
+	text-align: center;
+	border:1px solid #57cebf;
+	border-radius:8px;
+	line-height: 44px;
+	font-size:18px;
+	color:#57cebf;
+	background-color: #fff;
+}
+/*录音*/
+.mui-backdrop .hxx-audio{
+	background:#ffffff;
+	width:100%;
+	height:250px;
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+}
+.hxx-audio h4{
+	font-family: classtao;
+	font-size:18px;
+	color:#42a5f5;
+	margin: 23px 0 29px;
+}
+.hxx-audio h5{
+	position: relative;
+	border: 1px solid #F2F2F2;
+	border-radius: 50%;
+	font-family: classtao;
+	display: inline-block;
+	width: 140px;
+	height: 140px;
+	line-height: 150px;
+	font-size: 90px;
+	text-align: center;
+	color:#4a90e2;
+}
+.hxx-audio h5.active{
+	background-color: #F2F2F2;
+	animation: AudioStart 2s linear infinite;
+	-webkit-animation: AudioStart 2s linear infinite;
+}
+@-webkit-keyframes AudioStart {
+	form {
+		transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+	}
+}
+/*弹窗*/
+.hxx-pop-content {
+	position: fixed;
+	z-index: 999;
+	width: 80%;
+	background-color: #fff;
+	margin: 0 auto;
+	top: 50%;
+	left: 0;
+	right: 0;
+}
+
+.hxx-atten-pop {
+	height: 120px;
+	margin-top: -60px;
+	border-radius: 10px;
+}
+.mui-progressbar{
+	width: 90%;
+	height: 3px;
+	margin: 30px auto 20px;
+}
+.hxx-pop-hint{
+	width: 90%;
+	margin: 5px auto;
+	font-size: 12px;
+}

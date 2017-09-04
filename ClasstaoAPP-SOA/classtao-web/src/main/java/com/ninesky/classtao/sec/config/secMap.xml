@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="secMap">
+	<!--插入表kt_bas_sec-->
+	<insert id="insertSec" parameterType="SecVO">insert into
+		kt_bas_sec
+		(
+		school_name,
+		link_man,
+		phone,
+		create_date,
+		ip_address,
+		url1,
+		url2,
+		url3
+		) VALUES (
+		#{school_name},
+		#{link_man},
+		#{phone},
+		#{create_date},
+		#{ip_address},
+		#{url1},
+		#{url2},
+		#{url3}
+		)</insert>
+	<!--更新表kt_bas_sec-->
+	<update id="updateSec" parameterType="SecVO">update
+		kt_bas_sec
+		set 
+		school_name = #{school_name},
+		link_man = #{link_man},
+		phone = #{phone},
+		update_date = #{update_date}
+		where id=#{id}
+	</update>
+	<!--查询表kt_bas_sec-->
+	<select id="getSecList" parameterType="SecVO"
+		resultType="SecVO">select
+		school_name as school_name,
+		link_man as link_man,
+		phone as phone,
+		url1 as url1,
+		create_date as create_date,
+		url2 as url2,
+		url3 as url3
+		from kt_bas_sec
+		where 1=1
+		<if test="id != null and id != 0">
+			and id=#{id}
+		</if>
+		<if test="set_type != null">
+			and set_type=#{set_type}
+		</if>
+		<if test="is_open != null">
+			and is_open=#{is_open}
+		</if>
+		</select>
+	<!--删除表kt_bas_sec-->
+	<delete id="deleteSec" parameterType="SecVO">delete from
+		kt_bas_sec
+		where id = #{id}</delete>
+</mapper>
+

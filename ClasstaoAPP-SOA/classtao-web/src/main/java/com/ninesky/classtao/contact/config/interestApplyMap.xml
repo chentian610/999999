@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="interestApplyMap">
+	<!--插入表kt_bas_contact -->
+	<insert id="insertApply" parameterType="ContactListVO">insert into
+		kt_bas_interest_apply
+		(
+		contact_id,
+		student_id,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{contact_id},
+		#{student_id},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+
+	<select id="getApplyList" parameterType="Integer" resultType="InterestApplyVO">
+		select
+		student_id as student_id
+		from kt_bas_interest_apply
+		where contact_id=#{contact_id}
+	</select>
+
+	<select id="getApplyListByStuID" parameterType="ContactVO" resultType="ContactVO">
+		select contact_name,
+		course,
+		user_id,
+		phone,
+		start_date,
+		end_date,
+		apply_start_date,
+		apply_end_date,
+		remark,
+		team_count,
+		apply_count,
+		contact_id,
+		school_id,is_grab,schedule_url
+		from kt_bas_contact where contact_id in (
+		select contact_id from kt_bas_interest_apply where student_id=#{student_id}
+		)
+		<if test="app_sql != null and app_sql != '' ">
+			and contact_id ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != '' ">
+			order by contact_id ${order_sql}
+		</if>
+	</select>
+
+	<select id="getApplyUnContactList" parameterType="Integer" resultType="InterestApplyVO">
+		select student_id from kt_bas_interest_apply where contact_id=#{contact_id} and student_id not in
+		(select student_id from kt_bas_contact_list where contact_id=#{contact_id})
+	</select>
+
+	<select id="getApplyByStuID" parameterType="InterestApplyVO" resultType="InterestApplyVO">
+		select contact_id,student_id from kt_bas_interest_apply where contact_id=#{contact_id} and
+		student_id=#{student_id}
+	</select>
+</mapper>
+

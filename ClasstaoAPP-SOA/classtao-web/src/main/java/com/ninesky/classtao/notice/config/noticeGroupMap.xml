@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="noticeGroupMap">
+	<!--插入表kt_bus_receive_group -->
+	<insert id="insertNoticeGroup" parameterType="NoticeGroupVO">insert into
+		kt_bus_notice_group
+		(
+		id,
+		notice_id,
+		school_id,
+		team_type,
+		group_id,
+		team_id,
+		user_id,
+		user_type,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{id},
+		#{notice_id},
+		#{school_id},
+		#{team_type},
+		#{group_id},
+		#{team_id},
+		#{user_id},
+		#{user_type},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<!--查询表kt_bus_receive_group -->
+	<select id="getNoticeGroupList" parameterType="NoticeGroupVO"
+		resultType="NoticeGroupVO">select
+		id as id,
+		notice_id as notice_id,
+		school_id as school_id,
+		group_id as group_id,
+		team_id as team_id,
+		user_id as user_id,
+		user_type as user_type
+		from kt_bus_notice_group
+		where school_id=#{school_id} 
+		<if test="group_id!=null">
+		and group_id=#{group_id}
+		</if>
+		<if test="team_id!=null">
+		and team_id=#{team_id}
+		</if>
+		<if test="user_id!=null and user_id!=0">
+		and user_id=#{user_id}
+		</if>
+		 and user_type=#{user_type}
+	</select>
+	
+	<select id="getNoticeList" parameterType="NoticeGroupVO" resultType="NoticeVO">
+        SELECT n.notice_id as notice_id,
+        n.sender_id,
+        n.notice_title,
+        n.notice_content,
+        n.module_code,
+        n.create_date as send_time,
+        n.total_count FROM kt_bus_notice n
+        WHERE  n.notice_id in  (
+        SELECT g.notice_id FROM kt_bas_teacher t,kt_bus_notice_group g
+        WHERE
+         g.school_id = #{school_id}
+        AND t.user_id = #{user_id}
+        AND ((g.group_id = 0 and g.team_id=0 and g.user_id=0 AND g.user_type = '003010') OR
+        (g.group_id = t.grade_id AND g.team_id = 0 and g.user_id=0 AND g.user_type = '003010') OR
+        (g.group_id = t.grade_id AND g.team_id = t.class_id and g.user_id=0 AND g.user_type = '003010') or
+        (g.group_id=0 and g.team_id=t.contact_id and g.user_id=0 AND g.user_type = '003010') or
+        (g.group_id = 0 and g.team_id=0 and g.user_id=#{user_id} AND g.user_type = '003005')
+        )
+        ) and module_code=#{module_code}
+	<if test="app_sql != null and app_sql != '' ">
+	and notice_id ${app_sql}
+	</if>
+	<if test="order_sql != null and order_sql != '' ">
+		order by notice_id ${order_sql}
+	</if>
+	</select>
+	
+	<select id="getNoticeListToStudent" parameterType="NoticeGroupVO" resultType="NoticeVO">
+	SELECT
+	notice_id as notice_id,
+	sender_id,
+	notice_title,
+	notice_content,
+	module_code,
+	create_date as send_time
+	FROM
+	kt_bus_notice where notice_id in( select DISTINCT notice_id from 
+	kt_bus_notice_group g
+	WHERE
+	g.school_id = #{school_id}
+	AND g.user_type = #{user_type}
+	AND (
+	(g.group_id = 0 and g.team_id=0 and g.user_id=0)
+	OR (
+	g.group_id = #{group_id}
+	AND g.team_id = 0
+	)
+	OR (
+	g.group_id = #{group_id}
+	AND g.team_id = #{team_id} and g.user_id=0
+	) or (g.group_id=0 and g.user_id=0 and g.team_id in
+	(select contact_id from kt_bas_contact_list c where c.student_id=#{user_id} and c.school_id=#{school_id} and 
+	c.user_type=#{user_type})) or g.user_id=#{user_id}
+	))
+	<if test="app_sql != null and app_sql != '' ">
+	and notice_id ${app_sql}
+	</if>
+	<if test="order_sql != null and order_sql != '' ">
+		order by notice_id ${order_sql}
+	</if>
+	</select>
+	
+	<select id="getNoticeListToTeacher" parameterType="NoticeGroupVO" resultType="NoticeVO">
+	SELECT n.notice_id as notice_id,
+	n.sender_id,
+	n.notice_title,
+	n.notice_content,
+	n.module_code,
+	n.create_date as send_time,
+	n.total_count FROM kt_bus_notice n
+	WHERE n.notice_id in (
+	SELECT g.notice_id FROM kt_bus_notice_group g
+	WHERE  g.school_id = #{school_id}
+	AND g.user_type =#{user_type}
+	AND ((g.group_id = 0 and user_id=0) or (g.group_id=0 and g.user_id = #{user_id}))
+	) and n.module_code=#{module_code}
+	<if test="app_sql != null and app_sql != '' ">
+	and n.notice_id ${app_sql}
+	</if>
+	<if test="order_sql != null and order_sql != '' ">
+		order by n.notice_id ${order_sql}
+	</if>
+	</select>
+	
+	<select id="getListByNoticeID" parameterType="Integer" resultType="NoticeGroupVO">
+	SELECT
+	g.school_id,
+	g.group_id,
+	g.team_id,
+	g.user_id,
+	g.user_type,
+	n.module_code,
+	g.create_by,
+	g.team_type
+	FROM
+	kt_bus_notice n,
+	kt_bus_notice_group g
+	WHERE
+	g.notice_id = #{notice_id}
+	AND n.notice_id = g.notice_id
+	</select>
+
+	<select id="getNoticeGroup" parameterType="NoticeGroupVO" resultType="NoticeGroupVO">
+		select id from kt_bus_notice_group
+		where notice_id=#{notice_id} and user_id=#{user_id}
+	</select>
+</mapper>
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="menuModuleMap">
+    <select id="getMenuModuleList" parameterType="MenuModuleVO" resultType="MenuModuleVO">
+        SELECT
+            id AS id,
+            menu_id AS menu_id,
+            module_code AS module_code,
+            user_type AS user_type,
+            is_active AS is_active,
+            is_default AS is_default
+        FROM kt_sys_menu_module
+        <where>
+            <if test="menu_id != null and menu_id != ''">
+                AND menu_id = #{menu_id}
+            </if>
+            <if test="module_code != null and module_code != ''">
+                AND module_code = #{module_code}
+            </if>
+            <if test="user_type != null and user_type != ''">
+                AND user_type = #{user_type}
+            </if>
+            <if test="is_active != null and is_active != ''">
+                AND is_active = #{is_active}
+            </if>
+            <if test="is_default != null and is_default != ''">
+                AND is_default = #{is_default}
+            </if>
+        </where>
+    </select>
+
+    <select id="getMenuModuleListByModule" parameterType="MenuModuleVO" resultType="RoleMenuVO">
+        SELECT
+            menu_id AS menu_id,
+            is_active AS is_active
+        FROM kt_sys_menu_module
+        where  module_code = #{module_code} AND user_type = #{user_type}
+    </select>
+
+    <select id="getSchoolMenuModuleList" parameterType="MenuModuleVO" resultType="MenuModuleVO">
+        SELECT
+           mm.id AS id,
+           mm.menu_id AS menu_id,
+           mm.is_active AS is_active
+        FROM
+            kt_sys_menu_module mm,
+            kt_bas_school_module sm
+        WHERE  mm.module_code = sm.module_code
+	        AND mm.user_type = sm.user_type
+            AND sm.school_id = #{school_id}
+	        <if test="is_active != '' and is_active != null">
+                AND mm.is_active = #{is_active}
+            </if>
+            <if test="menu_id != '' and menu_id != null">
+                AND mm.menu_id = #{menu_id}
+            </if>
+    </select>
+</mapper>

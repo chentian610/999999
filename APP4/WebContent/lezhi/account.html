@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+	<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+	<meta HTTP-EQUIV="expires" CONTENT="0">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="../hplus/css/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="mainwrap">
+	<div class="accm">
+		<div class="item" id="userName">
+		</div>
+
+		<div class="item" id ="phoneDiv">
+		</div>
+
+		<div class="item">
+			密码：********
+		</div>
+
+		<div class="item" id="reBtn">
+			<a href="javascript:;" class="btn btn-req">修改密码</a>
+		</div>
+
+		<div id="reCont" style="display: none">
+			<div class="item">
+				<div class="col-sm-3" style="padding-left: 0;">
+					<input type="text" class="form-control" id="vailCode" placeholder="输入验证码">
+				</div>
+
+				<a href="#" class="btn btn-req" id="getValidateCode">获取验证码</a>
+			</div>
+
+			<div class="item">
+				<div class="col-sm-5" style="padding-left: 0;">
+					<input type="password" class="form-control" id="newPassWord" placeholder="输入新密码">
+				</div>
+			</div>
+
+			<div class="item" id="submitClick">
+				<a href="#" class="btn btn-req">确定</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../js/jquery-1.11.2.min.js"></script>
+<script src="../js/myajax.js"></script>
+<script type="text/javascript" src="../js/functionUtil.js"></script>
+<script src="js/account.js?d=${time}"></script>
+<script src="../js/jquery.md5.js"></script>
+<script src="../hplus/js/plugins/toastr/toastr.min.js"></script>
+<script>
+//session失效，页面跳转
+  		pageJump();
+    $(document).ready(function() {
+   	 	$("#userName").html("姓名："+localStorage.getItem('user_name'));
+  		$("#phoneDiv").html("手机号："+localStorage.getItem('phone'));
+   		//绑定改变密码按钮点击事件
+   		bindChangePassBtnClickEvent();
+   		//绑定获取验证码按钮点击事件
+   		bindGetVailcodeBtnClickEvent();
+   		//绑定提交按钮点击事件
+   		bindSubmitClickEvent();
+	});
+	
+</script>
+</body>
+</html>

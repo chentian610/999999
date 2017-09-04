@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userMap">
+	<!--插入表kt_sys_user -->
+	<insert id="insertUser" parameterType="UserVO">
+	insert into kt_sys_user
+		(
+		phone,
+		status,
+		user_name,
+		pass_word,
+		head_url,
+		sex,
+		create_date,
+		version
+		) VALUES (
+		#{phone},
+		#{status},
+		#{user_name},
+		#{pass_word},
+		#{head_url},
+		#{sex},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_sys_user -->
+	<update id="updateUser" parameterType="UserVO">
+	update kt_sys_user
+		set 
+		phone = #{phone},
+		user_name = #{user_name},
+		sex=#{sex},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version = version+1
+		where user_id=#{user_id}
+	</update>
+	
+		<!--更新表kt_sys_user -->
+	<update id="updateUserStatusByPhone" parameterType="UserVO">
+	update kt_sys_user
+		set 
+		status = #{status},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version = version+1
+		where phone=#{phone}
+	</update>
+	
+	<!--更新表kt_sys_user -->
+	<update id="resetPassword" parameterType="UserVO">
+	update kt_sys_user
+		set 
+		pass_word = #{pass_word},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version=version+1 
+		where phone=#{phone}
+	</update>
+
+	<!--更新表kt_sys_user -->
+	<update id="resetPasswordByID" parameterType="UserVO">
+		update kt_sys_user
+		set
+		pass_word = #{pass_word},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version=version+1
+		where user_id=#{user_id}
+	</update>
+	
+	<!--更新表kt_sys_user -->
+	<update id="completeUserInfo" parameterType="UserVO">
+	update kt_sys_user
+		set 
+		<if test="user_name!=null and user_name!='' ">
+		user_name = #{user_name}, 
+		</if> 
+		<if test="head_url!=null and head_url!='' ">
+		head_url=#{head_url}, 
+		</if>
+		<if test="sex!=null ">
+		sex=#{sex},
+		</if>
+		user_id=#{user_id},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version=version+1 
+		where user_id=#{user_id} 
+	</update>
+	
+		<update id="updateUserStatus" parameterType="UserVO">
+		update kt_sys_user
+		set 
+		<if test="status != null and status !='' ">
+		    status = #{status},
+		</if>
+		pass_word = #{pass_word},
+		version = version+1
+		where user_id=#{user_id}
+	</update>
+	
+	<!--查询表kt_sys_user -->
+	<select id="getUserList" parameterType="UserVO" resultType="UserVO">
+	select
+		user_id as user_id,
+		phone as phone,
+		pass_word as pass_word,
+		user_name as user_name,
+		head_url as head_url,
+		status as status,
+		sex as sex,
+		version as version
+		from kt_sys_user
+	where phone = #{phone}
+		and pass_word = #{pass_word}
+	</select>
+	
+	<!--查询表kt_sys_user -->
+	<select id="getUserByID" parameterType="Integer" resultType="UserVO">
+	select
+		user_id as user_id,
+		phone as phone,
+		pass_word as pass_word,
+		password_update_time,
+		user_name as user_name,
+		head_url as head_url,
+		status as status,
+		sex as sex,
+		version as version
+		from kt_sys_user
+	where user_id = #{user_id}
+	</select>
+	
+		<!--查询表kt_sys_user -->
+	<select id="getUserByPhone" parameterType="String" resultType="UserVO">
+	select
+		user_id as user_id,
+		phone as phone,
+		pass_word as pass_word,
+		user_name as user_name,
+		head_url as head_url,
+		status as status,
+		sex as sex,
+		version as version
+		from kt_sys_user
+	where phone = #{phone}
+	</select>
+	
+	<!-- 更新表 -->
+	<update id="modifyPhone" parameterType="UserVO" >
+		update kt_sys_user set phone=#{phone},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version=version+1 
+		 where user_id=#{user_id}
+	</update>
+	
+	<!-- 根据电话号码修改密码 -->
+	<update id="updatePasswordByPhone" parameterType="UserVO" >
+		update kt_sys_user set pass_word=#{pass_word},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		password_update_time=#{update_date},
+		version=version+1 
+		where phone = #{phone}
+	</update>
+	
+</mapper>

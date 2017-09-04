@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="homeworkTableMap">
+	<!--查询表kt_bas_table -->
+	<select id="getHomeworkTableList" parameterType="TableHeadVO" resultType="TableHeadVO">
+	select
+		id as id,
+		school_id as school_id,
+		team_type as team_type,
+		attend_item as attend_item,
+		field as field,
+		field_name as field_name,
+		field_func as field_func,
+		field_func_sum as field_func_sum,
+		func_type as func_type,
+		sort as sort,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_homework_table
+		where team_type = #{team_type}
+		and count_type = #{count_type}
+		order by sort
+	</select>
+</mapper>
+

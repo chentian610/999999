@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="microPortalInfoMap">
+    <insert id="insertMicroPortalInfoBatch" parameterType="List">
+        INSERT INTO kt_bas_micro_portal_info (
+        school_id,
+        campus_name,
+        address,
+        phone,
+        email,
+        create_by,
+        create_date,
+        version
+        ) VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.school_id},
+            #{item.campus_name},
+            #{item.address},
+            #{item.phone},
+            #{item.email},
+            #{item.create_by},
+            #{item.create_date},
+            0
+            )</foreach>
+    </insert>
+    <insert id="insertMicroPortalInfo" parameterType="MicroPortalInfoVO">
+        INSERT INTO kt_bas_micro_portal_info (
+        school_id,
+        campus_name,
+        address,
+        phone,
+        email,
+        create_by,
+        create_date,
+        version
+        ) VALUES(
+        #{school_id},
+        #{campus_name},
+        #{address},
+        #{phone},
+        #{email},
+        #{create_by},
+        #{create_date},
+        0)
+    </insert>
+    <select id="getMicroPortalInfoByID" parameterType="Integer"
+            resultType="MicroPortalInfoVO">
+        SELECT
+        info_id as info_id,
+        school_id as school_id,
+        campus_name as campus_name,
+        address as address,
+        phone as phone,
+        email as email,
+        create_by AS create_by,
+        create_date AS create_date,
+        update_by AS update_by,
+        update_date AS update_date,
+        version AS version
+        FROM kt_bas_micro_portal_info
+        where school_id = #{school_id}
+    </select>
+    <update id="updateMicroPortalInfoByID" parameterType="MicroPortalInfoVO">
+        UPDATE kt_bas_micro_portal_info SET
+        <if test="campus_name != null and campus_name != ''">
+            campus_name = #{campus_name},
+        </if>
+        <if test="address != null and address != ''">
+            address = #{address},
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{phone},
+        </if>
+        <if test="email != null and email != ''">
+            email = #{email},
+        </if>
+        update_by = #{update_by},
+        update_date = #{update_date},
+        version = version+1
+        WHERE info_id = #{info_id}
+    </update>
+    <delete id="deleteMicroPortalInfoByID" parameterType="Integer">
+        DELETE FROM kt_bas_micro_portal_info WHERE info_id = #{info_id}
+    </delete>
+
+    <delete id="deleteMicroPortalInfo" parameterType="Integer">
+        DELETE FROM kt_bas_micro_portal_info WHERE school_id = #{school_id}
+    </delete>
+</mapper>
+

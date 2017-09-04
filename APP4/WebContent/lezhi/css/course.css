@@ -1,0 +1,30 @@
+/*更改开关按钮样式*/
+.checkbox-slider--b{display: inline-block;margin-left: 24px;}
+.checkbox-slider--b input:checked + span:before {
+    background: #1CBB9E;
+}
+.checkbox-slider--b input + span:before {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.table>tbody>tr>td,.table>thead>tr>th {
+    padding:0 31px;
+    line-height:56px;
+}
+.zjq-coursePage{margin-left: 40px;}
+.zjq-title{color: #4A4A4A;font: 18px/25px ".PingFang-SC-Regular";margin: 39px 0 20px 0;}
+.zjq-courseList{border: 1px solid #E9E9E9;width: 526px;}
+.zjq-courseList thead tr th{border-bottom: none;}
+.zjq-courseList tr{height: 56px;width: 526px;}
+.zjq-course-right{text-align: right;padding-right: 16px;}
+.zjq-course-right .zjq-rename{width: 100px;height: 30px;background:#1CBB9E;color: #fff;line-height: 18px;}
+.zjq-courseName{color: #A7A7A7;font-size: 15px;}
+.zjq-addCourse{width: 180px;height: 40px;background:#1CBB9E;color: #fff;line-height: 28px;margin-top: 20px;}
+/*动态改变按钮及文本框样式*/
+.zjq-sel_btns{display: none;}
+.zjq-sel_btns .btn,.zjq-sel .btn{background:#1CBB9E;color: #fff;height: 30px;line-height: 18px;margin-right: 5px;}
+.zjq-course-input{display: none;position: relative;}
+.zjq-course-input .zjq-course-name{position: absolute;top: 13px;height: 30px;line-height: 30px;}
+.zjq-add-input{position: relative;width: 50%;}
+.zjq-add-input .zjq-course-name{position: absolute;top: 13px;height: 30px;line-height: 30px;width: 100%;}
+.zjq-add-course .zjq-rename{display: none;}
+.container{background: #fff;margin-top: 20px;padding-bottom: 30px;}

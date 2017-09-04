@@ -1,0 +1,48 @@
+.container{
+    padding: 41px 42px;
+    position: relative;
+}
+.qbb-btn{
+    position: absolute;
+    right:42px;
+    top:41px;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #1CBB9E;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+}
+.q_info{
+    font-size: 15px;
+    color: #4A4A4A;
+}
+.q_info:last-child{
+    margin-top: 80px;
+}
+.q_info h4{
+    font-size: 18px;
+    margin-bottom: 27px;
+}
+.q_info .q_info_row{
+    line-height: 40px;
+}
+.q_info .q_info_row select{
+    width: 120px;
+    height: 30px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #D1DAE1;
+    border-radius: 2px;
+}
+.q_info .q_info_row .btn{
+    width: 120px;
+    height: 30px;
+}
+.q_info .q_info_row .btn .caret{
+}
+.q_info .q_info_row .unit{
+    margin-left: 10px;
+    margin-right: 20px;
+}

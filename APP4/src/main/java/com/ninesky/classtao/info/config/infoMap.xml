@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="infoMap">
+	<!--插入表kt_bus_info-->
+	<insert id="insertInfo" parameterType="InfoVO">insert into kt_bus_info
+		(
+		school_id,
+		user_type,
+		sender_id,
+		module_code,
+		module_pkid,
+		info_type,
+		info_url,
+		info_title,
+		info_content,
+		show_type,
+		init_data,
+		info_date,
+		photo_list,
+		count_info,
+		create_date,
+		create_by,
+		version
+		) VALUES (
+		#{school_id},
+		#{user_type},
+		#{sender_id},
+		#{module_code},
+		#{module_pkid},
+		#{info_type},
+		#{info_url},
+		#{info_title},
+		#{info_content},
+		#{show_type},
+		#{init_data},
+		#{info_date},
+		#{photo_list},
+		#{count_info},
+		#{create_date},
+		#{create_by},
+		0
+		)</insert>
+		
+	<!--更新表kt_bus_info-->
+	<update id="updateInfo" parameterType="InfoVO">update kt_bus_info
+		set 
+		info_title = #{info_title},
+		info_content = #{info_content},
+		info_date=#{info_date},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version = version+1 where info_id=#{info_id}</update>
+		
+	<!--查询表kt_bus_info-->
+	<select id="getInfoList" parameterType="InfoVO" resultType="InfoVO">select
+		info_id as info_id,
+		school_id as school_id,
+		user_type as user_type,
+		sender_id as sender_id,
+		module_code as module_code,
+		info_title as info_title,
+		info_content as info_content,
+		init_data as init_data,
+		version as version
+		from kt_bus_info
+		where module_code=#{module_code} and module_pkid=#{module_pkid}</select>
+	<!--删除表kt_bus_info-->
+	<delete id="deleteInfo" parameterType="InfoVO">delete from kt_bus_info
+		where id = #{id}</delete>
+	<!-- 通过id获取info -->
+	<select id="getInfoById" parameterType="Integer" resultType="InfoVO">
+		select info_id as info_id,
+		school_id as school_id,
+		user_type as user_type,
+		sender_id as sender_id,
+		module_code as module_code,
+		info_title as info_title,
+		info_content as info_content,
+		show_type as show_type,
+		init_data as init_data,
+		info_date as info_date,
+		photo_list as photo_list,
+		count_info as count_info,
+		create_date as create_date,
+		create_by as create_by,
+		update_date as update_date,
+		update_by as update_by,
+		version as version
+		from kt_bus_info
+		where info_id=#{infoId}
+	</select>
+	<!-- 根据模块更新动态消息 -->
+	<update id="updateInfoByModule" parameterType="InfoReceiveVO">
+		update kt_bus_info
+		set
+	    <if test="info_type != null and info_type != '' ">
+			info_type=#{info_type},
+		</if>
+	    <if test="info_title != null and info_title != '' ">
+			info_title=#{info_title},
+		</if>
+		<if test="info_content != null and info_content != '' ">
+			info_content=#{info_content},
+		</if>
+	    <if test="info_url != null and info_url != '' ">
+			info_url=#{info_url},
+		</if>
+		<if test="count_info != null and count_info != '' ">
+			count_info=#{count_info},
+		</if>
+		<if test="photo_list != null and photo_list != '' ">
+			photo_list=#{photo_list},
+		</if>
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version=version+1
+		where 
+		module_code=#{module_code}
+		and module_pkid=#{module_pkid}
+		and school_id=#{school_id}
+		<if test="info_id != null and info_id != 0">
+			and info_id=#{info_id} <!-- 相册模块用到 -->
+		</if>
+		<if test="module_code=='009001'">
+			and sender_id !=0
+		</if>
+	</update>
+	
+	<select id="getInfoOfReply" parameterType="InfoVO" resultType="InfoVO">
+		select info_id from kt_bus_info where school_id=#{school_id} and sender_id=#{sender_id} and 
+		module_code=#{module_code} and module_pkid=#{module_pkid}
+	</select>
+</mapper>
+
+

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="homeworkGroupMap">
+	<!--插入表kt_bus_homework_group -->
+	<insert id="insertHomeworkGroup" parameterType="homeworkGroupVO">
+	insert into	kt_bus_homework_group
+		(
+		id,
+		homework_id,
+		school_id,
+		group_id,
+		team_type,
+		team_id,
+		user_id,
+		user_type,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version
+		) VALUES 
+		(
+		#{id},
+		#{homework_id},
+		#{school_id},
+		#{group_id},
+		#{team_type},
+		#{team_id},
+		#{user_id},
+		#{user_type},
+		#{create_by},
+		#{create_date},
+		#{update_by},
+		#{update_date},
+		#{version}
+		)
+	</insert>
+	<!--更新表kt_bus_homework_group -->
+	<update id="updatehomeworkGroup" parameterType="homeworkGroupVO">
+	update kt_bus_homework_group
+		set id = #{id},
+		homework_id = #{homework_id},
+		school_id = #{school_id},
+		group_id = #{group_id},
+		team_type = #{team_type},
+		team_id = #{team_id},
+		user_id = #{user_id},
+		user_type = #{user_type},
+		create_by = #{create_by},
+		create_date = #{create_date},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = #{version}
+	</update>
+	<!--查询表kt_bus_homework_group -->
+	<select id="getHomeworkGroupList" parameterType="Map"
+		resultType="HomeworkVO">
+		select 
+			homework_id as homework_id,
+			school_id as school_id,
+			course as course,
+			sender_id as sender_id,
+			title as title,
+			end_date as end_date,
+			create_date as create_date,
+			create_by as create_by,
+			update_by as update_by,
+			update_date as update_date,
+			version as version
+		from kt_bus_homework h
+		where 
+		<if test="user_id != '' and user_id != null">
+			EXISTS (SELECT 1 FROM kt_bus_homework_group g 
+			WHERE g.school_id=#{school_id} and g.user_id = #{user_id} and h.homework_id = g.homework_id)
+		</if>
+		<if test="student_id != null and student_id != ''">
+			(EXISTS (SELECT 1 FROM kt_bas_student S,kt_bus_homework_group g	WHERE S.student_id = #{student_id} and g.school_id = #{school_id} and ((S.grade_id=g.group_id and S.class_id = g.team_id) or (S.grade_id=g.group_id and g.team_id = 0) or (g.group_id=0 and g.team_id = 0)) and g.team_type = '011005' and g.homework_id = h.homework_id)
+	      	or EXISTS (SELECT 1 FROM kt_bas_contact_list S,kt_bus_homework_group g WHERE S.student_id = #{student_id} and g.school_id = #{school_id} and S.contact_id = g.team_id and g.team_type = '011015'  and g.homework_id = h.homework_id))
+		</if>
+		<if test="app_sql != null and app_sql != '' ">    
+            and h.homework_id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+            order by h.homework_id ${order_sql}  
+        </if>  
+	</select>
+	<!--删除表kt_bus_homework_group -->
+	<delete id="deletehomeworkGroup" parameterType="homeworkGroupVO">
+	delete from	kt_bus_homework_group where id = #{id}
+	</delete>
+	<select id="getCountList" parameterType="Integer" resultType="CountVO">
+	SELECT COUNT(*) AS count,
+		(SELECT COUNT(*) from kt_bus_homework_receive WHERE homework_id = #{homework_id} and is_submit = 1) as count_done 
+	FROM 
+		(SELECT s.student_id FROM kt_bas_student s WHERE s.class_id in 
+			(SELECT g.team_id  FROM kt_bus_homework_group g WHERE g.homework_id = #{homework_id})
+		UNION SELECT t.student_id FROM kt_bas_contact_list t WHERE t.contact_id in (
+			SELECT h.team_id  FROM kt_bus_homework_group h WHERE h.homework_id = #{homework_id}) AND user_type = 003010) s
+	</select>
+	<select id="getStudentListByMap" parameterType="Map" resultType="StudentVO">
+	SELECT s.student_id FROM kt_bas_student s WHERE s.class_id in 
+			(SELECT g.team_id  FROM kt_bus_homework_group g WHERE g.homework_id = #{homework_id})
+		UNION SELECT t.student_id FROM kt_bas_contact_list t WHERE t.contact_id in (
+			SELECT h.team_id  FROM kt_bus_homework_group h WHERE h.homework_id = #{homework_id}) AND user_type = 003010
+	</select>
+	<select id="getHomeworkList" parameterType="Map" resultType="homeworkGroupVO">
+	SELECT 
+		h.homework_id as homework_id,
+		h.school_id as school_id,
+		h.end_date as end_date,
+		h.course as course,
+		g.team_id as team_id,
+		g.group_id as group_id,
+		g.team_type as team_type,
+		g.user_id as user_id,
+		h.create_date as create_date
+	FROM kt_bus_homework h,kt_bus_homework_group g 
+	WHERE h.school_id = #{school_id} and h.homework_id = #{homework_id} 
+	and (EXISTS (SELECT 1 FROM kt_bas_student S,kt_bus_homework_group g	WHERE S.student_id = #{student_id} and S.class_id = g.team_id and g.team_type = '011005' and g.homework_id = h.homework_id)
+	     or EXISTS (SELECT 1 FROM kt_bas_contact_list S,kt_bus_homework_group g WHERE S.student_id = #{student_id} and S.contact_id = g.team_id and g.team_type = '011015'  and g.homework_id = h.homework_id)) 
+	and h.homework_id=g.homework_id AND h.school_id = g.school_id 
+	</select>
+	<select id="getHomeworkListByTeamID" parameterType="homeworkGroupVO" resultType="homeworkGroupVO">
+	SELECT 
+		g.homework_id as homework_id,
+		g.school_id as school_id,
+		g.group_id as group_id,
+		h.course as course,
+		g.team_type as team_type,
+		g.team_id as team_id,
+		g.user_id as user_id,
+		g.create_date as create_date 
+	FROM kt_bus_homework_group g,kt_bus_homework h
+	WHERE g.school_id = #{school_id} AND g.team_id = #{team_id}
+	AND g.team_type = #{team_type} AND g.homework_id = h.homework_id
+	</select>
+</mapper>
+

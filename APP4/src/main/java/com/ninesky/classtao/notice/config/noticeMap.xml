@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="noticeMap">
+	<!--插入表kt_bus_notice -->
+	<insert id="insertNotice" parameterType="NoticeVO">insert into
+		kt_bus_notice
+		(
+		school_id,
+		user_type,
+		sender_id,
+		module_code,
+		notice_title,
+		notice_content,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{user_type},
+		#{sender_id},
+		#{module_code},
+		#{notice_title},
+		#{notice_content},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<!--查询表kt_bus_notice -->
+	<select id="getNoticeList" parameterType="Integer" resultType="NoticeVO">select
+		notice_id as notice_id,
+		school_id as school_id,
+		user_type as user_type,
+		sender_id as sender_id,
+		module_code as module_code,
+		notice_title as notice_title,
+		notice_content as notice_content,
+		create_date as send_time,
+		version as version,
+		readCount as readCount,
+		replyCount as replyCount,
+		total_count as total_count
+		from kt_bus_notice
+		where notice_id=#{notice_id}
+	</select>
+	
+	<!--删除表kt_bus_notice -->
+	<delete id="deleteNotice" parameterType="NoticeVO">delete from
+		kt_bus_notice
+		where id = #{id}
+	</delete>
+	
+	<update id="updateReadCount" parameterType="Integer">
+		UPDATE kt_bus_notice set readCount=readCount+1 where notice_id=#{notice_id}
+	</update>
+	
+	<update id="updateReplyCount" parameterType="Integer">
+		UPDATE kt_bus_notice set replyCount=replyCount+1 where notice_id=#{notice_id}
+	</update>
+
+	<update id="addNoticeCount" parameterType="NoticeVO">
+		update kt_bus_notice set total_count=#{total_count} where notice_id=#{notice_id}
+	</update>
+</mapper>
+

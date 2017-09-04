@@ -1,0 +1,39 @@
+ul li{list-style: none;}
+body{background: #f2f2f2;}
+.zjq-fee-page{width: 683px;background: #fff; margin: 15px auto;}
+.zjq-list{padding: 0;}
+.zjq-fee-list{background: #fff;padding: 30px 35px 20px 32px;border-bottom: 1px solid #E6E9EB;}
+.See-detail:hover{background-color: #f1f1f1;}
+.zjq-fee-sort{font-size: 14px;color: #323232;font-weight: bold;margin: 0;position: relative;}
+.zjq-fee-sort img{width:16px;height:19px;margin-right: 8px;vertical-align: middle;display: inline-block;margin-top: -3px;}
+.zjq-fee-sort time{font-size: 14px;color: #9B9B9B;position: absolute;right: 0;top: 0;font-weight: normal;}
+.zjq-fee-price{	font-size: 50px;font-weight: bolder;color: #5B5B5B;height: 60px;line-height: 60px;margin: 17px 0;}
+.zjq-fee-time,.zjq-fee-initiator{font-size: 14px;color: #5B5B5B;height: 22px;line-height: 22px;}
+.zjq-fee-range{font-size: 14px;color: #5B5B5B;line-height: 22px;overflow: hidden;}
+.zjq-fee-range span{width: 320px;display: block;margin: -22px 0 0 66px;}
+.zjq-selList{text-align: center;padding: 10px 0;}
+.zjq-numberList{margin: 0;}
+.zjq-numberList li a{color:#4A4A4A;}
+.zjq-fee-time,.zjq-fee-progress,.zjq-total-fee{font-size: 14px;color: #5B5B5B;height: 22px;line-height: 22px;}
+.zjq-scale{width: 230px;height: 5px;background: #D8D8D8;display: inline-block;margin-right: 5px;position: relative;border-radius: 4px;}
+.zjq-scale-pay{content: "";height: 5px;background: #50E3C2;position: absolute;left: 0;border-radius: 4px;}
+.zjq-unpaid-student{font-size: 13px;color: #04B594;margin-left: 5px;}
+.zjq-fee-range{font-size: 14px;color: #5B5B5B;line-height: 22px;overflow: hidden;}
+.zjq-fee-range span{width: 500px;display: block;margin: -22px 0 0 66px;}
+.zjq-feeDetail{padding: 0 29px 32px 32px;}
+.zjq-feeDetail dt{height: 44px;font-size: 14px;color: #5B5B5B;border-bottom: 1px solid #EAECEE;line-height: 44px;padding-left: 5px;}
+.zjq-feeDetail dd{height: 44px;font-size: 14px;color: #5B5B5B;border-bottom: 1px solid #EAECEE;line-height: 44px;position:relative;padding-left: 5px;}
+.zjq-feeDetail dd:hover{background-color: #f1f1f1;}
+.zjq-feeDetail dd span{position: absolute;right: 5px;}
+.display{display: none;}
+.btn-button{background: #1CBB9E;color: aliceblue;margin-left: 15px;}
+.zjq-classSituation-page{width: 683px;margin-top: 30px;background: #fff;padding: 0 29px 0 24px;height: 860px;}
+.zjq-feeDetail2{padding-top: 8px;}
+.zjq-feeDetail2 dt{height: 44px;font-size: 14px;color: #5B5B5B;border-bottom: 1px solid #EAECEE;line-height: 44px;padding-left: 5px;}
+.zjq-feeDetail2 dd{height: 44px;font-size: 14px;color: #5B5B5B;border-bottom: 1px solid #EAECEE;line-height: 44px;position:relative;padding-left: 5px;}
+.zjq-feeDetail2 dd img{width:12px;height: 12px;margin:0 40px 0 2px;}
+.zjq-feeDetail2 dd span{position: absolute;right: 5px;top:12px;width: 60px;height: 22px;line-height: 22px;border: 1px solid #50E2C1;border-radius: 3px;text-align: center;color:#50E2C1;font-size: 14px;}
+.zjq-feeDetail2 dd .zjq-unpaid{border: 1px solid #F9AD50;color:#F9AD50;}
+.zwf-unpaid{background:#F9AD50;color: aliceblue;position: absolute;right: 5px;top:12px;width: 60px;height: 30px;line-height: 30px;border-radius: 3px;border:#ffffdd;text-align: center;font-size: 14px;}
+.zwf-already-paid{background: #1CBB9E;color: aliceblue;margin-right: 65px;position: absolute;right: 5px;top:12px;width: 60px;height: 30px;line-height: 22px;border:#ffffdd;border-radius: 3px;text-align: center;font-size: 14px;}
+.zwf-whole{background: #1c84c6;color: aliceblue;margin-right: 130px;position: absolute;right: 5px;top:12px;width: 60px;height: 30px;line-height: 22px;border:#ffffdd;border-radius: 3px;text-align: center;font-size: 14px;}

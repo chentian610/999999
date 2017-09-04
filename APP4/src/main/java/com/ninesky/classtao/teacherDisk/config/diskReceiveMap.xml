@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="diskReceiveMap">
+	<!--发送文件到班级-->
+	<insert id="insertDiskReceive" parameterType="list">insert into
+		kt_bus_disk_receive
+		(
+		file_id,
+		file_name,
+		file_type,
+		school_id,
+		group_id,
+		team_id,
+		team_type,
+		create_date,
+		create_by,
+		version
+		) VALUES 
+		<foreach collection="list" item="item" index="index"
+			separator=",">(
+		#{item.file_id},
+		#{item.file_name},
+		#{item.file_type},
+		#{item.school_id},
+		#{item.group_id},
+		#{item.team_id},
+		#{item.team_type},
+		#{item.create_date},
+		#{item.create_by},
+		0
+		)</foreach>
+		</insert>
+	
+	<!-- 根据学生获取文件列表 -->
+	<select id="getDiskListByStu" parameterType="Map"
+		resultType="DiskReceiveVO">select
+		distinct(g.file_id) as file_id,
+		g.receive_id as receive_id,
+		g.school_id as school_id,
+		g.group_id as group_id,
+		g.team_id as team_id,
+		g.create_by as create_by,
+		g.create_date as create_date,
+		g.version as version,
+		t.file_name as file_name,
+		t.file_type as file_type
+		from 
+		kt_bus_disk_receive g,
+		kt_bus_disk t
+		where 
+		g.file_id=t.file_id 
+		and 
+		g.school_id=#{school_id}
+		and (
+		g.group_id = #{group_id}
+		and g.team_id = #{team_id}
+		or (g.group_id=0 and g.team_id in 
+		(select contact_id from kt_bas_contact_list c where c.student_id=#{user_id} and c.school_id=#{school_id} and 
+	c.user_type=#{user_type}))  
+		)
+		
+	<if test="app_sql != null and app_sql != '' ">    
+            and g.id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+            order by g.id ${order_sql}  
+        </if> 
+        group by file_id
+	</select>
+</mapper>
+

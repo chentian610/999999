@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wxAccountTemplateMap">
+	<!--插入表kt_bus_wx_account_template -->
+	<insert id="insertWxAccountTemplate" parameterType="WxAccountTemplateVO">
+	insert into kt_bus_wx_account_template
+		(
+		account_id,
+		wechat_template_number,
+		wechat_template_id,
+		create_time
+		) VALUES (
+		#{account_id},
+		#{wechat_template_number},
+		#{wechat_template_id},
+		#{create_time}
+		)
+	</insert>
+	<select id="getAccountTemplate" parameterType="map" resultType="WxAccountTemplateVO">
+		select * from kt_bus_wx_account_template 
+		where account_id = #{accountId} AND wechat_template_number = #{templateNumber}
+	</select>
+</mapper>
+

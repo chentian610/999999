@@ -1,0 +1,104 @@
+.q-left{
+    position: relative;
+    margin-top: 117px;
+    margin-left: 72px;
+    float: left;
+}
+.q-left .phone-back{
+    position: absolute;
+    left: 20px;
+    top: 60px;
+    width: 156px;
+    height: 75px;
+    display: none;
+}
+.q-left .phone-img{
+    position: absolute;
+    left: 20px;
+    top: 60px;
+}
+.q-right{
+    float: right;
+    margin-top: 117px;
+    margin-right: 90px;
+    width: 375px;
+}
+.q-right .title{
+    font-size: 18px;
+    color: #4A4A4A;
+}
+/*.q-right img{
+	border: none;
+}*/
+.q-right .phone-head{
+    position: relative;
+    margin-top: 20px;
+    width: 375px;
+    height: 185px;
+    border: 1px dashed #D1DAE1;
+    border-radius: 4px;
+    border-width:2px;
+    text-align: center;
+    cursor:pointer;
+}
+.q-right .phone-head span{
+    margin-top: 59px;
+    font-size: 18px;
+    color: #D1DAE1;
+    display: block;
+}
+.q-right .phone-head p{
+    margin-top: 8px;
+    font-size: 14px;
+    color: #D1DAE1;
+}
+.q-right .phone-head img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 180px;
+    width: 370px;
+    border-radius: 3px;
+}
+.q-right .phone-head img:hover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor:pointer;
+}
+.q-right .phone-head .mask{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 370px;
+    height: 180px;
+    background-color: rgba(0,0,0,0);
+    cursor:pointer;
+}
+.q-right .phone-head .mask .cancle{
+    width: 50px;
+    height: 50px;
+    top: 65px;
+    left: 160px;
+}
+.q-right .phone-head.active:hover .mask{
+    background-color: rgba(0,0,0,.3);
+    display: block;
+}
+
+.q-right .phone-head span:before{
+    content: url(../icon/plus.png);
+    width: 16px;
+    height: 16px;
+}
+.q-right .upload{
+    margin-top: 90px;
+    width: 374.6px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: #1CBB9E;
+    border-radius: 5px;
+    color: #fff;
+}

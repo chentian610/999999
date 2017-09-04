@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="noticeReadMap">
+	<select id="getNoticeRead" parameterType="NoticeReadVO" resultType="NoticeReadVO">
+		SELECT id from kt_bus_notice_read
+		where notice_id=#{notice_id} and user_type=#{user_type}
+		<if test="user_id!=null and user_id!=0">
+			and user_id=#{user_id}
+		</if>
+		<if test="student_id!=null and student_id!=0">
+			and student_id=#{student_id}
+		</if>
+	</select>
+
+	<insert id="insertNoticeRead" parameterType="NoticeReadVO">
+		insert into kt_bus_notice_read (
+		school_id,
+		notice_id,
+		user_type,
+		user_id,
+		student_id,
+		create_by,
+		create_date
+		) VALUES (
+		#{school_id},
+		#{notice_id},
+		#{user_type},
+		#{user_id},
+		#{student_id},
+		#{create_by},
+		#{create_date}
+		)
+	</insert>
+</mapper>
+

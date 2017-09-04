@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="photoReceiveMap">
+	<!--插入表kt_bus_photo_receive-->
+	<insert id="insertPhotoReceiveBatch" parameterType="List">insert into
+		kt_bus_photo_receive
+		(
+		school_id,
+		class_id,
+		student_id,
+		user_id,
+		user_type,
+		team_type,
+		photo_id,
+		photo_type,
+		photo_url,
+		photo_resize_url,
+		add_date,
+		is_read,
+		create_by,
+		create_date,
+		version
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+		(
+		#{item.school_id},
+		#{item.class_id},
+		#{item.student_id},
+		#{item.user_id},
+		#{item.user_type},
+		#{item.team_type},
+		#{item.photo_id},
+		#{item.photo_type},
+		#{item.photo_url},
+		#{item.photo_resize_url},
+		#{item.add_date},
+		0,
+		#{item.create_by},
+		#{item.create_date},
+		0
+		)
+		</foreach>
+	</insert>
+	<!--更新表kt_bus_photo_receive-->
+	<update id="updatePhotoReceive" parameterType="PhotoReceiveVO">update
+		kt_bus_photo_receive
+		set id = #{id},
+		photo_id = #{photo_id},
+		user_id = #{user_id},
+		user_type = #{user_type},
+		class_id = #{class_id},
+		student_id = #{student_id},
+		photo_type = #{photo_type},
+		team_type = #{team_type},
+		photo_url = #{photo_url},
+		add_date = #{add_date},
+		is_read = #{is_read},
+		version = #{version}</update>
+	<!--查询表kt_bus_photo_receive-->
+	<select id="getPhotoReceiveList" parameterType="PhotoReceiveVO"
+		resultType="PhotoReceiveVO">select
+		id as id,
+		photo_id as photo_id,
+		user_id as user_id,
+		user_type as user_type,
+		team_type as team_type,
+		school_id as school_id,
+		class_id as class_id,
+		student_id as student_id,
+		photo_type as photo_type,
+		photo_url as photo_url,
+		photo_resize_url as photo_resize_url,
+		add_date as add_date,
+		is_read as is_read,
+		version as version
+		from kt_bus_photo_receive
+		where class_id = #{class_id}
+	    <if test="user_type == '003005' ">
+			and user_id = #{user_id} and user_type = #{user_type}
+		</if>
+		<if test="user_type == '003010' or user_type == '003015' ">
+			and student_id = #{student_id}
+		</if>
+		<if test="school_id != null and school_id != 0 ">
+			and school_id = #{school_id}
+		</if>
+		<if test="team_type != null and team_type != 0 ">
+			and team_type = #{team_type}
+		</if>
+		<if test="photo_type != null and photo_type !='' ">
+			and photo_type = #{photo_type}
+		</if>
+		<if test="add_date != null and add_date !='' ">
+			and add_date like CONCAT(#{add_date}, '%')
+		</if>
+		<if test="app_sql != null and app_sql != '' ">    
+            and id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+            order by id ${order_sql}  
+        </if> 
+		</select>
+	<!--删除表kt_bus_photo_receive-->
+	<delete id="deletePhotoById" parameterType="PhotoReceiveVO">delete from
+		kt_bus_photo_receive
+		where photo_id = #{photo_id}</delete>
+	<!-- 查询未读数量 -->
+	<select id="getUnreadCount" parameterType="PhotoReceiveVO" resultType="Integer">
+		select count(id) from kt_bus_photo_receive 
+		where is_read=0
+	    <if test="user_type == '003005' ">
+			and user_id = #{user_id} and user_type = #{user_type}
+		</if>
+		<if test="user_type == '003010' or user_type == '003015' ">
+			and student_id = #{student_id}
+		</if>
+		<if test="school_id != null and school_id != 0 ">
+			and school_id = #{school_id}
+		</if>
+	</select>
+	<!-- 设置已读 -->
+	<update id="updateIsRead" parameterType="PhotoReceiveVO">
+		update kt_bus_photo_receive 
+		set is_read=1,version=version+1 
+		<where>
+		    <if test="user_type == '003005' ">
+				user_id = #{user_id} and user_type = #{user_type}
+			</if>
+			<if test="user_type == '003010' or user_type == '003015' ">
+				student_id = #{student_id}
+			</if>
+			<if test="photo_type != null">
+				and photo_type = #{photo_type}
+			</if>
+			<if test="team_type != null">
+				and team_type = #{team_type}
+			</if>
+			<if test="class_id != null and class_id != 0 ">
+				and class_id = #{class_id}
+			</if>
+			<if test="school_id != null and school_id != 0 ">
+				and school_id = #{school_id}
+			</if>
+		</where>
+	</update>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+	delete from kt_bus_photo_receive where class_id=#{class_id}
+	</delete>
+</mapper>
+

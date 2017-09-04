@@ -1,0 +1,256 @@
+body{
+    background: #f2f2f2;
+}
+li{
+    list-style: none;
+}
+.clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    *zoom: 1;
+}
+.fl{
+    float: left;
+}
+.zjq-teacher-page{
+    background:#fff;
+    width: 1050px;
+    margin: 100px auto 0;
+}
+.zjq-teacher-page .zjq-left-electorate{
+    width: 180px;
+    float: left;
+}
+.zjq-teacher-page .zjq-role-sel{
+    margin: 34px 0 34px 33px;
+    padding: 0;
+}
+.zjq-teacher-page .zjq-role-sel li{
+    margin-bottom: 27px;
+    font-size: 18px;
+    color: #959595;
+    height: 18px;
+    line-height: 18px;
+    cursor: pointer;
+}
+.zjq-teacher-page .zjq-role-sel li span{
+    display: inline-block;
+    width: 8px;
+    height: 21px;
+    background: transparent;
+    border-radius: 2px;
+    margin: 0 17px -3px 0;
+}
+.zjq-teacher-page .zjq-role-sel li.active{
+    font-size: 18px;
+    color: #4A4A4A;
+}
+.zjq-teacher-page .zjq-role-sel li.active span{
+    background: #1CBB9E;
+}
+.zjq-teacher-page .zjq-role-btn{
+    width: 104px;
+    height: 30px;
+    line-height: 18px;
+    background: #1CBB9E;
+    border-color:#1CBB9E;
+    font-size: 15px;
+    color: #fff;
+    margin: 7px 0 0 42px;
+}
+/*表格样式*/
+.zjq-teacher-page .zjq-right-electorate{
+    width: 860px;
+    border-left: 1px solid #E9E9E9;
+    float: right;
+}
+.zjq-teacher-page .zjq-right-electorate .zjq-master-list {
+    width: 479px;
+    padding:0  10px;
+    height: 100%;
+    margin-top: 41px;
+}
+.zjq-teacher-page .zjq-right-electorate .zjq-master-list .zjq-sel{
+    width: 182px;
+    padding: 6px 12px;
+    line-height: 18px;
+    margin-bottom: 30px;
+    color: #4A4A4A;
+}
+.zjq-teacher-page .zjq-right-electorate .zjq-master-list .zjq-sel.zjq-class-sel{
+    margin-left: 55px;
+}
+.zjq-master-list h2 {
+    font-size: 20px;
+    color: #4A4A4A;
+    font-weight: bold;
+    height: 20px;
+    line-height: 20px;
+    margin: 22px 0 28px;
+    text-align: center;
+}
+
+.zjq-table {
+    border-bottom: 1px solid #E9E9E9;
+}
+.zwf-table tbody{
+    position: absolute;
+    height: 450px;
+    width: 460px;
+    overflow-y: auto;
+}
+.zjq-master-list .zjq-student{
+    height: 34px;
+    border-bottom: 1px solid #e7eaec;
+}
+.zjq-teacher-page .zjq-right-electorate .zjq-student .table>tbody>tr>td{
+    padding: 0px !important;
+}
+.zjq-teacher-page .zjq-master-list .zjq-student td .form-group{
+    margin:0;
+    white-space: nowrap;
+}
+.zjq-student td {
+    text-align: center;
+    border-right: 1px solid #E9E9E9;
+    height: 34px;
+    line-height: 34px;
+    font-size: 15px;
+    color: #4A4A4A;
+}
+.zjq-student td .checkbox{
+    margin: 0;
+}
+.zjq-student td:first-child {
+    width: 32px;
+}
+.zjq-student td {
+    white-space: nowrap;
+}
+/*.zjq-student td:nth-child(3) {*/
+    /*width: 176px;*/
+/*}*/
+/*.zjq-teacher-page .zjq-master-list .zjq-student td:nth-child(3) {*/
+    /*width: 112px;*/
+/*}*/
+/*.zjq-teacher-page .zjq-master-list .zjq-student td:nth-child(4) {*/
+    /*width: 66px;*/
+/*}*/
+/*.zjq-teacher-page .zjq-master-list .zjq-student td:nth-child(4) .checkbox {*/
+    /*padding-left: 5px;*/
+/*}*/
+.zjq-student td:last-child {
+    width: 45px;
+    border-right: none;
+}
+.zjq-student td:last-child img {
+    width: 18px;
+    height: 18px;
+}
+
+.zjq-master-list .buttons {
+    width: 100%;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 480px;
+}
+.zjq-master-list .buttons .btn{
+    width: 60px;
+    height: 30px;
+    background: #1cbb9e;
+    border-color: #1cbb9e;
+    color: #fff;
+    font-size: 15px;
+    margin: 0 8px;
+    line-height: 18px;
+}
+.zjq-master-list .buttons .s_btn {
+    background: #B0BAC9;
+    border-color: #B0BAC9;
+}
+/*引入字体图标*/
+
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+.zjq-teacher-page .zjq-right-electorate .zjq-student-search {
+    width: 380px;
+    padding: 0 35px 0 21px;
+    height: 100%;
+    margin: 41px 0 17px;
+    border-left: 1px solid #E9E9E9;
+}
+.zjq-teacher-page .zjq-right-electorate .zjq-student-search h2{
+    font-size: 20px;
+    color: #4A4A4A;
+    font-weight: bold;
+    height: 20px;
+    line-height: 20px;
+    margin: 22px 0 28px;
+    text-align: center;
+}
+.zjq-student-search .glyphicon {
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    position: absolute;
+    top: 25%;
+    right: 10px;
+    z-index: 22222;
+}
+.zjq-student-search .zjq-form-header .zjq-search {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 45px;
+}
+
+.zjq-student-search .zjq-form-header .zjq-search input {
+    width: 100%;
+    height: 30px;
+}
+.zjq-teacher-page .zjq-right-electorate .zjq-number-sel{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 22px;
+}
+.zjq-student-search .zjq-numberList {
+    margin: 0;
+    text-align: center;
+}
+
+.zjq-student-search .zjq-numberList li a {
+    color: #4A4A4A;
+}
+
+.zjq-student-search .buttons {
+    width: 100%;
+    height: 30px;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.zjq-student-search .buttons .btn {
+    width: 60px;
+    height: 30px;
+    background: #1cbb9e;
+    border: #1cbb9e;
+    color: #fff;
+    margin: 0 8px;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.zjq-student-search .buttons .add_btn {
+    width: 120px;
+}
+
+.display{
+    display: none;
+}

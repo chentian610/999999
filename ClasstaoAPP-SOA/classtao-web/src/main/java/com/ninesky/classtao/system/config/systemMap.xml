@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="systemMap">
+	<select id="getMainUrl" parameterType="Integer" resultType="String">
+		select app_main_url from kt_bas_school where school_id = #{school_id}
+	</select>
+	<select id="getHeaderDataByTableName" parameterType="String" resultType="HashMap">
+		select
+			COLUMN_KEY AS column_key,
+			COLUMN_NAME AS column_name,
+			COLUMN_COMMENT AS column_comment,
+			DATA_TYPE AS data_type,
+			COLUMN_TYPE AS column_type
+		from information_schema.`COLUMNS` where table_name=#{table_name};
+	</select>
+	<select id="getDataByTableName" parameterType="Map" resultType="HashMap">
+		select * from ${table_name}
+		<if test="order_sql != null and order_sql != '' ">
+			order by ${table_id} ${order_sql}
+		</if>
+	</select>
+
+	<insert id="insertTableData" parameterType="Map">
+		insert into ${table_name} (${insert_field}) VALUES (${insert_data})
+	</insert>
+
+	<update id="updateTableData" parameterType="Map">
+		UPDATE ${table_name} SET ${column_name} = #{column_value} WHERE ${table_id} = #{tableID}
+	</update>
+
+	<delete id="deleteTableData" parameterType="Map">
+		DELETE FROM  ${table_name} WHERE ${table_id} in (${tableID})
+	</delete>
+
+	<select id="getServerConfigList" resultType="Map">
+		SELECT
+			server_config_id as server_config_id,
+			memory as memory,
+			memory_price as memory_price,
+			disk as disk,
+			disk_price as disk_price,
+			bandwidth as bandwidth,
+			bandwidth_price as bandwidth_price
+		FROM kt_sys_server_config
+	</select>
+</mapper>
+

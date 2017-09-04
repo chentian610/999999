@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="interestOutMap">
+	<!--插入表kt_bas_contact -->
+	<insert id="insertOut" parameterType="ContactListVO">insert into
+		kt_bas_interest_out
+		(
+		contact_id,
+		student_id,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{contact_id},
+		#{student_id},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+
+	<select id="getInterestOut" parameterType="InterestOutVO" resultType="InterestOutVO">
+		select student_id from kt_bas_interest_out where contact_id=#{contact_id} and student_id=#{student_id}
+	</select>
+
+	<delete id="deleteOut" parameterType="InterestOutVO">
+		delete from kt_bas_interest_out where contact_id=#{contact_id} and student_id=#{student_id}
+	</delete>
+</mapper>
+

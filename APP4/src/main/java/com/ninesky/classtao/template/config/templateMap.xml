@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="templateMap">
+	<!--插入表kt_sys_template -->
+	<insert id="insertTemplate" parameterType="TemplateVO">insert into
+		kt_sys_template
+		(
+		template_id,
+		school_type,
+		template_name,
+		template_pic_url,
+		is_active,
+		create_by,
+		create_date
+		) VALUES (
+		#{template_id},
+		#{school_type},
+		#{template_name},
+		#{template_pic_url},
+		#{is_active},
+		#{create_by},
+		#{create_date}
+		)
+	</insert>
+	<!--更新表kt_sys_template -->
+	<update id="updateTemplate" parameterType="TemplateVO">update kt_sys_template
+		set template_id = #{template_id},
+		template_name = #{template_name},
+		template_pic_url = #{template_pic_url},
+		is_active = #{is_active},
+		create_by = #{create_by},
+		create_date = #{create_date}
+	</update>
+	<!--查询表kt_sys_template -->
+	<select id="getTemplateList" parameterType="TemplateVO"
+		resultType="TemplateVO">select
+		template_id as template_id,
+		school_type as school_type,
+		template_name as template_name,
+		template_pic_url as template_pic_url,
+		is_active as is_active,
+		create_by as create_by,
+		create_date as create_date
+		from kt_sys_template
+		where school_type=#{school_type}
+	</select>
+	<!--删除表kt_sys_template -->
+	<delete id="deleteTemplate" parameterType="TemplateVO">delete from
+		kt_sys_template
+		where id = #{id}
+	</delete>
+</mapper>
+

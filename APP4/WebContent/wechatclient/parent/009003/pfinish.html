@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>交作业</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link href="../css/imageviewer.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.poppicker.css" />
+		<link rel="stylesheet" href="css/pfinish.css" />
+	</head>
+
+	<body>
+		<audio id="audio" src=""></audio>
+		<div id="abox" class="hxx-alert-box" style="display:none;">
+			<div class="hxx-alert-head">
+				<b id="pop_title"></b>
+			</div>
+			<div class="hxx-alert-body">
+				<ul id="list" class="mui-table-view">
+				</ul>
+			</div>
+		</div>
+		<div class="hxx-submit" id="BoxSubmitAgin">
+			<p id="TxtSubmitTime" class="hxx-submit-time"></p>
+			<div id="BtnSubmitAgin" class="hxx-btn-icon-right">&#xe665;再次编辑</div>
+		</div>
+		<div id="BtnSubmit" class="hxx-submit-homework">
+			&#xe600;&nbsp;交作业
+		</div>
+		<div class="mui-content">
+			<div id="TxtTitle" class="hxx-title">
+				<!--<div class="hxx-table-content"> 
+					<span class="hxx-title-firstname">王</span> 
+					<span class="hxx-title-name">王雯琪</span> 
+				</div>
+				<div class="hxx-table-content"> 
+					<span class="hxx-title-number">第1段作业：</span>
+					<span class="hxx-title-create-time">2016-11-03</span>
+				</div>
+				<div class="hxx-table-content">
+					<span class="hxx-title-content">作业题目内容作业题目内容作业题目内容作业题目内容作业题目内容作业题目内容作业题目内容</span>
+				</div>
+				<div class="hxx-table-content">
+					<div id="ListAffix" class="mui-row">
+						<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnImg">
+							<img src="../resource/bk_home_footer.jpg" data-preview-src="../resource/bk_home_footer.jpg" data-preview-group="1"/>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnAudioPaly">
+							<h1 class="hxx-affix-downlad">点击下载音频</h1>
+							<h2>&#xe663;</h2>
+							<h4>40“</h4>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnImg">
+							<img src="../resource/bk_home_footer.jpg" data-preview-src="../resource/bk_home_footer.jpg" data-preview-group="1"/>
+						</div>
+					</div>
+				</div>-->
+			</div>
+			<div id="TxtCustom1" class="hxx-custom-content">
+				<div class="hxx-textarea">
+					<textarea id="TxtHomeworkContent" rows="4" placeholder="留言"></textarea>
+				</div>
+				<div class="hxx-table-content">
+					<div id="Custom1ListAffix" class="mui-row">
+						<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item ">
+							<div id="BtnAddAffix" class="hxx-btn-affix-add">&#xe667;</div>
+						</div>
+						<!--<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnImg">
+							<img src="../resource/bk_home_footer.jpg"/>
+							<span>&#xe673;</span>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnAudioPaly">
+							<h2>&#xe663;</h2>
+							<h4>40“</h4>
+							<span>&#xe673;</span>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnImg">
+							<img src="../resource/bk_home_footer.jpg"/>
+							<span>&#xe673;</span>
+						</div>-->
+					</div>
+				</div>
+			</div>
+			<div id="TxtCustom2" class="hxx-custom-content">
+				<div id="TxtCustom2Content" class="hxx-homework-content"></div>
+				<div class="hxx-table-content">
+					<div id="Custom2ListAffix" class="mui-row">
+						<!--<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnImg">
+							<img src="../resource/bk_home_footer.jpg"/>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnAudioPaly">
+							<h2>&#xe663;</h2>
+							<h4>40“</h4>
+						</div>
+						<div class="mui-col-sm-4 mui-col-xs-4 hxx-affix-item BtnImg">
+							<img src="../resource/bk_home_footer.jpg"/>
+						</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="BoxAudioMask" class="mui-backdrop">
+			<div id="BoxAudio" class="hxx-audio">
+				<h4>&#xe671;按住说话</h4>
+				<h5 id="BtnAutio">
+					&#xe668;
+				</h5>
+
+			</div>
+		</div>
+		<div id="UploadBox" class="mui-backdrop">
+			<div class="hxx-pop-content hxx-atten-pop">
+				<div id="demo1" class="mui-progressbar">
+					<span></span>
+				</div>
+				<div id="Hint1" class="hxx-pop-hint"></div>
+				<div id="Hint2" class="hxx-pop-hint"></div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.zoom.js"></script>
+	<script src="../js/mui.previewimage.js"></script>
+	<script src="../js/mui.picker.js"></script>
+	<script src="../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/wechat.jssdk.util.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/pfinish.js" type="text/javascript" charset="utf-8"></script>
+
+</html>

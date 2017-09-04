@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="photoCommentMap">
+	<insert id="insertPhotoComment" parameterType="PhotoCommentVO">
+		INSERT INTO kt_bus_photo_comment (
+			school_id,
+			user_id,
+			user_type,
+			student_id,
+			relation,
+			add_date,
+			comment,
+			create_by,
+			create_date,
+			version
+		) VALUES (
+			#{school_id},
+			#{user_id},
+			#{user_type},
+			#{student_id},
+			#{relation},
+			#{add_date},
+			#{comment},
+			#{create_by},
+			#{create_date},
+			0
+		)
+	</insert>
+	<insert id="insertPhotoPointPraise" parameterType="PhotoCommentVO">
+		INSERT INTO kt_bus_photo_comment (
+		school_id,
+		user_id,
+		user_type,
+		student_id,
+		add_date,
+		point_praise,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{user_id},
+		#{user_type},
+		#{student_id},
+		#{add_date},
+		#{point_praise},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<select id="getPhotoCommentList" parameterType="PhotoCommentVO" resultType="PhotoCommentVO">
+		SELECT
+			school_id AS school_id,
+			user_id AS user_id,
+			user_type AS user_type,
+			student_id AS student_id,
+			relation AS relation,
+			add_date AS add_date,
+			comment AS comment,
+			create_by AS create_by,
+			create_date AS create_date,
+			version AS version
+		FROM kt_bus_photo_comment
+		WHERE school_id = #{school_id}
+		<if test="user_type != null and user_type != ''">
+			AND user_type = #{user_type}
+		</if>
+		<if test="add_date != null and add_date != ''">
+			AND add_date = #{add_date}
+		</if>
+		<if test="user_id != null and user_id != 0">
+			AND user_id = #{user_id}
+		</if>
+		<if test="student_id != null and student_id != 0">
+			AND student_id = #{student_id}
+		</if>
+		AND (comment IS NOT NULL or comment != '')
+		AND point_praise IS NULL
+	</select>
+
+	<select id="getPhotoComment" parameterType="PhotoCommentVO" resultType="PhotoCommentVO">
+		SELECT
+		school_id AS school_id,
+		user_id AS user_id,
+		user_type AS user_type,
+		student_id AS student_id,
+		relation AS relation,
+		add_date AS add_date,
+		point_praise AS point_praise,
+		comment AS comment,
+		create_by AS create_by,
+		create_date AS create_date,
+		version AS version
+		FROM kt_bus_photo_comment
+		WHERE school_id = #{school_id}
+		<if test="user_type != null and user_type != ''">
+			AND user_type = #{user_type}
+		</if>
+		<if test="add_date != null and add_date != ''">
+			AND add_date = #{add_date}
+		</if>
+		<if test="user_id != null and user_id != 0">
+			AND user_id = #{user_id}
+		</if>
+		<if test="student_id != null and student_id != 0">
+			AND student_id = #{student_id}
+		</if>
+		AND (point_praise IS NOT NULL or point_praise != '')
+		AND comment IS NULL
+	</select>
+
+	<select id="getPointPraiseCount" parameterType="PhotoCommentVO" resultType="Integer">
+		SELECT
+			count(id)
+		FROM kt_bus_photo_comment
+		WHERE school_id = #{school_id} AND add_date = #{add_date}
+		AND point_praise = #{point_praise}
+		AND (point_praise IS NOT NULL or point_praise != '')
+		AND comment IS NULL
+	</select>
+
+	<update id="updatePhotoPointPraise" parameterType="PhotoCommentVO">
+		UPDATE kt_bus_photo_comment
+		SET point_praise = #{point_praise},update_by = #{update_by},update_date = #{update_date},version = version+1
+		WHERE school_id = #{school_id}
+		<if test="user_type != null and user_type != ''">
+			AND user_type = #{user_type}
+		</if>
+		<if test="add_date != null and add_date != ''">
+			AND add_date = #{add_date}
+		</if>
+		<if test="user_id != null and user_id != 0">
+			AND user_id = #{user_id}
+		</if>
+		<if test="student_id != null and student_id != 0">
+			AND student_id = #{student_id}
+		</if>
+	</update>
+</mapper>
+

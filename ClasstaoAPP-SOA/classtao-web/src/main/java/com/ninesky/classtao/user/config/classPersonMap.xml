@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="classPersonMap">
+	<insert id="insertClassPerson" parameterType="ClassPersonVO">
+	insert into	kt_bas_classroom_person
+		(
+		<if test="user_type != '003010'">
+		user_id,
+		</if>
+		school_id,
+		class_id,
+		user_name,
+		phone,
+		status,
+		user_type,
+		relation,
+		<if test="user_type == '003010'" ><!-- 学生 -->
+		student_id,
+		student_name,
+		student_code,
+		aliase_name,
+		sex,
+      	</if>
+		head_url,
+		create_by,
+		create_date,
+		version,
+		kst_school_name,
+		kst_class_name,
+		kst_state,
+		kst_grade_id,
+		kst_time,
+		kst_relation_type,
+		im_token
+		) VALUES (
+		<if test="user_type != '003010'">
+		#{user_id},
+		</if>
+		#{school_id},
+		#{class_id},
+		#{user_name},
+		#{phone},
+		#{status},
+		#{user_type},
+		#{relation},
+		<if test="user_type == '003010'">
+		#{student_id},
+		#{student_name},
+		#{student_code},
+		#{aliase_name},
+		#{sex},
+      	</if>
+		#{head_url},
+		#{create_by},
+		#{create_date},
+		0,
+		#{kst_school_name},
+		#{kst_class_name},
+		#{kst_state},
+		#{kst_grade_id},
+		#{kst_time},
+		#{kst_relation_type},
+		#{im_token}
+		)
+	</insert>
+	
+	<!-- 向表 kt_bas_student插入记录-->
+	<insert id="insertStudent" parameterType="StudentVO">
+		insert into kt_bas_student(user_id,student_code,student_name,class_id,phone_no,id_card,sex) values
+		(#{user_id},#{student_code},#{student_name},#{class_id},#{phone_no},#{id_card},#{sex})
+	</insert>
+	
+	<!-- 向表 kt_bas_classroom_person查询-->
+	<select id="getClassPersonByStudentcode" parameterType="String" resultType="ClassPersonVO">
+		select classperson_id,user_id,school_id,class_id,user_name,aliase_name,phone,status,user_type,relation,
+		student_id,student_name,student_code,head_url,create_by,create_date,update_by,update_date,version,
+		kst_school_name,kst_class_name,kst_state,kst_grade_id,kst_time,kst_relation_type,im_token,sex from 
+		kt_bas_classroom_person where student_code=#{student_code}
+	</select>
+	
+	<!-- 向表kt_bas_student查询 -->
+	<select id="getStudentByStudentcode" parameterType="String" resultType="StudentVO">
+		select student_id,user_id,student_code,student_name,class_id,phone_no,id_card,sex from kt_bas_student 
+		where student_code=#{student_code}
+	</select>
+	
+	<update id="updateClassPerson" parameterType="ClassPersonVO">
+	update kt_bas_classroom_person
+		set 
+		user_id = #{user_id},
+		school_id = #{school_id},
+		class_id = #{class_id},
+		user_name = #{user_name},
+		aliase_name = #{aliase_name},
+		phone = #{phone},
+		user_type = #{user_type},
+		relation = #{relation},
+		student_id = #{student_id},
+		student_name = #{student_name},
+		head_url = #{head_url},
+		create_by = #{create_by}
+	where classperson_id = #{classperson_id}
+	</update>
+	
+	<update id="updateClassPersonStatus" parameterType="ClassPersonVO">
+	update kt_bas_classroom_person
+		set 
+		status = #{status},
+		user_name=#{user_name},
+		version = version+1,
+		update_date = #{update_date},
+		update_by = #{update_by}
+    	<where>    
+            <if test="classperson_id != null and classperson_id != 0 ">    
+               classperson_id = #{classperson_id}    
+            </if>    
+            <if test="user_id != null and user_id != 0 ">    
+               and user_id = #{user_id}
+            </if> 
+            <if test="school_id != null and school_id != 0 ">    
+               and school_id = #{school_id}
+            </if>  
+            <if test="class_id != null and class_id != 0 ">    
+               and class_id = #{class_id}
+            </if> 
+            <if test="user_type != null and user_type != '' ">    
+               and user_type = #{user_type}
+            </if> 
+        </where>  
+	</update>
+	
+	<update id="updateClassPersonParent" parameterType="ClassPersonVO">
+	update kt_bas_classroom_person
+		set
+		aliase_name = #{aliase_name},
+		phone = #{phone},
+		relation = #{relation},
+		student_id = #{student_id},
+		student_name = #{student_name},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version + 1
+	where class_id = #{class_id}
+		and user_id = #{user_id}
+		and user_type = #{user_type}
+		and version = #{version}
+	</update>
+	
+	<update id="updateClassPersonPhone" parameterType="UserVO">
+	update kt_bas_classroom_person
+		set
+		phone = #{phone},
+		version = version + 1
+	where user_id = #{user_id}
+	</update>
+	
+	<select id="getContactList" parameterType="ClassPersonVO"  resultType="ClassPersonVO">
+	select
+		t.classperson_id as classperson_id,
+		t.user_id as user_id,
+		t.school_id as school_id,
+		t.class_id as class_id,
+		t.user_name as user_name,
+		t.aliase_name as aliase_name,
+		t.phone as phone,
+		t.user_type as user_type,
+		t.relation as relation,
+		t.student_id as student_id,
+		t.student_name as student_name,
+		t.head_url as head_url,
+		t.create_by as create_by,
+		t.create_date as create_date,
+		t.version as version,
+		c.class_name as class_name,
+		c.class_code as class_code,
+		u.im_token as im_token
+		from kt_bas_classroom_person t left join kt_bas_classroom c	on t.class_id = c.class_id
+		left join kt_sys_user u on t.user_id = u.user_id
+	    <where>    
+            <if test="class_id == 0 ">    
+                exists (select 1 from kt_bas_classroom_person p where p.user_id=#{user_id} and p.class_id = t.class_id)
+            </if>  
+            <if test="school_id != 0">    
+               and t.school_id = #{school_id}    
+            </if>   
+            <if test="class_id != 0 and class_id != null ">    
+               and t.class_id = #{class_id}    
+            </if>    
+            <if test="user_type != null ">    
+               and t.user_type like CONCAT(#{user_type},'%')  
+               and t.user_type != '003020'
+               and t.user_type != '003099'
+            </if>    
+        </where>  
+	</select>
+	
+	<select id="getClassPersonList" parameterType="ClassPersonVO"  resultType="ClassPersonVO">
+	select
+		t.classperson_id as classperson_id,
+		t.user_id as user_id,
+		t.school_id as school_id,
+		t.class_id as class_id,
+		t.user_name as user_name,
+		t.aliase_name as aliase_name,
+		t.phone as phone,
+		t.status as status,
+		t.user_type as user_type,
+		t.relation as relation,
+		t.student_id as student_id,
+		t.student_name as student_name,
+		t.student_code as student_code,
+		t.head_url as head_url,
+		t.create_by as create_by,
+		t.create_date as create_date,
+		t.version as version,
+		c.class_name as class_name
+		from kt_bas_classroom_person t left join kt_bas_classroom c on t.class_id = c.class_id
+	    <where>    
+            <if test="classperson_id != 0 and classperson_id != null ">    
+                t.classperson_id = #{classperson_id}    
+            </if>
+            <if test="user_id != 0 and user_id != null ">    
+              and  t.user_id = #{user_id}    
+            </if>
+            <if test="school_id != 0 and school_id != null ">    
+              and   t.school_id = #{school_id}    
+            </if>
+            <if test="class_id != 0 and class_id != null ">    
+              and   t.class_id = #{class_id}    
+            </if>
+            <if test="status != null and status != '' ">    
+              and  t.status = #{status}    
+            </if>
+            <if test="user_type != 0 and user_type != null ">    
+              and  t.user_type = #{user_type}    
+            </if>
+            <if test="student_id != 0 and student_id != null ">    
+              and  t.student_id = #{student_id}    
+            </if>
+            <if test="relation != 0 and relation != null ">    
+              and  t.relation = #{relation}    
+            </if>
+            <if test="user_name != null and user_name != '' ">    
+              and  t.user_name  like CONCAT(#{user_name},'%')     
+            </if>
+            <if test="student_name != null and student_name != '' ">    
+              and  t.student_name  like CONCAT(#{student_name},'%')     
+            </if>
+        </where>  
+	</select>
+	
+	<delete id="deleteClassPerson" parameterType="ClassPersonVO">
+	delete from	kt_bas_classroom_person
+		where classperson_id = #{classperson_id}
+	</delete>
+	
+	
+	<select id="getStudentOfParent" parameterType="ClassPersonVO"  resultType="ClassPersonVO">
+	select
+		m.classperson_id as classperson_id,
+		t.school_id as school_id,
+		t.class_id as class_id,
+		t.user_name as user_name,
+		m.aliase_name as aliase_name,
+		m.user_type as user_type,
+		m.relation as relation,
+		t.classperson_id as student_id,
+		t.user_name as student_name,
+		t.head_url as head_url,
+		m.version as version,
+		c.class_name as class_name,
+		c.class_code as class_code
+	from kt_bas_classroom_person t left join kt_bas_classroom_person m
+		on t.classperson_id=m.student_id 
+		and t.class_id = m.class_id
+		and m.user_id = #{user_id} 
+		left join kt_bas_classroom c on t.class_id = c.class_id
+	where t.class_id = #{class_id}
+		and t.user_type = #{user_type} 
+	</select>
+	
+	
+	<select id="getParentByStudentID" parameterType="ClassPersonVO"  resultType="ClassPersonVO">
+	select
+		t.classperson_id as classperson_id,
+		t.school_id as school_id,
+		t.class_id as class_id,
+		t.user_name as user_name,
+		t.aliase_name as aliase_name,
+		t.user_type as user_type,
+		t.relation as relation,
+		t.classperson_id as student_id,
+		t.user_name as student_name,
+		t.head_url as head_url,
+		t.version as version,
+		t.user_id as user_id,
+		u.im_token as im_token
+	from kt_bas_classroom_person t left join kt_sys_user u on t.user_id = u.user_id
+	where t.school_id = #{school_id}
+		and t.user_type = #{user_type} 
+		and t.student_id = #{student_id} 
+	</select>
+	
+	<update id="updateStudentHeadurl" parameterType="StudentVO">
+		update kt_bas_student set 
+		<if test="head_url!=null and head_url!='' ">
+		head_url=#{head_url},
+		</if>
+		student_code=#{student_code}
+		 where student_code=#{student_code}
+	</update>
+	
+	<!-- 向表kt_bas_student查询 -->
+	<select id="getStudent" parameterType="StudentVO" resultType="StudentVO">
+		select student_id,user_id,student_code,student_name,class_id,sex,head_url from kt_bas_student 
+		<where> 
+		<if test="student_code!=null and student_code!='' ">
+		student_code=#{student_code}
+		</if>
+		<if test="student_name!=null and student_name!='' ">
+		and student_name=#{student_name}
+		</if>
+		and class_id=#{class_id}
+		</where>
+	</select>
+</mapper>
+

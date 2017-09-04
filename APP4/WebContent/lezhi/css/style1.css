@@ -1,0 +1,15 @@
+/*申请学校步骤样式*/
+.container .process_l{margin-top: 52px;}
+.container .process_l ul{position: relative;border-top: 1px solid #9B9B9B;width:64%;margin-left: 18%;}
+.container .process_l ul li{position: absolute;top: -5px;width: 10px;height: 10px;border-radius: 50%;background-color: #9B9B9B;font-family:STHeitiSC-Medium;font-size:15px;color:#9b9b9b;text-align:center;font-weight: bold;}
+.container .process_l ul li span{position: absolute;top: 20px;width: 118px;text-align: center;left: -40px;}
+.container .process_l ul .active{width:24px;height: 24px;background-color: #1cbb9e;border:4px solid #d2f1ec;top: -12px;}
+.container .process_l ul .active span{color:#1cbb9e;}
+
+a:hover{text-decoration: none;}
+.fl{float: left;}
+.fr{float: right;}
+.clearfix:after{content: "";display: block;height: 0;clear: both;*zoom: 1;}
+
+/*按钮字体*/
+.btn-default{font-family: ".PingFang-SC-Medium";font-weight:normal;}

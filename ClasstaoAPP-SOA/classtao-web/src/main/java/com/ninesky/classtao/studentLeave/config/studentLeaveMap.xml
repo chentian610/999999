@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="studentLeaveMap">
+    <insert id="insertStudentLeave" parameterType="StudentLeaveVO">
+        insert into kt_bus_student_leave (
+        leave_id,
+        school_id,
+        student_id,
+        student_code,
+        team_type,
+        group_id,
+        team_id,
+        leave_type,
+        symptom_type,
+        leave_content,
+        start_date,
+        end_date,
+        approver_id,
+        leave_status,
+        create_by,
+        create_date,
+        version
+        ) VALUES (
+        #{leave_id},
+        #{school_id},
+        #{student_id},
+        #{student_code},
+        #{team_type},
+        #{group_id},
+        #{team_id},
+        #{leave_type},
+        #{symptom_type},
+        #{leave_content},
+        #{start_date},
+        #{end_date},
+        #{approver_id},
+        #{leave_status},
+        #{create_by},
+        #{create_date},
+        0
+        )
+    </insert>
+
+    <select id="getStudentLeaveList" parameterType="StudentLeaveVO" resultType="StudentLeaveVO">
+        select leave_id,student_id,team_id,leave_type,symptom_type,leave_content,start_date,end_date,leave_status
+        from kt_bus_student_leave where student_id=#{student_id}
+        <if test="app_sql != null and app_sql != ''">
+            and leave_id ${app_sql}
+        </if>
+        <if test="order_sql != null and order_sql != ''">
+            order by leave_id ${order_sql}
+        </if>
+    </select>
+
+    <select id="getStudentLeave" parameterType="Integer" resultType="StudentLeaveVO">
+        select leave_id,student_id,team_id,leave_type,symptom_type,leave_content,start_date,end_date,leave_status,
+        create_date,approver_id,master_id,update_date,refuse_content from kt_bus_student_leave where leave_id=#{leave_id}
+    </select>
+
+    <update id="updateStudentLeaveStatus" parameterType="StudentLeaveVO">
+        update kt_bus_student_leave set leave_status=#{leave_status},
+        <if test="master_id!=null and master_id!=0">
+            master_id=#{master_id},
+        </if>
+        <if test="refuse_content!=null and refuse_content!=''">
+            refuse_content=#{refuse_content},
+        </if>
+        update_by=#{update_by},
+        update_date=#{update_date},version=version+1 where leave_id=#{leave_id}
+    </update>
+
+    <select id="getUnTreatedList" parameterType="StudentLeaveVO" resultType="StudentLeaveVO">
+        select leave_id,student_id,team_id,leave_type,symptom_type,leave_content,start_date,end_date,leave_status,
+        create_date,approver_id,master_id,update_date from kt_bus_student_leave where ((approver_id=#{approver_id}
+        and leave_status='034005') or (master_id=#{approver_id} and leave_status='034015'))
+        <if test="app_sql != null and app_sql != ''">
+            and leave_id ${app_sql}
+        </if>
+        <if test="order_sql != null and order_sql != ''">
+            order by leave_id ${order_sql}
+        </if>
+    </select>
+
+    <select id="getTreatedList" parameterType="StudentLeaveVO" resultType="StudentLeaveVO">
+        select leave_id,student_id,team_id,leave_type,symptom_type,leave_content,start_date,end_date,leave_status,
+        create_date,approver_id,master_id,update_date from kt_bus_student_leave where (
+        (approver_id=#{approver_id} and leave_status='034020') or
+        (approver_id=#{approver_id} and leave_status='034015') or
+        (master_id=#{approver_id} and leave_status='034020') or
+        (approver_id=#{approver_id} and leave_status='034030') or
+        (master_id=#{approver_id} and leave_status='034030'))
+        <if test="app_sql != null and app_sql != ''">
+            and leave_id ${app_sql}
+        </if>
+        <if test="order_sql != null and order_sql != ''">
+            order by leave_id ${order_sql}
+        </if>
+    </select>
+
+    <select id="getStudentLeaveCount" parameterType="StudentLeaveVO" resultType="StudentLeaveVO">
+        SELECT sum( DATEDIFF(end_date, start_date) + 1 ) AS days, student_id, leave_type,student_code,count(*) as count
+        FROM kt_bus_student_leave
+        WHERE school_id = #{school_id}
+        <if test="group_id!=null and group_id!=0">
+        AND group_id = #{group_id}
+        </if>
+        <if test="team_id!=null and team_id!=0">
+        AND team_id = #{team_id}
+        </if>
+        <if test="leave_type!=null and leave_type!=''">
+        AND leave_type = #{leave_type}
+        </if>
+        and leave_status=#{leave_status}
+        AND( (start_date BETWEEN #{start_date} AND #{end_date})
+        OR (end_date BETWEEN #{start_date} AND #{end_date})
+        OR (#{start_date} BETWEEN start_date AND end_date)
+        OR (#{end_date} BETWEEN start_date AND end_date))
+        group by student_id,student_code,leave_type
+    </select>
+
+    <select id="getStudentLeaveCountDetail" parameterType="StudentLeaveVO" resultType="studentLeaveVO">
+        SELECT  DATEDIFF(end_date, start_date) + 1  AS days, leave_type,symptom_type,create_date,leave_id,
+        start_date,end_date
+        FROM kt_bus_student_leave
+        WHERE
+        student_id=#{student_id}
+        <if test="leave_type!=null and leave_type!=''">
+            AND leave_type = #{leave_type}
+        </if>
+        and leave_status=#{leave_status}
+        AND( (start_date BETWEEN #{start_date} AND #{end_date})
+        OR (end_date BETWEEN #{start_date} AND #{end_date})
+        OR (#{start_date} BETWEEN start_date AND end_date)
+        OR (#{end_date} BETWEEN start_date AND end_date))
+        <if test="app_sql != null and app_sql != ''">
+            and leave_id ${app_sql}
+        </if>
+        <if test="order_sql != null and order_sql != ''">
+            order by leave_id ${order_sql}
+        </if>
+    </select>
+
+    <select id="getPassLeaveByStuID" parameterType="StudentLeaveVO" resultType="StudentLeaveVO">
+        select student_id from kt_bus_student_leave where student_id=#{student_id} and
+        #{start_date} BETWEEN start_date and end_date and leave_status='034020'
+    </select>
+    
+    <update id="cancelTransfer" parameterType="StudentLeaveVO">
+        update kt_bus_student_leave set master_id=null, leave_status=#{leave_status} ,
+        update_by=#{update_by} , update_date=#{update_date} , version=version+1 where leave_id=#{leave_id}
+    </update>
+</mapper>
+

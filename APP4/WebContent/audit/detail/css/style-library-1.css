@@ -1,0 +1,75 @@
+
+/*===================================================================================*/
+
+/*	BUTTONS
+/*===================================================================================*/
+
+.btn
+{
+    color: #FFF;
+    padding: 10px 20px;
+    margin: 15px 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-shadow: none;
+    border: none;
+    text-transform: uppercase;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+
+.btn-sm
+{
+    padding: 7px 13px;
+    font-size: 12px;
+}
+
+.btn-lg
+{
+    font-size: 16px;
+    float: left;
+    margin-left: 16px;
+    padding-left: 26px;
+    padding-right: 26px;
+    padding-bottom: 16px;
+}
+
+.btn-xl
+{
+    padding: 18px 30px;
+    font-size: 24px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+}
+
+h1 .btn,
+h2 .btn,
+h3 .btn,
+h4 .btn,
+p .btn
+{
+    margin-left: 15px;
+}
+
+/*弹窗*/
+.tc-box{width: 500px;background: #fff;border-radius: 10px;display: none;padding: 15px;}
+.tc-box em{display: inline-block;width:50px;height:50px;position: absolute;top: 15px;right: 15px;background: url("../images/btn_close.png") right top no-repeat;text-indent: -9999px;cursor: pointer;z-index: 9;}
+.tc-tit{height:40px;border-bottom: 1px solid #e5e5e5;line-height: 40px;font-size: 18px;color: #333;text-align: center;position: relative;z-index: 0;}
+.tc-con{padding: 15px 0;}
+.tc-btn{text-align: center}
+.tc-btn button{margin: 0 10px;}
+.way-list li{margin-bottom: 10px;}
+.way-list li label{display: block;height:30px;line-height: 30px;}
+.way-list li label input{float: left;margin: 9px 6px 0 0;}
+.way-list li p{line-height: 30px;}
+.way-list li p span{display: inline-block;float: left;margin-right: 10px;}
+.way-list li p input{float: left;width: 100px;border: 1px solid #e5e5e5;margin-right: 10px;padding: 0 3px;}
+.position-ul li{float: left;height: 30px;background: #e0e0e0;color: #333;line-height: 30px;border-radius: 3px;margin: 0 5px;padding: 0 15px;text-align: center;cursor: pointer;}
+.position-ul li.licheck{background: #1ab394;color: #fff;}
+.move-ul li{margin-top: 10px;font-size: 14px;border-bottom: 1px solid #e8e8e8;}
+.move-ul li label{display: block;height:30px;line-height: 30px;}
+.move-ul li label input{float: left;margin: 9px 6px 0 0;}
+.textarea-css{font-size: 14px;width: 100%;height: 100px;border: 1px solid #e5e5e5;padding: 5px}
+

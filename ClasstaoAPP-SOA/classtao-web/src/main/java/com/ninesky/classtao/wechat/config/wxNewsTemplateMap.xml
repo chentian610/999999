@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wxNewsTemplateMap">
+	<!--插入表kt_bus_wx_news_template -->
+	<insert id="insertNewsTemplate" parameterType="NewsTemplateVO">
+	insert into kt_bus_wx_news_template
+		(
+		template_id,
+		account_id,
+		platform_template_id,
+		platform_account_id,
+		platform_message_id,
+		upload_status,
+		template_name,
+		create_date,
+		version
+		) VALUES (
+		#{template_id},
+		#{account_id},
+		#{platform_template_id},
+		#{platform_account_id},
+		#{platform_message_id},
+		#{upload_status},
+		#{template_name},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bus_wx_news_template -->
+	<update id="updateNewsTemplateById" parameterType="NewsTemplateVO">update kt_bus_wx_news_template
+		set 
+		<if test="account_id !=null">
+			account_id = #{account_id},
+		</if>
+		<if test="platform_template_id !=null and platform_template_id != '' ">
+			platform_template_id = #{platform_template_id},
+		</if>
+		<if test="platform_account_id !=null and platform_account_id != '' ">
+			platform_account_id = #{platform_account_id},
+		</if>
+		<if test="platform_message_id !=null and platform_message_id != '' ">
+			platform_message_id = #{platform_message_id},
+		</if>
+		<if test="upload_status !=null and upload_status != '' ">
+			upload_status = #{upload_status},
+		</if>
+		<if test="template_name !=null and template_name != '' ">
+			template_name = #{template_name},
+		</if>
+		<if test="update_date !=null">
+			update_date = #{update_date},
+		</if>
+		version = version + 1
+		where template_id=#{template_id}
+	</update>
+	<update id="updateUploadStatus" parameterType="map">update kt_bus_wx_news_template
+		set 
+		<if test="status !=null and status != '' ">
+			upload_status = #{status},
+		</if>
+		<if test="updateDate !=null">
+			update_date = #{updateDate},
+		</if>
+		version = version + 1
+		where template_id=#{templateId}
+	</update>
+	<update id="updateUploadStatus2" parameterType="map">update kt_bus_wx_news_template
+		set 
+		platform_message_id = #{messageId},
+		<if test="status !=null and status != '' ">
+			upload_status = #{status},
+		</if>
+		<if test="updateDate !=null">
+			update_date = #{updateDate},
+		</if>
+		version = version + 1
+		where template_id=#{templateId}
+	</update>
+	<!--查询表kt_bus_wx_news_template -->
+	<select id="getNewsTemplateByAccount" parameterType="Integer" resultType="NewsTemplateVO">
+		select * from kt_bus_wx_news_template where account_id = #{accountId} order by create_date desc
+	</select>
+	<select id="getNewsTemplateById" parameterType="Integer" resultType="NewsTemplateVO">
+		select * from kt_bus_wx_news_template where template_id = #{templateId}
+	</select>
+	<select id="getAllUploadTemplate" parameterType="Integer" resultType="NewsTemplateVO">
+		select * from kt_bus_wx_news_template where account_id = #{accountId} and upload_status = 2 order by create_date desc
+	</select>
+	<!--删除kt_bus_wx_news_template -->
+	<delete id="deleteById" parameterType="Integer">
+		delete from kt_bus_wx_news_template where template_id = #{templateId}
+	</delete>
+</mapper>
+

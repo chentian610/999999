@@ -1,0 +1,16 @@
+.zjq-title{color: #4A4A4A;font: 18px/57px ".PingFang-SC-Regular";padding:0 51px 0 39px;margin:0;border-bottom: 1px solid #E9E9E9;position: relative;}
+.overdu-btn{background:#1CBB9E;color: #fff;width: 100px;height: 30px;line-height: 18px;position: absolute;right: 0;top: 15px;}
+.zjq-courseDetail{padding:41px 51px 0 39px;}
+.zjq-courseDetail dd{color: #4A4A4A;font: 18px/25px ".PingFang-SC-Regular";margin-bottom: 23px;}
+.zjq-student li{width:55px;margin: 30px 10px 0;text-align:center;float: left;}
+.zjq-student li img{width:50px;height:50px;display: inline-block;margin-bottom: 12px;}
+/**************autoWidth媒体查询自适应宽度布局**********************/
+@media screen and (min-width:1200px) {
+ .zjq-student li{width:55px;margin: 30px 3% 0;}
+}
+@media screen and (min-width:992px) and (max-width:1200px){
+.zjq-student li{width:55px;margin: 30px 2.5% 0;}	
+}
+@media screen and (min-width:768px) and (max-width:992px){
+.zjq-student li{width:55px;margin: 30px 1.8% 0;}
+}

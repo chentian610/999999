@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schoolMenuMap">
+    <insert id="insertSchoolMenu" parameterType="SchoolMenuVO">
+        INSERT INTO kt_bas_school_menu(
+          school_id,
+          menu_date,
+          monday_data,
+          menu_name,
+          create_by,
+          create_date,
+          version
+        ) VALUES (
+          #{school_id},
+          #{menu_date},
+          #{monday_data},
+          #{menu_name},
+          #{create_by},
+          #{create_date},
+          0
+        )
+    </insert>
+
+    <select id="getSchoolMenuList" parameterType="SchoolMenuVO" resultType="SchoolMenuVO">
+        SELECT
+          school_menu_id AS school_menu_id,
+          school_id AS school_id,
+          menu_date AS menu_date,
+          monday_data AS monday_data,
+          menu_name AS menu_name,
+          create_by AS create_by,
+          create_date AS create_date,
+          update_by AS update_by,
+          update_date AS update_date,
+          version AS version
+        FROM kt_bas_school_menu
+        WHERE school_id = #{school_id}
+        <if test="school_menu_id != null">
+            AND school_menu_id = #{school_menu_id}
+        </if>
+        <if test="menu_date != null and menu_date != ''">
+            AND menu_date = #{menu_date}
+        </if>
+        <if test="monday_data != null and monday_data != ''">
+            AND monday_data = #{monday_data}
+        </if>
+        <if test="app_sql != null and app_sql != '' ">
+            and school_menu_id  ${app_sql}
+        </if>
+        order by monday_data,menu_date
+    </select>
+
+    <update id="updateSchoolMenu" parameterType="SchoolMenuVO">
+        UPDATE kt_bas_school_menu SET menu_name = #{menu_name},update_by = #{update_by},update_date = #{update_date},version=version+1 WHERE school_menu_id = #{school_menu_id}
+    </update>
+
+    <delete id="deleteSchoolMenuByID" parameterType="Integer">
+        DELETE FROM kt_bas_school_menu WHERE school_menu_id = #{school_menu_id}
+    </delete>
+
+    <delete id="deleteSchoolMenu" parameterType="Integer">
+        DELETE FROM kt_bas_school_menu WHERE school_id = #{school_id}
+    </delete>
+</mapper>
+

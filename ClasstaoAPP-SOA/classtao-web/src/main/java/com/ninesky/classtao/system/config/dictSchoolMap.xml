@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dictSchoolMap">
+	<!--插入表kt_sys_dict_school -->
+	<insert id="insertDictSchool" parameterType="DictVO">insert into
+		kt_sys_dict_school
+		(
+		school_id,
+		dict_code,
+		dict_group,
+		dict_value,
+		description,
+		other_field,
+		sort,
+		is_active
+		) VALUES (
+		#{school_id},
+		#{dict_code},
+		#{dict_group},
+		#{dict_value},
+		#{description},
+		#{other_field},
+		#{sort},
+		1
+		)
+	</insert>
+	<!--查询表kt_sys_dict_school -->
+	<select id="getDictSchoolList" parameterType="DictSchoolVO"
+		resultType="DictSchoolVO">
+	SELECT
+		dict_code as dict_code,
+		dict_group as dict_group,
+		dict_value as dict_value,
+		other_field as other_field,
+		sort as sort,
+		description as description
+	FROM kt_sys_dict_school d WHERE d.dict_group in (
+	SELECT c.dict_code FROM kt_sys_dict c WHERE c.dict_group = #{dict_group})
+	AND d.school_id = #{school_id}
+	</select>
+
+	<!--查询表kt_sys_dict_school -->
+	<select id="getDictListByGroup" parameterType="DictSchoolVO"
+			resultType="DictSchoolVO">
+	  SELECT
+		school_id as school_id,
+		dict_code as dict_code,
+		dict_group as dict_group,
+		dict_value as dict_value,
+		other_field as other_field,
+		sort as sort,
+		description as description
+	  FROM kt_sys_dict_school
+	  where dict_group = #{dict_group}
+		AND school_id = #{school_id}
+		<if test="dict_code != null and dict_code != ''">
+			and dict_code=  #{dict_code}
+		</if>
+		order by sort
+	</select>
+
+	<!--查询表kt_sys_dict_school -->
+	<select id="getDictSchoolListForNews" parameterType="DictSchoolVO"
+			resultType="DictSchoolVO">
+		SELECT
+		s.dict_code as dict_code,
+		s.dict_group as dict_group,
+		s.dict_value as dict_value,
+		s.other_field as other_field,
+		s.sort as sort,
+		d.other_field as css_list,
+		d.dict_value as css_value,
+		s.description as description
+		FROM kt_sys_dict_school s,kt_sys_dict d
+		WHERE s.school_id = #{school_id}
+		<if test="dict_group != null and dict_group != '022'">
+			and s.dict_group= #{dict_group}
+		</if>
+		<if test="dict_code != null and dict_code != ''">
+			and s.dict_code=  #{dict_code}
+		</if>
+		<if test="dict_group == '022'">
+			and s.dict_group LIKE CONCAT(#{dict_group},'___')
+		</if>
+		AND s.other_field = d.dict_code
+		order by s.sort
+	</select>
+
+	<!--查询表kt_sys_dict_school -->
+	<select id="getDictSchoolMaxCode" parameterType="DictVO"
+		resultType="Integer">
+		SELECT MAX(CAST(dict_code AS SIGNED))+1 FROM kt_sys_dict_school WHERE school_id = #{school_id} AND dict_group LIKE CONCAT('%',#{dict_group},'%')
+	</select>
+		<!--查询表kt_sys_dict_school -->
+	<select id="getDictSchoolMaxSort" parameterType="DictSchoolVO"
+		resultType="Integer">
+		SELECT MAX(sort)+1 FROM kt_sys_dict_school WHERE school_id = #{school_id} and dict_group = #{dict_group}
+	</select>
+	 <update id="updateSort" parameterType="DictSchoolVO">
+		update kt_sys_dict_school set dict_group=#{dict_group},sort=#{sort} where dict_code=#{dict_code} and school_id =#{school_id}
+	</update>
+	<select id="getMinCode" parameterType="DictSchoolVO" resultType="DictSchoolVO">
+		select dict_code as dict_code from kt_sys_dict_school where dict_group=#{dict_group} and school_id =#{school_id} order by sort
+	</select>
+
+	<delete id="deleteSchoolDict" parameterType="Integer">
+		delete from kt_sys_dict_school where school_id=#{school_id}
+	</delete>
+	<select id="getDictSchoolInfo" parameterType="DictVO" resultType="DictVO">
+		select id,dict_group,dict_value,dict_code from kt_sys_dict_school where dict_code=#{dict_code} and school_id=#{school_id}
+	</select>
+	<delete id="removeSchoolDict" parameterType="DictSchoolVO">
+		delete from kt_sys_dict_school where school_id=#{school_id} AND dict_code = #{dict_code}
+	</delete>
+</mapper>
+

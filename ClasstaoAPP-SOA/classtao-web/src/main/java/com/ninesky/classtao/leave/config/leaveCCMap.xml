@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="leaveCCMap">
+	<insert id="insertLeaveCCBatch" parameterType="List">
+	INSERT INTO kt_bus_leave_cc (
+		school_id,
+		leave_id,
+		user_id,
+		create_by,
+		create_date,
+		version
+	) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+	(
+		#{item.school_id},
+		#{item.leave_id},
+		#{item.user_id},
+		#{item.create_by},
+		#{item.create_date},
+		0
+	)</foreach>
+	</insert>
+	<select id="getLeaveCCListByID" parameterType="LeaveVO"
+			resultType="LeaveVO">
+	SELECT
+		school_id as school_id,
+		leave_id AS leave_id,
+		user_id as user_id,
+		create_by AS create_by,
+		create_date AS create_date,
+		update_by AS update_by,
+		update_date AS update_date,
+		version AS version
+	FROM kt_bus_leave_cc
+	where leave_id = #{leave_id} and school_id = #{school_id}
+	</select>
+	<delete id="deleteLeaveCCByID" parameterType="LeaveVO">
+		 delete from kt_bus_leave_cc where leave_id=#{leave_id} and school_id = #{school_id}
+	</delete>
+    <select id="getReceive" parameterType="LeaveVO" resultType="ReceiveVO">
+        SELECT
+        school_id as school_id,
+        user_id as user_id,
+        '003005' as user_type
+        FROM kt_bus_leave_cc
+        <where>
+            <if test="school_id != null and school_id != '' ">
+                AND school_id = #{school_id}
+            </if>
+            <if test="leave_id != null and leave_id != '' ">
+                AND leave_id = #{leave_id}
+            </if>
+            <if test="cc_id != null and cc_id != '' ">
+                AND cc_id = #{cc_id}
+            </if>
+        </where>
+    </select>
+
+	<select id="getLeaveCC" parameterType="LeaveVO" resultType="LeaveCCVO">
+		SELECT
+		school_id as school_id,
+		user_id as user_id,
+		'003005' as user_type
+		FROM kt_bus_leave_cc
+		<where>
+			<if test="school_id != null and school_id != '' ">
+				AND school_id = #{school_id}
+			</if>
+			<if test="leave_id != null and leave_id != '' ">
+				AND leave_id = #{leave_id}
+			</if>
+			<if test="cc_id != null and cc_id != '' ">
+				AND cc_id = #{cc_id}
+			</if>
+		</where>
+	</select>
+</mapper>
+

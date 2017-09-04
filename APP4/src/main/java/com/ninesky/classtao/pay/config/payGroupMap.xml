@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="payGroupMap">
+	<insert id="insertPayGroupBath" parameterType="List">
+		insert into kt_bus_pay_group
+		(
+		pay_id,
+		school_id,
+		team_type,
+		group_id,
+		team_id,
+		user_id,
+		student_id,
+		create_by,
+		create_date,
+		version
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+		(
+		#{item.pay_id},
+		#{item.school_id},
+		#{item.team_type},
+		#{item.group_id},
+		#{item.team_id},
+		#{item.user_id},
+		#{item.student_id},
+		#{item.create_by},
+		#{item.create_date},
+		0
+		)
+		</foreach>
+	</insert>
+    <insert id="insertPayGroupDate" parameterType="PayGroupVO">
+        insert into kt_bus_pay_group
+        (
+        pay_id,
+        school_id,
+        team_type,
+        group_id,
+        team_id,
+        user_id,
+        student_id,
+        create_by,
+        create_date,
+        version
+        ) VALUES (
+        #{pay_id},
+        #{school_id},
+        #{team_type},
+        #{group_id},
+        #{team_id},
+        #{user_id},
+        #{student_id},
+        #{create_by},
+        #{create_date},
+        0
+        )
+    </insert>
+	<select id="getPayGroupList" parameterType="PayVO" resultType="PayGroupVO">
+		SELECT
+			pay_id as pay_id,
+			school_id as school_id,
+			team_type as team_type,
+			group_id as group_id,
+			team_id as team_id,
+			user_id as user_id,
+			student_id as student_id,
+			create_by as create_by,
+			create_date as create_date
+		FROM kt_bus_pay_group
+		WHERE school_id = #{school_id}
+		<if test="pay_id != null">
+			AND  pay_id = #{pay_id}
+		</if>
+		<if test="team_id != '' and team_id != null">
+			AND team_id = #{team_id}
+		</if>
+		<if test="user_id != '' and user_id != null">
+			AND user_id = #{user_id}
+		</if>
+		<if test="student_id != '' and student_id != null">
+			AND student_id = #{student_id}
+		</if>
+		<if test="team_type != '' and team_type != null">
+			AND team_type = #{team_type}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">
+			and id  ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != '' ">
+			order by id ${order_sql}
+		</if>
+	</select>
+	<select id="getAllPayGroupList" parameterType="PayVO" resultType="PayGroupVO">
+        SELECT
+            c.class_id as team_id,
+            g.pay_id as pay_id,
+            c.school_id as school_id,
+            '011005' as team_type,
+            c.grade_id as group_id,
+            0 as user_id,
+            0 as student_id,
+            c.enrollment_year as enrollment_year,
+			c.class_num as class_num,
+            g.create_by as create_by,
+            g.create_date as create_date
+        FROM kt_bas_classroom c,kt_bus_pay_group g
+        WHERE c.school_id = #{school_id} AND c.is_graduate = #{is_graduate}
+        AND g.school_id = c.school_id
+        <if test="pay_id != null">
+			AND  g.pay_id = #{pay_id}
+		</if>
+		<if test="team_id != '' and team_id != null">
+			AND c.team_id = #{team_id}
+		</if>
+        <if test="group_id != '' and group_id != null">
+            AND c.grade_id = #{group_id}
+        </if>
+		<if test="app_sql != null and app_sql != '' ">
+			and g.id  ${app_sql}
+		</if>
+		ORDER BY c.enrollment_year DESC,c.class_num
+	</select>
+	<select id="getPayUserCount" parameterType="PayVO" resultType="Integer">
+		SELECT COUNT(id) FROM kt_bus_pay_group WHERE school_id = #{school_id} AND pay_id = #{pay_id}
+	</select>
+	<select id="getAllPayTeamPeople" parameterType="PayVO" resultType="Integer">
+		SELECT COUNT(DISTINCT student_id) FROM ((SELECT student_id FROM kt_bas_student s WHERE EXISTS(
+		SELECT team_id FROM kt_bus_pay_group g WHERE
+		g.school_id =  #{school_id} AND g.pay_id = #{pay_id} AND s.school_id = g.school_id
+		<if test="user_type == '003010'">
+			AND g.team_type = '011005'
+			AND s.class_id = g.team_id
+		</if>
+		))
+		UNION (SELECT student_id FROM kt_bas_contact_list s WHERE EXISTS(
+		SELECT team_id FROM kt_bus_pay_group g WHERE
+		g.school_id =  #{school_id} AND g.pay_id = #{pay_id} AND g.team_type = '011015'
+		AND s.school_id = g.school_id and s.contact_id = g.team_id))) t
+	</select>
+	<select id="getPayTeamList" parameterType="PayGroupVO" resultType="TeamVO">
+		SELECT school_id,team_type,team_id FROM kt_bus_pay_group
+		WHERE school_id = #{school_id} AND pay_id = #{pay_id} AND team_id = #{team_id}
+	</select>
+	<select id="getPayClassCount" parameterType="Integer" resultType="Integer">
+		SELECT student_id,school_id,class_id,grade_id FROM kt_bas_student WHERE class_id = #{class_id}
+	</select>
+	<select id="getPayContactCount" parameterType="Integer" resultType="Integer">
+		SELECT  student_id,school_id,contact_id FROM kt_bas_contact_list WHERE contact_id = #{contact_id}
+	</select>
+	
+	<select id="getALLPayStuTeamList" resultType="Map" parameterType="PayVO">
+		SELECT t.* FROM ((SELECT
+			s.school_id as school_id,
+			s.student_id as student_id,
+			s.student_code as student_code,
+			s.sex as sex,
+			l.contact_id as team_id,
+			'011015' as team_type,
+			0 as enrollment_year,
+			0 as class_num,
+			0 as group_id
+			FROM kt_bas_student s,kt_bas_contact_list l
+			WHERE s.student_id = l.student_id
+			AND EXISTS(SELECT 1 FROM kt_bus_pay_group g WHERE l.school_id = g.school_id
+			AND l.contact_id = g.team_id AND s.school_id = #{school_id} AND g.pay_id = #{pay_id}
+			<if test="team_type == '011015' and team_id != null">
+				AND g.team_type = #{team_type} AND g.team_id = #{team_id}
+			</if>
+			)
+		)UNION (SELECT
+			s.school_id as school_id,
+			s.student_id as student_id,
+			s.student_code as student_code,
+			s.sex as sex,
+			s.class_id as team_id,
+			'011005' as team_type,
+			c.enrollment_year as enrollment_year,
+			c.class_num as class_num,
+			s.grade_id as group_id
+			FROM kt_bas_student s,kt_bas_classroom c
+			WHERE EXISTS(SELECT 1 FROM kt_bus_pay_group g WHERE s.school_id = g.school_id
+			<if test="user_type == '003010'">
+				AND s.class_id = g.team_id
+			</if>
+		    AND g.school_id = #{school_id} AND g.pay_id = #{pay_id})
+			<if test="team_type == '011005' and team_id != null">
+				AND s.class_id = #{team_id}
+			</if>
+			AND s.class_id = c.class_id AND s.grade_id = c.grade_id
+		)) t
+		<where>
+		<if test="pay_status == 0 and pay_status != null">
+			NOT EXISTS (SELECT 1 FROM kt_bus_pay_detail d WHERE t.school_id = d.school_id AND t.student_id = d.student_id
+			AND d.pay_id = #{pay_id} AND d.trade_status= #{trade_status})
+		</if>
+		<if test="pay_status == 1 and pay_status != null">
+			EXISTS (SELECT 1 FROM kt_bus_pay_detail d WHERE t.school_id = d.school_id AND t.student_id = d.student_id
+			AND d.pay_id = #{pay_id} AND d.trade_status= #{trade_status})
+		</if>
+		<if test="app_sql != null and app_sql != '' ">
+			and t.student_id  ${app_sql}
+		</if>
+		</where>
+		<if test="order_sql != null and order_sql != '' ">
+			order by t.enrollment_year ${order_sql},t.class_num
+		</if>
+	</select>
+
+	<select id="getStuPayGroupList" parameterType="PayVO" resultType="Map">
+		SELECT
+		  g.school_id as school_id,
+		  g.student_id as student_id,
+		  s.class_id as team_id,
+		  s.student_code as student_code,
+		  s.sex as sex,
+		  g.team_type as team_type,
+		  s.grade_id as grade_id
+		FROM kt_bus_pay_group g,kt_bas_student s
+		WHERE g.school_id = #{school_id}
+		<if test="pay_id != null">
+			AND  pay_id = #{pay_id}
+		</if>
+		<if test="pay_status == 0 and pay_status != null">
+			NOT EXISTS (SELECT 1 FROM kt_bus_pay_detail d WHERE t.school_id = d.school_id AND t.student_id = d.student_id
+			AND d.pay_id = #{pay_id} AND d.trade_status= #{trade_status})
+		</if>
+		<if test="pay_status == 1 and pay_status != null">
+			EXISTS (SELECT 1 FROM kt_bus_pay_detail d WHERE t.school_id = d.school_id AND t.student_id = d.student_id
+			AND d.pay_id = #{pay_id} AND d.trade_status= #{trade_status})
+		</if>
+		AND g.student_id = s.student_id
+	</select>
+	<select id="getUserPayGroupList" parameterType="PayVO" resultType="Map">
+		SELECT
+		case when s.team_type = '011005' then s.class_id as team_id
+		when s.team_type = '011015' then s.contact_id as team_id
+		else s.class_id end as team_id,
+		g.school_id as school_id,
+		g.user_id as user_id,
+		g.team_type as team_type,
+		s.grade_id as grade_id
+		FROM kt_bus_pay_group g,kt_bas_teacher s
+		WHERE g.school_id = #{school_id}
+		<if test="pay_id != null">
+			AND  pay_id = #{pay_id}
+		</if>
+		<if test="pay_status == 0 and pay_status != null">
+			NOT EXISTS (SELECT 1 FROM kt_bus_pay_detail d WHERE t.school_id = d.school_id AND t.student_id = d.student_id
+			AND d.pay_id = #{pay_id} AND d.trade_status= #{trade_status})
+		</if>
+		<if test="pay_status == 1 and pay_status != null">
+			EXISTS (SELECT 1 FROM kt_bus_pay_detail d WHERE t.school_id = d.school_id AND t.student_id = d.student_id
+			AND d.pay_id = #{pay_id} AND d.trade_status= #{trade_status})
+		</if>
+		AND g.user_id = s.user_id
+		AND g.team_type = s.team_type
+	</select>
+	<select id="getPayReceiveList" parameterType="PayGroupVO" resultType="ReceiveVO">
+		SELECT
+			s.school_id as school_id,
+			'003010' as user_type,
+			s.student_id as student_id
+		FROM kt_bas_student s
+		WHERE school_id = #{school_id}
+		<if test="team_type == '011005' and team_id != null">
+			AND s.class_id = #{team_id}
+		</if>
+		<if test="team_type == '011015' and team_id != null">
+			AND EXISTS(SELECT 1 FROM kt_bas_contact_list l WHERE s.school_id = l.school_id AND s.student_id = l.student_id AND l.contact_id = #{team_id})
+		</if>
+	</select>
+</mapper>
+

@@ -1,0 +1,38 @@
+.zjq-title{color: #4A4A4A;font: 18px/57px ".PingFang-SC-Regular";padding:0 51px 0 39px;margin:0;border-bottom: 1px solid #E9E9E9;position: relative;}
+.zjq-title .overdu-btn{background:#1CBB9E;color: #fff;width: 100px;height: 30px;line-height: 18px;position: absolute;right: 0;top: 15px;font-size: 15px;}
+.zjq-courseDetail{padding:41px 51px 0 39px;}
+.zjq-courseDetail dd{color: #4A4A4A;font: 18px/25px ".PingFang-SC-Regular";margin-bottom: 23px;}
+.zjq-student li{width:55px;margin: 30px 10px 0;text-align:center;float: left;}
+.zjq-student li img{width:50px;height:50px;display: inline-block;margin-bottom: 12px;}
+.zjq-students-number{border-top:1px solid #E9E9E9;}
+.zjq-added{padding:41px 51px 0 39px;}
+.zjq-added dt{color: #4A4A4A;font: 18px/25px ".PingFang-SC-Regular";position: relative;height: 30px;}
+.zjq-added dt .add-btn{font-size: 15px;background:#1CBB9E;color: #fff;width: 100px;height: 30px;line-height: 18px;position: absolute;right: 0;top: 0;}
+/*学生详情弹窗*/
+.zjq-studentIntro{width: 200px;height: 157px;color: #4A4A4A;font: 11px/16px ".PingFang-SC-Regular";background:#FFFDE0;text-align: center;padding-top: 10px;display: none;opacity: 1;}
+.zjq-studentIntro img{width: 40px;height: 40px;}
+
+.zjq-added dd{width:55px;margin: 30px 1.8% 0;text-align:center;float: left;position: relative;}
+.zjq-added dd:hover .zjq-studentIntro{display: block;position: absolute;top: -100px;left:-75px;opacity:1;z-index: 1;}
+.zjq-added .active img{opacity: 0.4;}
+.zjq-added .active span{opacity: 0.4;}
+.zjq-added .active .del-btn{display: none;}
+.zjq-added .active .zjq-studentIntro img{opacity: 1;}
+.zjq-added .active:hover .zjq-studentIntro{opacity: 1 !important;}
+
+.zjq-added dd img{width:50px;height:50px;display: inline-block;margin-bottom: 12px;}
+.zjq-added dd span{color: #4A4A4A;font: 18px/30px ".PingFang-SC-Regular";}
+.zjq-added dd .del-btn{border-color:#F60D0D;color:#F60D0D;width: 50px;height: 20px;line-height: 8px;font-size: 11px;}
+.zjq-overduPage .started-btn{background:#1CBB9E;color: #fff;width: 350px;height: 40px;line-height: 28px;margin: 0 0 30px 39px;font-size: 19px;}
+
+
+/**************autoWidth媒体查询自适应宽度布局**********************/
+@media screen and (min-width:1200px) {
+ .zjq-added dd{width:55px;margin: 30px 3% 0;}
+}
+@media screen and (min-width:992px) and (max-width:1200px){
+.zjq-added dd{width:55px;margin: 30px 2.5% 0;}	
+}
+@media screen and (min-width:768px) and (max-width:992px){
+.zjq-added dd{width:55px;margin: 30px 1.8% 0;}
+}

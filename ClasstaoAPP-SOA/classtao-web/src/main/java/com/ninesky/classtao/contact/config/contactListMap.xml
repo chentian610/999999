@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="contactListMap">
+	<!--插入表kt_bas_contact_list -->
+	<insert id="insertContactList" parameterType="List">insert into
+		kt_bas_contact_list
+		(
+		contact_id,
+		school_id,
+		user_id,
+		user_type,
+		student_id,
+		first_letter,
+		all_letter,
+		phone,
+		create_by,
+		create_date,
+		version
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+     	(
+		#{item.contact_id},
+		#{item.school_id},
+		#{item.user_id},
+		#{item.user_type},
+		#{item.student_id},
+		#{item.first_letter},
+		#{item.all_letter},
+		#{item.phone},
+		#{item.create_by},
+		#{item.create_date},
+		0
+		)
+		</foreach>
+	</insert>
+	<!--更新表kt_bas_contact_list -->
+	<update id="updateContactList" parameterType="Map">update
+		kt_bas_contact_list
+		set 
+		<if test="phone != null and phone != '' ">
+		    phone = #{phone},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version + 1
+		where school_id = #{school_id}
+		and user_id = #{user_id}
+	</update>
+	<!--查询表kt_bas_contact_list -->
+	<select id="getContactListByGroup" parameterType="ContactListVO"
+		resultType="ContactListVO">select
+		list_id as list_id,
+		contact_id as contact_id,
+		school_id as school_id,
+		user_id as user_id,
+		user_type as user_type,
+		student_id as student_id,
+		first_letter as first_letter,
+		all_letter as all_letter,
+		phone as phone,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_contact_list
+		where contact_id=#{contact_id}
+		and school_id = #{school_id}
+	</select>
+	
+	<!--查询表kt_bas_contact_list -->
+	<select id="getContactListByID" parameterType="ContactListVO"
+		resultType="StudentVO">
+	select
+		school_id as school_id,
+		user_id as user_id,
+		student_id as student_id,
+		first_letter as first_letter,
+		all_letter as all_letter
+	from kt_bas_contact_list
+	where contact_id=#{contact_id}
+		and school_id = #{school_id}
+		and user_type = #{user_type}
+	</select>
+	
+	<select id="getContactListByMGroup" parameterType="ContactListVO" resultType="ContactListVO">
+		select
+		list_id as list_id,
+		contact_id as contact_id,
+		school_id as school_id,
+		user_id as user_id,
+		user_type as user_type,
+		student_id as student_id,
+		phone as phone,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_contact_list
+		where contact_id=#{contact_id}
+		<if test="user_type!=null and user_type!=''">
+			and user_type=#{user_type}
+		</if>
+		and school_id = #{school_id}
+	</select>
+	
+	<!--删除表kt_bas_contact_list -->
+	<delete id="deleteContactById" parameterType="ContactListVO">delete from
+		kt_bas_contact_list
+		where contact_id = #{contact_id} 
+		<if test="phone!=null and phone!=''">
+		and phone = #{phone}
+		</if>
+		<if test="student_id!=null and student_id!=0">
+		and student_id=#{student_id}
+		</if>
+	</delete>
+	
+	<delete id="deleteContactList" parameterType="ContactListVO">delete from
+		kt_bas_contact_list
+		where school_id=#{school_id} and phone=#{phone}
+	</delete>
+	
+	<update id="updateContact" parameterType="ContactListVO">
+		update kt_bas_contact_list set phone=#{phone},all_letter=#{all_letter},first_letter=#{first_letter},
+		update_by=#{update_by},update_date=#{update_date},version=version+1 where user_id=#{user_id} and 
+		school_id=#{school_id}
+	</update>
+	
+	<select id="getStudentOfManager" parameterType="ContactListVO" resultType="Integer">
+	select distinct student_id from kt_bas_contact_list where contact_id=#{contact_id} and user_type=#{user_type} 
+	<if test="all_letter!=null and all_letter!=''">
+	and all_letter like CONCAT ('%',#{all_letter},'%')
+	</if> order by list_id DESC
+	</select>
+	
+	<update id="updateUserID" parameterType="UserVO">
+	update kt_bas_contact_list set user_id=#{user_id} where phone=#{phone} and (user_id=0 or user_id is null)
+	</update>
+	
+	<select id="getCount" parameterType="ContactVO" resultType="Integer">
+		select count(*) as count from kt_bas_contact_list where contact_id=#{contact_id} 
+		<if test="user_type != null and user_type != ''">
+			and user_type = #{user_type}
+		</if>	
+	</select>
+	
+	<insert id="insertContact" parameterType="ContactListVO">insert into
+		kt_bas_contact_list
+		(
+		contact_id,
+		school_id,
+		<if test="user_id!=null">
+		user_id,
+		</if>
+		user_type,
+		student_id,
+		first_letter,
+		all_letter,
+		phone,
+		create_by,
+		create_date,
+		version
+		) VALUES
+     	(
+		#{contact_id},
+		#{school_id},
+		<if test="user_id!=null">
+		#{user_id},
+		</if>
+		#{user_type},
+		#{student_id},
+		#{first_letter},
+		#{all_letter},
+		#{phone},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<select id="getContactListByStuID" parameterType="Integer" resultType="Integer">
+	SELECT contact_id from kt_bas_contact_list where student_id=#{student_id};
+	</select>
+	
+	<select id="getContactList" parameterType="ContactListVO" resultType="StudentVO">
+		select
+		student_id as student_id
+		from kt_bas_contact_list
+		where contact_id=#{contact_id}
+			and user_type=#{user_type}
+			and school_id = #{school_id}
+	</select>
+	
+	<select id="getContactListByVO" parameterType="ContactListVO" resultType="Integer">
+		select
+		COUNT(student_id)
+		from kt_bas_contact_list
+		where contact_id=#{contact_id}
+			and user_type=#{user_type}
+			and school_id = #{school_id}
+	</select>
+		<select id="getStudentContactList" parameterType="Map" resultType="StudentVO">
+		select
+			student_id as student_id,
+			school_id as school_id
+		from kt_bas_contact_list
+		where contact_id=#{contact_id}
+			and user_type=#{user_type}
+			and school_id = #{school_id}
+	</select>
+	<select id="getTeacherContactList" parameterType="Map" resultType="TeacherVO">
+		select
+		user_id as user_id,
+		school_id as school_id
+		from kt_bas_contact_list
+		where contact_id=#{contact_id}
+		and user_type=#{user_type}
+		and school_id = #{school_id}
+	</select>
+	
+	<select id="getStudent" parameterType="ContactListVO" resultType="ContactListVO">
+	select 
+		list_id
+	from kt_bas_contact_list
+	where school_id=#{school_id}
+		and contact_id=#{contact_id}
+		and student_id=#{student_id}
+	</select>
+	<!--查询表kt_bas_contact_list -->
+	<select id="getContactBySearch" parameterType="Map"
+			resultType="ContactListVO">
+	(SELECT
+		distinct (user_id) AS user_id,
+		school_id AS school_id,
+		'003005' AS user_type,
+		grade_id AS grade_id,
+		class_id AS class_id,
+		first_letter AS first_letter,
+		all_letter AS all_letter
+	FROM kt_bas_teacher
+	WHERE school_id = #{school_id} AND (teacher_name like CONCAT('%',#{search},'%')
+	 OR first_letter like CONCAT('%',#{search},'%') OR all_letter like CONCAT('%',#{search},'%'))
+	) UNION (
+	SELECT
+		distinct (student_id) AS user_id,
+		school_id AS school_id,
+		'003010' AS user_type,
+		grade_id AS grade_id,
+		class_id AS class_id,
+		first_letter AS first_letter,
+		all_letter AS all_letter
+	FROM kt_bas_student
+	WHERE school_id = #{school_id} AND (student_name like CONCAT('%',#{search},'%')
+	 OR first_letter like CONCAT('%',#{search},'%') OR all_letter like CONCAT('%',#{search},'%'))
+	)
+	</select>
+
+	<select id="getStudentOfTeacher" parameterType="TeacherVO" resultType="StudentVO">
+	select student_id,student_name,grade_id,class_id from kt_bas_student where student_id in (SELECT DISTINCT
+	student_id
+	FROM
+	kt_bas_contact_list
+	WHERE
+	contact_id IN (
+		SELECT
+			contact_id
+		FROM
+			kt_bas_teacher
+		WHERE
+			school_id = #{school_id}
+		AND user_id = #{user_id}
+		AND team_type = #{team_type}
+	))
+	<if test="teacher_name!=null and teacher_name!=''">
+	and student_name like CONCAT('%',#{teacher_name},'%')
+	</if>
+	</select>
+	
+	<delete id="deleteStudent" parameterType="Integer">
+      delete from kt_bas_contact_list where student_id=#{student_id}
+	</delete>
+
+    <delete id="deleteGradeStudent" parameterType="Integer">
+        delete from kt_bas_contact_list where student_id in (select student_id from kt_bas_student
+		where grade_id=#{grade_id})
+    </delete>
+
+	<!--查询表kt_bas_contact_list -->
+	<select id="getClassTeaStuContactList" parameterType="Map"
+			resultType="ContactListVO">
+		(SELECT
+		distinct (user_id) AS user_id,
+		school_id AS school_id,
+		'003005' AS user_type
+		FROM kt_bas_teacher
+		WHERE school_id = #{school_id}
+		<if test="team_id!=null and team_id!=''">
+			AND class_id = #{team_id}
+		</if>
+		) UNION (
+		SELECT
+		distinct (student_id) AS user_id,
+		school_id AS school_id,
+		'003010' AS user_type
+		FROM kt_bas_student
+		WHERE school_id = #{school_id}
+		<if test="team_id!=null and team_id!=''">
+			AND class_id = #{team_id}
+		</if>
+		)
+	</select>
+	<!--查询表kt_bas_contact_list -->
+	<select id="getContactTeaStuContactList" parameterType="Map"
+			resultType="ContactListVO">
+		(SELECT
+		distinct (user_id) AS user_id,
+		school_id AS school_id,
+		'003005' AS user_type
+		FROM kt_bas_teacher
+		WHERE school_id = #{school_id}
+		<if test="team_id!=null and team_id!=''">
+			AND contact_id = #{team_id}
+		</if>
+		) UNION (
+		SELECT
+		distinct (student_id) AS user_id,
+		school_id AS school_id,
+		'003010' AS user_type
+		FROM kt_bas_contact_list
+		WHERE school_id = #{school_id}
+		<if test="team_id!=null and team_id!=''">
+			AND contact_id = #{team_id}
+		</if>
+		and user_type = '003010'
+		)
+	</select>
+</mapper>
+

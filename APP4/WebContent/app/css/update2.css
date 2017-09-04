@@ -1,0 +1,19 @@
+.container .qtop{padding: 20px 38px;height: 57px;}
+.container .qcontent{padding: 20px 23px;}
+.container .top-line{margin:0; border-bottom: 3px solid #e9e9e9;}
+.container .qtop .qtitle{padding--bottom:18px; font-size:15px;color:#9b9b9b;text-align:left;}
+.container .qtop button{margin-top:-5px;padding-top:4px;background-color:#1cbb9e;border-radius:5px;width:100px;height:30px;color: #fff;}
+.container .qcontent	 .list-group-item{border: none;padding: 15px 15px;}
+.container .qcontent	 .list-group-item .school-head{width: 60px;height: 60px;margin-right: 30px;}
+.container .qcontent	 .list-group-item .school-info{margin-left: 40px;}
+.container .qcontent	 .list-group-item .school-info p{margin: 0;font-size:14px;color:#4a4a4a;line-height:28px;text-align:left;}
+.container .qcontent	 .list-group-item .btn-enabled{margin-left:10px;background-color: #1cbb9e;padding-top:4px;border-radius:5px;width:100px;height:30px;color: #fff;}
+.checkbox .checkbox-circle .checkbox-success input,label{margin-top:10px;margin-right: 30px;}
+.school-title{margin:30px auto;text-align: center;font-size:24px;color:#4a4a4a;width: 100px;font-weight: normal;}
+.school-name{border:1px solid #d1dae1;border-radius:2px;height:38px;width: 100%;padding-left: 15px;}
+.school-phone{margin-top:10px;border:1px solid #d1dae1;border-radius:2px;height:38px;width: 100%;padding-left: 15px;}
+.school-version{margin-top:20px;border:1px solid #d1dae1;border-radius:2px;height:38px;width: 100%;padding-left: 15px;}
+.school-url{margin-top:15px;background:#ffffff;border:1px solid #d1dae1;border-radius:2px;width:70%;height:38px;padding-left: 15px;}
+.btn-upload{margin-top:15px;background-color:#1cbb9e;color:#fff;font-size:19px;border-radius:5px;width:28%;height:40px;max-width: 140px;}
+.btn-finish{margin-top:67px;margin-bottom:33px;margin-left:25%;text-align:center;background-color:#1cbb9e;color:#fff;font-size:19px;border-radius:5px;width:50%;height:40px;}
+

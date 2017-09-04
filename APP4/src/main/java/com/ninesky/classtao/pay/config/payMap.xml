@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="payMap">
+	<insert id="insertPay" parameterType="PayVO">
+		insert into kt_bus_pay
+		(
+		school_id,
+		sender_name,
+		pay_title,
+		pay_content,
+		end_date,
+		pay_type,
+		pay_money,
+		pay_category,
+		user_type,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{sender_name},
+		#{pay_title},
+		#{pay_content},
+		#{end_date},
+		#{pay_type},
+		#{pay_money},
+		#{pay_category},
+		#{user_type},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<select id="getPayList" parameterType="PayVO" resultType="PayVO">
+		SELECT
+			pay_id as pay_id,
+			school_id as school_id,
+			sender_name as sender_name,
+		    pay_title as pay_title,
+			pay_content as pay_content,
+			end_date as end_date,
+			pay_type as pay_type,
+			pay_money as pay_money,
+			pay_category as pay_category,
+			user_type as user_type,
+			create_by as create_by,
+			create_date as create_date
+		FROM kt_bus_pay
+		WHERE school_id = #{school_id}
+		<if test="pay_id != null">
+			AND  pay_id = #{pay_id}
+		</if>
+		<if test="pay_type != '' and pay_type != null">
+			AND pay_type = #{pay_type}
+		</if>
+		<if test="pay_category != '' and pay_category != null">
+			AND pay_category = #{pay_category}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">
+			and pay_id  ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != '' ">
+			order by pay_id ${order_sql}
+		</if>
+	</select>
+	<select id="getPayListByID" parameterType="Integer" resultType="PayVO">
+		SELECT
+		pay_id as pay_id,
+		school_id as school_id,
+		sender_name as sender_name,
+		pay_title as pay_title,
+		pay_content as pay_content,
+		end_date as end_date,
+		pay_type as pay_type,
+		pay_money as pay_money,
+		pay_category as pay_category,
+		user_type as user_type,
+		create_by as create_by,
+		create_date as create_date
+		FROM kt_bus_pay
+		WHERE  pay_id = #{pay_id}
+	</select>
+	<select id="getPayListByStudentID" parameterType="PayVO" resultType="PayVO">
+		SELECT
+		p.pay_id as pay_id,
+		p.school_id as school_id,
+		p.sender_name as sender_name,
+		p.pay_title as pay_title,
+		p.pay_content as pay_content,
+		p.end_date as end_date,
+		p.pay_type as pay_type,
+		p.pay_money as pay_money,
+		p.pay_category as pay_category,
+		p.user_type as user_type,
+		p.create_by as create_by,
+		p.create_date as create_date
+		FROM kt_bus_pay p
+		WHERE p.school_id = #{school_id} AND( EXISTS (SELECT 1 FROM kt_bus_pay_group g,kt_bas_student s
+		WHERE g.school_id = s.school_id AND p.pay_id = g.pay_id AND s.student_id = #{student_id} AND (g.student_id = 0 OR g.student_id = #{student_id})
+        AND (g.team_id = 0 OR g.team_id IS NULL OR EXISTS (SELECT 1 FROM kt_bas_student s WHERE g.team_id = s.class_id AND s.student_id = #{student_id})))
+		OR EXISTS (SELECT 1 FROM kt_bus_pay_group g,kt_bas_contact_list s
+		WHERE g.team_id = s.contact_id AND p.pay_id = g.pay_id AND g.team_type='011015' AND s.student_id = #{student_id} AND (g.student_id = 0 OR g.student_id = #{student_id})))
+		<if test="pay_id != null">
+			AND  p.pay_id = #{pay_id}
+		</if>
+		<if test="pay_type != '' and pay_type != null">
+			AND  p.pay_type = #{pay_type}
+		</if>
+		<if test="pay_category != '' and pay_category != null">
+			AND  p.pay_category = #{pay_category}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">
+			and  p.pay_id  ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != '' ">
+			order by  p.pay_id ${order_sql}
+		</if>
+	</select>
+</mapper>
+

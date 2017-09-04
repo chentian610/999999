@@ -1,0 +1,1160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="scoreListMap">
+	<!--插入表kt_bus_score_list -->
+	<insert id="insertScoreList" parameterType="ScoreListVO">insert into
+		kt_bus_score_list
+		(
+		list_id,
+		score_id,
+		school_id,
+		team_type,
+		team_id,
+		group_id,
+		team_code,
+		team_name,
+		score_type,
+		attend_item,
+		score_code,
+		score_date,
+		student_id,
+		student_code,
+		content,
+		score,
+		count,
+		module_code,
+		is_read,
+		create_by,
+		create_date,
+		version
+		) VALUES <foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.list_id},#{item.score_id},#{item.school_id},#{item.team_type},#{item.team_id},#{item.group_id},#{item.team_code},
+			#{item.team_name},#{item.score_type},#{item.attend_item},#{item.score_code},#{item.score_date},#{item.student_id},
+			#{item.student_code},#{item.content},#{item.score},#{item.count},#{item.module_code},0,#{item.create_by},#{item.create_date},0)
+		</foreach>
+	</insert>
+	<!--更新表kt_bus_score_list -->
+	<update id="updateScoreList" parameterType="ScoreListVO">update
+		kt_bus_score_list
+		set 
+		score_code = #{score_code},
+		<if test="content!=null and content!=''">
+		content = #{content},
+		</if>
+		<if test="score!=null">
+		score=#{score},
+		</if>
+		<if test="count!=null and count!=''">
+			count=#{count},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1 where list_id=#{list_id}
+	</update>
+	<!--查询表kt_bus_score_list -->
+	<select id="getScoreListList" parameterType="ScoreListVO" resultType="ScoreListVO">
+		select
+		list_id as list_id,
+		score_id as score_id,
+		student_id as student_id,
+		student_code as student_code,
+		score_date as score_date,
+		score as score,
+		count as count,
+		content as content,
+		create_by as create_by,
+		is_read as is_read
+		from kt_bus_score_list
+		where team_type=#{team_type} 
+		<if test="score_type!=null and score_type!=''">
+		and score_type=#{score_type} 
+		</if>
+		<if test="team_id!=null and team_id!=0">
+			and team_id=#{team_id}
+		</if>
+		<if test="student_id!=null">
+			and student_id=#{student_id}
+		</if>
+		<if test="student_code!=null">
+			and student_code=#{student_code}
+		</if>
+		<if test="school_id!=null and school_id!=0">
+		 and school_id=#{school_id}
+		</if>
+		<if test="attend_item!=null and attend_item!=''">
+			and attend_item=#{attend_item}
+		</if>
+		<if test="start_date!=null  and end_date!=null">
+		and score_date between #{start_date} and #{end_date}
+		</if>
+        <if test="module_code!=null and module_code!=''">
+            and module_code=#{module_code}
+        </if>
+        order by list_id desc
+	</select>
+	
+	<!-- 查询考勤教师信息-->
+	<select id="getScoreAttendTeacherList" parameterType="ScoreListVO" resultType="TaskVO">
+	select 
+	distinct (s.team_id),
+	t.teacher_name,
+	s.team_name,
+	s.school_id,
+	s.team_type,
+	s.score_type,
+	s.score_date,
+	t.duty,
+	t.phone
+	from kt_bus_score s
+	left join 
+	kt_bas_teacher t
+	on t.class_id=s.team_id
+	where 
+	 <if test="score_type!=null and score_type!=''">
+		s.score_type=#{score_type} 
+	 </if>
+	 <if test="team_type!=null and team_type!=''">
+		and s.team_type=#{team_type} 
+	 </if>
+	 <if test="score_date!=null and score_type!=''">
+		and s.score_date=#{score_date}
+	 </if>
+	</select>
+	
+	<!--删除表kt_bus_score_list -->
+	<delete id="deleteScoreList" parameterType="Integer">delete from
+		kt_bus_score_list
+		where list_id = #{list_id}
+	</delete>
+	
+	<select id="getCountInfo" parameterType="Integer" resultType="com.ninesky.classtao.score.vo.CountInfoVO">
+		select sum(count) as count ,score_code from kt_bus_score_list where score_id=#{score_id}
+		group by score_code
+	</select>
+	
+	<!-- 查询表kt_bus_score_list,得到count条数 -->
+	<select id="getCount" parameterType="Integer" resultType="Integer">
+		select count(*) as count from kt_bus_score_list where score_id=#{score_id}
+	</select>
+	
+	<select id="getScoreList" parameterType="Integer" resultType="ScoreListVO">
+		select list_id,score_id,school_id,team_type,score_code,team_id,student_id,student_code,
+		score_date,score,count,content,score_type,attend_item,team_name,module_code,create_by as sender_id
+		from kt_bus_score_list where score_id=#{score_id}
+	</select>
+	
+	<select id="getScoreItemByListID" parameterType="Integer" resultType="ScoreListVO">
+		select list_id,attend_item,score_code,score,count from kt_bus_score_list where list_id=#{list_id}
+	</select>
+	
+	<select id="getScore" parameterType="Integer" resultType="ScoreListVO">
+		select score_id,score_type from kt_bus_score_list where list_id=#{list_id}
+	</select>
+	
+	<select id="getUnreadCount" parameterType="ScoreListVO" resultType="Integer">
+		select count(*) as count from kt_bus_score_list where team_type=#{team_type} and score_type=#{score_type} 
+		<if test="attend_item!=null and attend_item!=''">
+			and attend_item=#{attend_item}
+		</if> and student_id=#{student_id} and is_read=0 and school_id=#{school_id}
+	</select>
+	
+	<update id="setRead" parameterType="Integer">
+		update kt_bus_score_list set is_read=1 where list_id=#{list_id}
+	</update>
+	
+	<select id="getCountInfoOfStudent" parameterType="ScoreListVO" resultType="com.ninesky.classtao.score.vo.CountInfoVO">
+		select count(*) as count ,score_code from kt_bus_score_list where score_type=#{score_type} and score_date=#{score_date} 
+		and student_id=#{student_id} group by score_code
+	</select>
+	
+	<select id="getStudentScoreList" parameterType="ScoreListVO" resultType="ScoreListVO">
+		SELECT
+			s.student_id,
+			s.student_code,
+			s.student_name,
+			s.head_url,
+			s.class_id as team_id,
+			s.first_letter,
+			s.all_letter,
+			a.score_date,
+			a.team_name,
+			a.attend_item,
+			a.score_code,
+			a.list_id,
+			a.score_id,
+			a.score,
+			a.score_type,
+			a.content,
+			a.create_by as sender_id
+		FROM
+			kt_bas_student s
+		LEFT JOIN kt_bus_score_list a
+		ON s.student_id = a.student_id
+        and a.score_id=(SELECT score_id FROM kt_bus_score
+        WHERE school_id = #{school_id}
+        <if test="team_type!=null and team_type!=''">
+            AND team_type = #{team_type}
+        </if>
+        <if test="team_id!=null and team_id!=0">
+            AND team_id = #{team_id}
+        </if>
+        <if test="score_type!=null and score_type!=''">
+            and score_type=#{score_type}
+        </if>
+        <if test="attend_item!=null and attend_item!=''">
+            and attend_item = #{attend_item}
+        </if>
+        <if test="score_date!=null and score_date!=''">
+            and score_date = #{score_date}
+        </if>
+        <if test="score_id != null">
+            and score_id = #{score_id}
+        </if>
+        )
+		where s.class_id = #{team_id}
+	</select>
+	
+	<select id="getStudentScoreListOfBed" parameterType="ScoreListVO" resultType="ScoreListVO">
+		select s.bed_code,s.student_id,s.student_code,s.student_name,a.score_date,a.content,a.team_name,
+		a.attend_item,a.score_code,a.list_id,a.score_id,s.bedroom_id as team_id,
+		a.score,a.score_type,a.create_by as sender_id from kt_bas_position_bed s
+        LEFT JOIN
+        kt_bus_score_list a ON s.student_id = a.student_id
+        and a.score_id=(select score_id from kt_bus_score where  school_id = #{school_id}
+        <if test="team_type!=null and team_type!=''">
+        AND team_type = #{team_type}
+        </if>
+        <if test="team_id!=null and team_id!=0">
+        AND team_id = #{team_id}
+        </if>
+        <if test="score_type!=null and score_type!=''">
+        and score_type=#{score_type}
+        </if>
+        <if test="score_date!=null and score_date!=''">
+        and score_date = #{score_date}
+        </if>
+        <if test="score_id!=null">
+            and score_id=#{score_id}
+        </if>
+        )
+        WHERE s.bedroom_id = #{team_id}
+	</select>
+	
+	<select id="getStudentScoreListOfInterest" parameterType="ScoreListVO" resultType="ScoreListVO">
+	SELECT
+		s.student_id,
+		a.score_date,
+		a.team_name,
+		a.attend_item,
+		a.score_code,
+		a.list_id,
+		a.score_id,
+		a.team_id,
+		a.score,
+		a.score_type,
+		a.create_by AS sender_id
+	FROM
+		kt_bas_contact_list s
+	LEFT JOIN (
+		SELECT
+			score_date,
+			team_name,
+			attend_item,
+			student_code,
+			score_code,
+			list_id,
+			score_id,
+			team_id,
+			student_id,
+			score,
+			score_type,
+			create_by
+		FROM
+			kt_bus_score_list where  score_date = #{score_date} and score_type = #{score_type}
+		AND attend_item = #{attend_item}
+		AND team_id = #{team_id} and team_type=#{team_type}
+	) a ON s.student_id = a.student_id
+	WHERE
+		s.contact_id = #{team_id}
+	</select>
+	
+	<update id="updateScoreListOne" parameterType="ScoreListVO">update
+		kt_bus_score_list
+		set 
+		score_code = #{score_code},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1 where score_id=#{score_id} and student_id=#{student_id}
+	</update>
+	
+	<select id="getLeaveOfClass">
+		select s.student_id,s.student_code,s.student_name from kt_bas_student s LEFT JOIN(
+		select student_id from kt_bus_leave where #{score_date} between start_date and end_date ) a on s.student_id=a.student_id 
+		where s.class_id=#{team_id}
+	</select>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+	delete from kt_bus_score_list where team_id=#{team_id}
+	</delete>
+	
+	<delete id="deleteByScoreID" parameterType="Integer">
+	delete from kt_bus_score_list where score_id=#{score_id}
+	</delete>
+	
+	<select id="getStudentList" parameterType="ScoreListVO" resultType="ScoreListVO">
+	SELECT
+	s.student_id,
+	s.student_code,
+	s.class_id as team_id,
+	s.head_url,
+	s.student_name,
+	score_date
+	FROM
+	kt_bas_student s
+	LEFT JOIN (
+	SELECT
+	max(t.score_date) AS score_date,
+	student_id
+	FROM
+	kt_bus_score_list t
+	WHERE
+	school_id=#{school_id} and team_type=#{team_type} and team_id = #{team_id} and score_type=#{score_type}
+	GROUP BY
+	student_id
+	) d ON s.student_id = d.student_id
+	WHERE
+	s.school_id=#{school_id} and s.class_id = #{team_id} 
+	</select>
+	
+	<select id="getInterestStudentList" parameterType="ScoreListVO" resultType="ScoreListVO">
+	SELECT
+	s.student_id,
+	s.contact_id as team_id,
+	score_date
+	FROM
+	kt_bas_contact_list s
+	LEFT JOIN (
+	SELECT
+	max(t.score_date) AS score_date,
+	student_id
+	FROM
+	kt_bus_score_list t
+	WHERE
+	school_id=#{school_id} and team_type=#{team_type} and  team_id = #{team_id} and  score_type=#{score_type}
+	GROUP BY
+	student_id
+	) d ON s.student_id = d.student_id
+	WHERE
+	s.school_id=#{school_id} and s.contact_id = #{team_id}
+	</select>
+	
+	<select id="getLastDate" parameterType="TableVO" resultType="ScoreListVO">
+	SELECT
+	max(create_date) as create_date
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	AND team_type = #{team_type}
+	AND score_type = #{score_type}
+	</select>
+	
+	<select id="getUnScoreStudentOfClass" parameterType="ScoreVO" resultType="StudentVO">
+	select 
+	school_id,
+	student_id from kt_bas_student where
+	school_id=#{school_id} and class_id=#{team_id}
+	and student_id not in (
+	select DISTINCT student_id from
+	kt_bus_score_list
+	where school_id=#{school_id} and team_id=#{team_id}
+	and team_type=#{team_type}
+	and score_type=#{score_type}
+	<if test="attend_item!=null and attend_item!=''">
+	and attend_item=#{attend_item}
+	</if>
+	AND create_date BETWEEN #{start_time} and #{end_time})
+	</select>
+	
+	<select id="getUnScoreStudentOfBed" parameterType="ScoreVO" resultType="StudentVO">
+	select 
+	school_id,
+	student_id from kt_bas_position_bed where
+	school_id=#{school_id} and bedroom_id=#{team_id}
+	and student_id not in (
+	select DISTINCT student_id from
+	kt_bus_score_list
+	where school_id=#{school_id} and team_id=#{team_id}
+	and team_type=#{team_type}
+	and score_type=#{score_type}
+	AND create_date BETWEEN #{start_time} and #{end_time})
+	</select>
+	
+	<select id="getNewRecord" parameterType="ScoreVO" resultType="ScoreListVO">
+	SELECT score_code,score,count FROM
+	kt_bus_score_list
+    WHERE
+    school_id=#{school_id} and team_type=#{team_type} 
+    <if test="team_id!=null and team_id!=0">
+    AND team_id = #{team_id}
+    </if>
+    AND score_type = #{score_type} 
+    and create_date BETWEEN #{start_time} and #{end_time}
+	ORDER BY list_id DESC
+	LIMIT 0,3
+	</select>
+	
+	<select id="getAllNewRecord" parameterType="ScoreVO" resultType="ScoreListVO">
+	SELECT score_code,score,count FROM
+	kt_bus_score_list
+    WHERE
+    school_id=#{school_id} and team_type=#{team_type} AND team_id = #{team_id} AND score_type = #{score_type} 
+    and create_date BETWEEN #{start_time} and #{end_time}
+	ORDER BY list_id DESC
+	</select>
+	
+	<select id="getStuDayScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	student_id,
+	attend_item,
+	score_type,
+	team_type,
+	score_date,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	student_id,
+	score_code,
+	attend_item,
+	score_date
+	</select>
+	
+	<select id="getTeamDayScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	score_code,
+	attend_item,
+	score_date
+	</select>
+	
+	<select id="getStudentWeekScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT 
+	sum(count) as count,
+	score_code,
+	student_id,
+	attend_item,
+	score_type,
+	team_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%v') as weekdate,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	student_id,
+	score_code,
+	attend_item,
+	weekdate
+	</select>
+	
+	<select id="getTeamWeekScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%v') as weekdate,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	score_code,
+	attend_item,
+	weekdate
+	</select>
+	
+	<select id="getStuMonthScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT 
+	sum(count) as count,
+	score_code,
+	student_id,
+	attend_item,
+	score_type,
+	team_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%m') as monthdate,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	student_id,
+	score_code,
+	attend_item,
+	monthdate
+	</select>
+	
+	<select id="getTeamMonthScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%m') as monthdate,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	score_code,
+	attend_item,
+	monthdate
+	</select>
+	
+	<select id="getStuYearScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT 
+	sum(count) as count,
+	score_code,
+	student_id,
+	attend_item,
+	score_type,
+	team_type,
+	score_date,
+	DATE_FORMAT(score_date,'%Y') as yeardate,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	student_id,
+	score_code,
+	attend_item,
+	yeardate
+	</select>
+	
+	<select id="getTeamYearScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%Y') as yeardate,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	score_code,
+	attend_item,
+	yeardate
+	</select>
+	
+	<select id="getStuTermScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	student_id,
+	attend_item,
+	score_type,
+	team_type,
+	score_date,
+	if (DATE_FORMAT(score_date,'%c')>8,concat(DATE_FORMAT(score_date,'%Y'),'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND 16>DATE_FORMAT(score_date,'%e'),concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=1 ,concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND DATE_FORMAT(score_date,'%e')>15,concat(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),
+	if (DATE_FORMAT(score_date,'%c')>2 and 9>DATE_FORMAT(score_date,'%c') ,CONCAT(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),0) 
+	) ) ) ) AS term,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	student_id,
+	score_code,
+	attend_item,
+	term
+	</select>
+	
+	<select id="getTeamTermScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT 
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	if (DATE_FORMAT(score_date,'%c')>8,concat(DATE_FORMAT(score_date,'%Y'),'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND 16>DATE_FORMAT(score_date,'%e'),concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=1 ,concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND DATE_FORMAT(score_date,'%e')>15,concat(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),
+	if (DATE_FORMAT(score_date,'%c')>2 and 9>DATE_FORMAT(score_date,'%c') ,CONCAT(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),0) 
+	) ) ) ) AS term,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	score_code,
+	attend_item,
+	term
+	</select>
+	
+	<select id="getGradeDayScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	score,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	score_code,
+	attend_item,
+	score_date
+	</select>
+	
+	<select id="getGradeWeekScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%v') as weekdate,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	score_code,
+	attend_item,
+	weekdate
+	</select>
+	
+	<select id="getGradeMonthScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%m') as monthdate,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	score_code,
+	attend_item,
+	monthdate
+	</select>
+	
+	<select id="getGradeYearScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%Y') as yeardate,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	score_code,
+	attend_item,
+	yeardate
+	</select>
+	
+	<select id="getGradeTermScore" parameterType="Integer" resultType="ScoreListVO">
+	SELECT 
+	sum(count) as count,
+	score_code,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	if (DATE_FORMAT(score_date,'%c')>8,concat(DATE_FORMAT(score_date,'%Y'),'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND 16>DATE_FORMAT(score_date,'%e'),concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=1 ,concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND DATE_FORMAT(score_date,'%e')>15,concat(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),
+	if (DATE_FORMAT(score_date,'%c')>2 and 9>DATE_FORMAT(score_date,'%c') ,CONCAT(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),0) 
+	) ) ) ) AS term,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id,
+	score
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	score_code,
+	attend_item,
+	term
+	</select>
+	
+	<select id="getTeamDayTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date
+	FROM
+	kt_bus_score
+	WHERE
+	school_id =#{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	team_id,
+	attend_item,
+	score_date
+	</select>
+	
+	<select id="getTeamWeekTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%v') as weekdate
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	attend_item,
+	weekdate
+	</select>
+	
+	<select id="getTeamMonthTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%m') as monthdate
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	attend_item,
+	monthdate
+	</select>
+	
+	<select id="getTeamYearTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%Y') as yeardate
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	attend_item,
+	yeardate
+	</select>
+	
+	<select id="getTeamTermTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT 
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	if (DATE_FORMAT(score_date,'%c')>8,concat(DATE_FORMAT(score_date,'%Y'),'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND 16>DATE_FORMAT(score_date,'%e'),concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=1 ,concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND DATE_FORMAT(score_date,'%e')>15,concat(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),
+	if (DATE_FORMAT(score_date,'%c')>2 and 9>DATE_FORMAT(score_date,'%c') ,CONCAT(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),0) 
+	) ) ) ) AS term
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	team_id,
+	score_type,
+	attend_item,
+	term
+	</select>
+	
+	<select id="getGradeDayTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	attend_item,
+	score_date
+	</select>
+	
+	<select id="getGradeWeekTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%v') as weekdate,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	attend_item,
+	weekdate
+	</select>
+	
+	<select id="getGradeMonthTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%x-%m') as monthdate,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	attend_item,
+	monthdate
+	</select>
+	
+	<select id="getGradeYearTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	DATE_FORMAT(score_date,'%Y') as yeardate,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	attend_item,
+	yeardate
+	</select>
+	
+	<select id="getGradeTermTotalDay" parameterType="ScoreVO" resultType="ScoreVO">
+	SELECT 
+	count(*) as count,
+	team_type,
+	team_id,
+	attend_item,
+	score_type,
+	score_date,
+	if (DATE_FORMAT(score_date,'%c')>8,concat(DATE_FORMAT(score_date,'%Y'),'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND 16>DATE_FORMAT(score_date,'%e'),concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=1 ,concat(DATE_FORMAT(score_date,'%Y')-1,'UP'),
+	if (DATE_FORMAT(score_date,'%c')=2 AND DATE_FORMAT(score_date,'%e')>15,concat(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),
+	if (DATE_FORMAT(score_date,'%c')>2 and 9>DATE_FORMAT(score_date,'%c') ,CONCAT(DATE_FORMAT(score_date,'%Y')-1,'DOWN'),0) 
+	) ) ) ) AS term,
+	if (team_type='011005' , (select grade_id from kt_bas_classroom where class_id=team_id),0 ) as group_id
+	FROM
+	kt_bus_score
+	WHERE
+	school_id = #{school_id} and score_type=#{score_type}
+	GROUP BY
+	team_type,
+	group_id,
+	score_type,
+	attend_item,
+	term
+	</select>
+
+    <select id="getScoreNoAttend" parameterType="ScoreListVO" resultType="ScoreListVO">
+        SELECT
+        score_id,
+        sum(score) AS score,
+        create_by,
+        score_date
+        FROM
+        kt_bus_score_list
+        WHERE
+        student_id = #{student_id}
+        AND score_type != #{score_type}
+        GROUP BY
+        score_id
+    </select>
+
+	<select id="getScoreCount" parameterType="ScoreCountVO" resultType="ScoreVO">
+		select team_id,sum(count*score) as score,team_type,group_id from kt_bus_score_list where
+		school_id=#{school_id} and team_type=#{team_type}
+		<if test="group_id!=0 and group_id!=null">
+		and group_id=#{group_id}
+		</if>
+		<if test="team_id!=0 and team_id!=null">
+		and team_id=#{team_id}
+		</if>
+		and module_code=#{module_code} and score_type=#{score_type} and score_date>=#{start_date} and
+		 #{end_date}>=score_date group by team_id,team_type,group_id
+		order by score
+	</select>
+
+	<select id="getScoreCountOfStudent" parameterType="ScoreCountVO" resultType="ScoreVO">
+		select student_id,sum(count*score) as score,team_id,student_code from kt_bus_score_list where school_id=#{school_id} and
+		team_type=#{team_type}
+		<if test="group_id!=0 and group_id!=null">
+			and group_id=#{group_id}
+		</if>
+		<if test="team_id!=0 and team_id!=null">
+			and team_id=#{team_id}
+		</if>
+		and module_code=#{module_code} and score_type=#{score_type} and
+		score_date BETWEEN #{start_date} and #{end_date} group by student_id,team_id,student_code
+		<if test="sort==1">
+			order by score
+		</if>
+		<if test="sort==0">
+			order by score DESC
+		</if>
+		<if test="group_id==0 and team_id==0">
+			limit 100
+		</if>
+	</select>
+	
+	<select id="getScoreDetail" parameterType="ScoreCountVO" resultType="DashBoardVO">
+	SELECT
+	IFNULL(sum(count*score),0) as info,
+	#{start_date} as name
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	AND team_type = #{team_type}
+	AND module_code = #{module_code}
+	AND score_type = #{score_type}
+	AND team_id = #{team_id}
+	and score_date BETWEEN #{start_date} and #{end_date}
+	</select>
+
+	<select id="getScoreSum" parameterType="ScoreCountVO" resultType="DashBoardVO">
+		select * from (
+	  (SELECT
+	IFNULL(sum(count * score),0) AS info,
+	IFNULL(score_type,#{score_type}) as name
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	AND team_type = #{team_type}
+	AND module_code = #{module_code}
+	AND score_type = #{score_type}
+	AND score_date BETWEEN #{start_date} and #{end_date}
+	<if test="team_id!=null and team_id!=0">
+		AND team_id = #{team_id}
+	</if>
+	<if test="student_id!=null and student_id!=0">
+		and student_id=#{student_id}
+	</if>
+	AND 0>score)
+	UNION
+	  (SELECT
+	IFNULL(sum(count * score),0) AS info,
+	IFNULL(score_type,#{score_type}) as name
+	FROM
+	kt_bus_score_list
+	WHERE
+	school_id = #{school_id}
+	AND team_type = #{team_type}
+	AND module_code = #{module_code}
+	AND score_type = #{score_type}
+	AND score_date BETWEEN #{start_date} and #{end_date}
+		<if test="team_id!=null and team_id!=0">
+			AND team_id = #{team_id}
+		</if>
+		<if test="student_id!=null and student_id!=0">
+			and student_id=#{student_id}
+		</if>
+	AND score>0)) a
+	</select>
+
+	<select id="getScoreCodeDetail" parameterType="ScoreCountVO" resultType="DashBoardVO">
+		SELECT
+		SUM(count*score) as info,score_code as name
+		FROM
+		kt_bus_score_list
+		WHERE
+		school_id = #{school_id}
+		AND team_type = #{team_type}
+		AND module_code = #{module_code}
+		AND score_type = #{score_type}
+		AND score_date BETWEEN #{start_date} and #{end_date}
+		<if test="team_id!=null and team_id!=0">
+			AND team_id = #{team_id}
+		</if>
+		<if test="student_id!=null and student_id!=0">
+			and student_id=#{student_id}
+		</if> GROUP BY score_code
+	</select>
+
+	<select id="getStudentTotalDay" parameterType="TableVO" resultType="Integer">
+	SELECT count(score_id) as total_day FROM kt_bus_score
+	WHERE school_id = #{school_id}
+	AND team_type = #{team_type}
+	AND team_id = #{team_id}
+	AND score_type = #{score_type}
+	AND attend_item = #{attend_item}
+	AND score_date BETWEEN #{start_date} AND #{end_date}
+	</select>
+
+	<select id="getStudentCount" parameterType="TableVO" resultType="ScoreListVO">
+	SELECT score_code,count(count) as count,sum(score*count) as score
+	FROM kt_bus_score_list
+	WHERE school_id = #{school_id}
+	AND team_type = #{team_type}
+	AND team_id = #{team_id}
+	<if test="student_id!=null and student_id!=0">
+    and student_id=#{student_id}
+	</if>
+	AND score_type = #{score_type}
+	<if test="attend_item!=null and attend_item!=''">
+	AND attend_item = #{attend_item}
+	</if>
+	AND score_date BETWEEN #{start_date} AND #{end_date}
+    group by score_code
+	</select>
+</mapper>
+

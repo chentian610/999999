@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="agentMap">
+	<!--插入表kt_bas_agent -->
+	<insert id="insertAgent" parameterType="AgentVO">insert into kt_bas_agent
+		(
+		user_id,
+		phone,
+		agent_name,
+		regist_date,
+		valid_date,
+		is_enable,
+		unit_price,
+		region_code,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version
+		) VALUES (
+		#{user_id},
+		#{phone},
+		#{agent_name},
+		#{regist_date},
+		#{valid_date},
+		#{is_enable},
+		#{unit_price},
+		#{region_code},
+		#{create_by},
+		#{create_date},
+		#{update_by},
+		#{update_date},
+		#{version}
+		)
+	</insert>
+	<!--更新表kt_bas_agent -->
+	<update id="updateAgentByID" parameterType="AgentVO">update kt_bas_agent
+		set
+		<if test="phone != '' and phone != null">
+			phone = #{phone},
+		</if>
+		<if test="agent_name != '' and agent_name != null">
+		agent_name = #{agent_name},
+		</if>
+		<if test="regist_date != '' and regist_date != null">
+		regist_date = #{regist_date},
+		</if>
+		<if test="valid_date != '' and valid_date != null">
+		valid_date = #{valid_date},
+		</if>
+		<if test="is_enable != '' and is_enable != null">
+		is_enable = #{is_enable},
+		</if>
+		<if test="unit_price != '' and unit_price != null">
+		unit_price = #{unit_price},
+		</if>
+		<if test="region_code != '' and region_code != null">
+		region_code = #{region_code},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1
+		where agent_id = #{agent_id}
+	</update>
+	<!--查询表kt_bas_agent -->
+	<select id="getAgentListByID" parameterType="Integer"
+		resultType="AgentVO">select
+		a.agent_id as agent_id,
+		u.user_id as user_id,
+		a.phone as phone,
+		a.agent_name as agent_name,
+		a.regist_date as regist_date,
+		a.valid_date as valid_date,
+		a.is_enable as is_enable,
+		a.unit_price as unit_price,
+		a.region_code as region_code,
+		a.create_by as create_by,
+		a.create_date as create_date,
+		a.update_by as update_by,
+		a.update_date as update_date,
+		a.version as version
+		from kt_bas_agent a,kt_sys_user u
+		where a.agent_id = #{agent_id} AND  a.phone = u.phone
+	</select>
+
+	<!--查询表kt_bas_agent -->
+	<select id="getAgentByAgentName" parameterType="String"
+		resultType="AgentVO">
+		select
+		agent_id as agent_id,
+		user_id as user_id,
+		phone as phone,
+		agent_name as agent_name,
+		regist_date as regist_date,
+		valid_date as valid_date,
+		is_enable as is_enable,
+		unit_price as unit_price,
+		region_code as region_code,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as versio
+		from kt_bas_agent
+		where agent_name = #{agent_name}
+	</select>
+
+	<!--查询表kt_bas_agent -->
+	<select id="getAgentByPhone" parameterType="String" resultType="AgentVO">
+		select
+		agent_id as agent_id,
+		user_id as user_id,
+		phone as phone,
+		agent_name as agent_name,
+		regist_date as regist_date,
+		valid_date as valid_date,
+		is_enable as is_enable,
+		unit_price as unit_price,
+		region_code as region_code,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_agent
+		where phone = #{phone}
+	</select>
+
+	<!--查询表kt_bas_agent -->
+	<select id="getAgentByUserID" parameterType="Integer" resultType="AgentVO">
+		select
+		agent_id as agent_id,
+		user_id as user_id,
+		phone as phone,
+		agent_name as agent_name,
+		regist_date as regist_date,
+		valid_date as valid_date,
+		is_enable as is_enable,
+		unit_price as unit_price,
+		region_code as region_code,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_agent
+		where user_id = #{user_id}
+	</select>
+
+	<!--查询表kt_bas_agent -->
+	<select id="getAgentList" parameterType="AgentVO" resultType="AgentVO">
+		select
+			agent_id as agent_id,
+			user_id as user_id,
+			phone as phone,
+			agent_name as agent_name,
+			regist_date as regist_date,
+			valid_date as valid_date,
+			is_enable as is_enable,
+			unit_price as unit_price,
+			region_code as region_code,
+			create_by as create_by,
+			create_date as create_date,
+			update_by as update_by,
+			update_date as update_date,
+			version as versio
+		from kt_bas_agent
+		<where>
+			<if test="search != null and search != '' ">
+				and ( agent_name like CONCAT('%',#{search},'%')
+				or phone like CONCAT('%',#{search},'%'))
+			</if>
+			<if test="agent_name != null and agent_name != ''">
+				and agent_name = #{agent_name}
+			</if>
+			<if test="phone != null and phone != ''">
+				and phone = #{phone}
+			</if>
+		</where>
+		order by agent_id desc
+	</select>
+
+	<!--查询表kt_bas_agent -->
+	<select id="getAgentBasicList" parameterType="AgentVO" resultType="AgentVO">
+		select
+		a.agent_id as agent_id,
+		u.user_id as user_id,
+		a.phone as phone,
+		a.agent_name as agent_name,
+		a.regist_date as regist_date,
+		a.valid_date as valid_date,
+		a.is_enable as is_enable,
+		a.unit_price as unit_price,
+		a.region_code as region_code,
+		p.province_name as region,
+		u.pass_word as pass_word,
+		b.balance as balance,
+		b.version as version
+		from kt_bas_agent a,kt_sys_user u,kt_bas_balance b,kt_bas_province p
+		WHERE a.phone = u.phone AND a.agent_id = b.agent_id and a.region_code = p.province_id
+		<if test="search != null and search != '' ">
+			and ( a.agent_name like CONCAT('%',#{search},'%')
+			or a.phone like CONCAT('%',#{search},'%'))
+		</if>
+		<if test="agent_name != null and agent_name != ''">
+			and a.agent_name = #{agent_name}
+		</if>
+		<if test="region_code != null and region_code != ''">
+			and a.region_code = #{region_code}
+		</if>
+		<if test="phone != null and phone != ''">
+			and a.phone = #{phone}
+		</if>
+		<if test="agent_id != null and agent_id != ''">
+			AND a.agent_id = #{agent_id}
+		</if>
+		order by agent_id desc
+	</select>
+	<!--删除表kt_bas_agent -->
+	<delete id="deleteAgentByID" parameterType="AgentVO">delete from
+		kt_bas_agent
+		where agent_id = #{agent_id}
+	</delete>
+</mapper>
+

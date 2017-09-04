@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="settingMap">
+	<!--插入表kt_sys_user_setting-->
+	<insert id="insertSetting" parameterType="SettingVO">insert into
+		kt_sys_user_setting
+		(
+		user_id,
+		set_type,
+		is_open,
+		create_by,
+		create_date
+		) VALUES (
+		#{user_id},
+		#{set_type},
+		#{is_open},
+		#{create_by},
+		#{create_date}
+		)</insert>
+	<!--更新表kt_sys_user_setting-->
+	<update id="updateSetting" parameterType="SettingVO">update
+		kt_sys_user_setting
+		set 
+		set_type = #{set_type},
+		is_open = #{is_open},
+		update_by = #{update_by},
+		update_date = #{update_date}
+		where id=#{id}
+	</update>
+	<!--查询表kt_sys_user_setting-->
+	<select id="getSettingList" parameterType="SettingVO"
+		resultType="SettingVO">select
+		id as id,
+		user_id as user_id,
+		set_type as set_type,
+		is_open as is_open,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date
+		from kt_sys_user_setting
+		where user_id=#{user_id}
+		<if test="id != null and id != 0">
+			and id=#{id}
+		</if>
+		<if test="set_type != null">
+			and set_type=#{set_type}
+		</if>
+		<if test="is_open != null">
+			and is_open=#{is_open}
+		</if>
+		</select>
+	<!--删除表kt_sys_user_setting-->
+	<delete id="deleteSetting" parameterType="SettingVO">delete from
+		kt_sys_user_setting
+		where id = #{id}</delete>
+</mapper>
+

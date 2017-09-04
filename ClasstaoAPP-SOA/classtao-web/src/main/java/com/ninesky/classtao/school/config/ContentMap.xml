@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="contentMap">
+	<!--插入表kt_bas_school -->
+	<insert id="insertSchool" parameterType="SchoolVO">
+	insert into
+		kt_bas_school
+		(
+		fistpage_url,
+		fistpage_type,
+		school_id,
+		school_type,
+		school_name,
+		school_admin,
+		school_admin_phone,
+		agent_phone,
+		english_name,
+		school_motto,
+		organize_pic_url,
+		status,
+		province,
+		address,
+		phone,
+		domain,
+		app_name,
+		app_pic_url,
+		app_status,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version
+		) VALUES (
+		#{fistpage_url},
+		#{fistpage_type},
+		#{school_id},
+		#{school_type},
+		#{school_name},
+		#{school_admin},
+		#{school_admin_phone},
+		#{agent_phone},
+		#{english_name},
+		#{school_motto},
+		#{organize_pic_url},
+		#{status},
+		#{province},
+		#{address},
+		#{phone},
+		#{domain},
+		#{app_name},
+		#{app_pic_url},
+		#{app_status},
+		#{create_by},
+		#{create_date},
+		#{update_by},
+		#{update_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bas_school -->
+	<update id="updateSchoolById" parameterType="SchoolVO">
+		update kt_bas_school
+		set 
+		<if test="school_type != null and school_type != '' ">
+			school_type = #{school_type},		    
+		</if>
+		<if test="school_name != null and school_name != '' ">
+			school_name = #{school_name},		    
+		</if>
+		<if test="school_admin != null and school_admin != '' ">
+			school_admin = #{school_admin},		    
+		</if>
+		<if test="english_name != null and english_name != '' ">
+			english_name = #{english_name},		    
+		</if>
+		<if test="school_motto != null and school_motto != '' ">
+			school_motto = #{school_motto},		    
+		</if>
+		<if test="organize_pic_url != null and organize_pic_url != '' ">
+			organize_pic_url = #{organize_pic_url},		    
+		</if>
+		<if test="fistpage_url != null and fistpage_url != '' ">
+			fistpage_url = #{fistpage_url},		    
+		</if>
+		<if test="fistpage_type != null and fistpage_type != '' ">
+			fistpage_type = #{fistpage_type},		    
+		</if>
+		<if test="status != null and status != '' ">
+			status = #{status},
+		</if>
+		<if test="app_status != null and app_status != '' ">
+			app_status = #{app_status},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1
+		where school_id = #{school_id}
+	</update>
+	<!--查询表kt_bas_school -->
+	<select id="getSchoolAdminPhone" parameterType="Integer" resultType="String">
+	select
+		school_admin_phone as school_admin_phone from  kt_bas_school
+		where school_id=#{school_id}
+	</select>
+	<!--删除表kt_bas_school -->
+	<delete id="deleteSchool" parameterType="SchoolVO">delete from
+		kt_bas_school
+		where id = #{id}
+	</delete>
+	
+	<!--获取学校信息 -->
+	<select id="getContentInfo" resultType="ContentVo">
+		select
+		cid, title, slug, created, modified, author_id, type, status, tags, categories, hits,
+    	comments_num, allow_comment, allow_ping, allow_feed
+		from t_contents
+	</select>
+</mapper>
+

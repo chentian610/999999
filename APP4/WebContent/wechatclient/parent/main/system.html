@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>系统设置</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/system.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">系统设置</h1>
+		</header>
+		<div id="abox" class="hxx-alert-box">
+			<div class="hxx-box-head">
+				<img src="../images/single_icon_60_write.png"/>
+				<span>意见反馈</span>
+			</div>
+			<textarea id="textarea" rows="6" placeholder="在这里输入你的意见"></textarea>
+			<div id="abtn1" class="hxx-alert-btn btn-left">
+				取消
+			</div>
+			<div id="abtn2" class="hxx-alert-btn btn-right">
+				发送
+			</div>
+		</div>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					新消息通知
+					<div id="bt1" class="mui-switch">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					仅在WIFI下使用
+					<div id="bt2" class="mui-switch">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li id="bt4" class="mui-table-view-cell">
+					<a href="#" class="mui-navigate-right">
+						提点使用上的建议
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li id="bt5" class="mui-table-view-cell">
+					<a style="text-align: center;color: #FF0000;" href="#">退出当前账号</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/system.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

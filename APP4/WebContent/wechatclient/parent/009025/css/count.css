@@ -1,0 +1,119 @@
+.mui-bar .mui-btn-link{
+	color: #57CEBF;
+}
+.mui-scroll-wrapper{
+	top: 130px;
+}
+.hxx-table-title{
+	background-color: #F5F5F5;
+	font-size: 12px;
+	padding: 5px;
+	color: #BDBDBD;
+	text-align: center;
+	min-width: 30rem;
+}
+table.Table {
+	font-family: verdana, arial, sans-serif;
+	font-size: 12px;
+	border-width: 1px;
+	border-color: #e6e4e4;
+	border-collapse: collapse;
+	table-layout: fixed;
+	background-color: #F5F5F5;
+}
+table.Table caption {
+	font-size: 12px;
+	background-color: #F5F5F5;
+	color: #BDBDBD;
+	text-align: center;
+	min-width: 30rem;
+}
+table.Table th {
+	border-style:none solid;
+	border-width: 1px;
+	border-color: #E9E9E9;
+	padding: 5px;
+	font-size: 14px;
+	color: #9B9B9B;
+	text-align: center;
+	word-break: keep-all;
+	white-space: nowrap;
+}
+table.Table td {
+	border: 1px dashed #e6e4e4;
+	background-color: #ffffff;
+	text-align: center;
+	padding: 5px;
+	color: #333333;
+	word-break: keep-all;
+	white-space: nowrap;
+}
+
+.mui-popover{
+	width: 29.5rem;
+}
+.mui-row{
+	border-bottom: 1px solid #c8c7cc;
+	border-top: 1px solid #c8c7cc;
+	padding: 5px 0;
+}
+.hxx-btn{
+	height: 38px;
+	text-align: center;
+	line-height: 45px;
+}
+.hxx-btn-down:after{
+	font-family: Classtao;
+	content: "\e66d";
+}
+.hxx-btn.hxx-select span{
+	border: 1px solid #4fcb19;
+	padding: 5px 8px;
+	border-radius: 3px;
+}
+.hxx-list-btn{
+	text-align: center;
+}
+.hxx-list-btn:before{
+	font-family: classtao;
+	content: "\e633";
+	color: #c8c7cc;
+	position: absolute;
+	left: 30px;
+}
+.hxx-list-btn:after{
+	font-family: classtao;
+	content: "\e61d";
+	display: inline-block;
+	font-size: 40px;
+	color: #4fcb19;
+	position: absolute;
+	right: 30px;
+}
+.hxx-list-btn.hxx-active:before{
+	color: #4fcb19;
+}
+.mui-table-view-cell:after{
+	left: 0;
+}
+.hxx-btn-cancel{
+	padding: 10px;
+	margin: 10px;
+	text-align: center;
+}
+.hxx-btn-cancel span{
+	border: 1px solid #4fcb19;
+	padding: 10px 30px;
+	border-radius: 3px;
+}
+.hxx-btn-success{
+	padding: 10px;
+	margin: 10px;
+	text-align: center;
+}
+.hxx-btn-success span{
+	background-color: #4fcb19;
+	color: #FFFFFF;
+	padding: 10px 30px;
+	border-radius: 3px;
+}

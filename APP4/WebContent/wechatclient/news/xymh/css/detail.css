@@ -1,0 +1,27 @@
+html,
+body,
+.mui-content,
+.qbb-news-content {
+	background-color: #FFFFFF;
+}
+
+img {
+	width: 100%;
+}
+
+.qbb-news-content {
+	margin: 1.2rem 1.6rem;
+}
+
+.qbb-content-title {
+	font-size: 1.84rem;
+}
+
+.qbb-content-text {
+	margin-top: 1.76rem;
+	font-size: 1.28rem;
+}
+
+.qbb-head-content {
+	margin: 0 auto;
+}

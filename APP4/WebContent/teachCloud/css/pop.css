@@ -1,0 +1,156 @@
+.popup{
+			position: fixed;
+			width: 822px;
+			height: 450px;
+			background:#ffffff;
+			border: 1px solid #d3d3d3;
+			left: 50%;
+			top: 50%;
+			margin-left: -411px;
+			margin-top: -225px;
+			display:none;
+		}
+		.popup-hid{
+			display:none !important ;
+		}
+		.content-box{
+			position: relative;
+		}
+		.title-top{
+			height: 47px;
+			width:822px;
+			position:relative;
+			background-color:#59cebf;	
+		}
+		.class-list{
+			height: 20px;
+			top: 15px;
+			left: 24px;
+			position: absolute;
+			text-align: left;
+			line-height: 20px;
+			color:#ffffff;
+			font-weight: 600;
+			letter-spacing:2px;
+			cursor:pointer;
+		}
+		.class-list:after{
+			content: "";
+			display:inline-block;
+			letter-spacing:5px;
+			width:0; 
+		    height:0; 
+		    border-left:8px solid transparent;
+		    border-right:8px solid transparent;
+		    border-top:8px solid #ffffff;
+		    cursor:pointer;
+		}
+		.close-button{
+			width: 18px;
+			height: 18px;
+			background: #ffffff;
+			color:#59cebf ;
+			font-size: 18px;
+			text-align: center;
+			line-height: 18px;
+			font-weight:900;
+			position: absolute;
+			right: 28px;
+			top: 15px;
+			cursor: pointer;
+		}
+        .class-name-all{
+        	width: 774px;
+        	height: 153px;
+        	border: 1px solid #e9e9e9;
+        	margin-left: 24px;
+        	margin-top:15px;
+
+        }
+        .class-name{
+        	float: left;
+        	/*width: 110px;*/
+        	height: 20px;
+        	line-height: 20px;
+        	font-size:16px;
+        	margin-top: 21px;
+        	margin-left:43px;
+        	color:#1c1c1c;
+        }
+         .class-tip{
+         	float: left;
+        	display: inline-block;
+        	width: 17px;
+        	height: 17px;
+        	margin-top: 2px;
+        	margin-right:6px;
+        	border-radius: 2px;
+        	background-color: #59cebf;
+        	
+        }
+        .class-checked{
+       	    background:url(tip.png) no-repeat center center;
+        	background-size: 100%;	
+        }
+        .select-all,.confirm-submit{
+        	width: 79px;
+        	height: 25px;
+        	background-color: #59cebf;
+        	border: none;
+        	color:#ffffff;
+        	font-size: 19px;
+        	font-weight:normal;
+        	line-height: 25px;
+        	text-align:center;
+        	display:block;
+        	clear: both;
+        	position: absolute;
+        	margin-top: 17px;
+        	cursor: pointer;
+
+        }
+        .select-all{
+        	left: 582px;
+        }
+        .confirm-submit{
+        	left: 692px;
+        }
+        .message-tip{
+          font-size: 19px;
+          position: absolute;
+          left: 24px;
+          margin-top:  17px;
+          cursor: pointer;
+          color:#59cebf;
+        }
+        .message-tip:after{
+        	content: "";
+        	display:inline-block;
+        	margin-left: 9px;
+        	width: 17px;
+        	height: 13px;
+        	background: url(message.png) no-repeat center center;
+        	background-size: 100% 100%;
+			cursor: pointer;
+        }
+        .message-box{
+        	width: 774px;
+        	height:153px;
+        	display: block;
+        	position: absolute;
+        	left:  24px;
+        	top: 273px;
+        	resize: none;
+        	box-sizing:border-box;
+        	/*overflow-y: scroll;*/
+        	border: 1px dashed #cccccc;
+        	font-size: 16px;
+        	padding:10px 10px;
+        	line-height:25px;
+        }
+        .class-tip{
+        	cursor: pointer;
+        }
+        .layui-layer-shade{
+        	display:none !important;
+        }

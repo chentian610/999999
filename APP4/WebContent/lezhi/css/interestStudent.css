@@ -1,0 +1,40 @@
+/*设置input样式*/
+.checkbox{margin: 0 0 0 15px;}
+.checkbox input{width: 17px;height: 17px;}
+.checkbox label{padding-left: 0;}
+.zjq-classes{border-bottom: 1px solid #E9E9E9;height: 629px;}
+.zjq-student-list{position:relative;width: 50%;padding-right: 15px;border-right:1px solid #E9E9E9 ;height: 100%;}
+.zjq-student-list h2{height: 70px;line-height: 70px;margin: 0;text-align: center;}
+.zjq-table{border-bottom: 1px solid #E9E9E9;}
+.zjq-student td{border-right: 1px solid #E9E9E9;}
+.zjq-student td:first-child{width:42px;}
+.zjq-student td:nth-child(2){width: 105px;}
+.zjq-student td:nth-child(3){width: 40px;text-align: center;}
+.zjq-student td:nth-child(4){width: 106px;text-align: center;}
+.zjq-student td:nth-child(5){width: 46px;text-align: center;}
+.zjq-student td:last-child{width: 54px;text-align: center;border-right: none;}
+.zjq-student td:last-child img{width: 18px;height: 18px;}
+.zjq-student-list .buttons{position:absolute;bottom:40px;width: 100%;height: 30px;display: inline-block;text-align: center;}
+.zjq-student-list .buttons .s_btn{width:60px;height: 30px;background:#1cbb9e;color: #fff;margin: 0 5px;line-height: 18px;}
+
+/*引入字体图标*/
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../../fonts/glyphicons-halflings-regular.eot');
+  src: url('../../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+.zjq-student-search{width: 50%;padding-left: 15px;position: relative;height: 100%;}
+.zjq-student-search .zjq-form-header{height: 58px;margin: 23px 0 -10px 28px;}
+.zjq-student-search .glyphicon {display: inline-block;font-family: 'Glyphicons Halflings';position: absolute;top:25%;right: 10px;z-index: 22222;}
+.zjq-student-search .zjq-form-header .zjq-sel{width:137px;height: 30px;border-color: #E9E9E9;}
+.zjq-student-search .zjq-form-header .zjq-search{position: relative;width: 45%;height: 30px;margin: 0 0 0 18px;height: 30px;}
+.zjq-student-search .zjq-form-header .zjq-search input{width: 100%;height: 30px;}
+.zjq-student-search .zjq-numberList{margin: 0;position: absolute;right: 0;}
+.zjq-student-search .zjq-numberList li a{color:#4A4A4A;}
+.zjq-student-search .buttons{position: absolute;bottom: 40px;width: 100%;height: 30px;display: inline-block;text-align: center;}
+.zjq-student-search .buttons .btn{width:60px;height: 30px;background:#1cbb9e;color: #fff;margin: 0 5px;line-height: 18px;}
+.zjq-student-search .buttons .add_btn{width: 120px;}
+/*页底按钮*/
+.zjq-buttons{width: 100%;height: 40px;display: inline-block;text-align: center;margin-top: 35px;}
+.zjq-buttons .btn{width:180px;height: 40px;background:#A9AAB4;color: #fff;margin: 0 5px;line-height: 28px;}
+.zjq-buttons .save_btn{width: 350px;background:#1CBB9E;}

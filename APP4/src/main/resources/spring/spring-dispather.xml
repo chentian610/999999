@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 查找最新的schemaLocation 访问 http://www.springframework.org/schema/ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop   
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd   
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd   
+        http://www.springframework.org/schema/mvc   
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd   
+        ">
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <mvc:annotation-driven />
+	<context:component-scan base-package="com.ninesky.classtao">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
+
+	<!-- 当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
+	<mvc:view-controller path="/" view-name="forward:/login" />
+
+	<!-- 配置静态资源，直接映射到对应的文件夹，不被拦截器处理 --> 
+	<mvc:resources mapping="/agent/**" location="/agent/"/>
+	<mvc:resources mapping="/api/**" location="/api/"/>
+	<mvc:resources mapping="/app/**" location="/app/"/>
+	<mvc:resources mapping="/application/**" location="/application/"/>
+	<mvc:resources mapping="/article/**" location="/article/"/>
+	<mvc:resources mapping="/audit/**" location="/audit/"/>
+	<mvc:resources mapping="/bootstrap/**" location="/bootstrap/"/>
+	<mvc:resources mapping="/dict/**" location="/dict/"/>
+	<mvc:resources mapping="/fame/**" location="/fame/"/>
+	<mvc:resources mapping="/hplus/**" location="/hplus/"/>
+	<mvc:resources mapping="/images/**" location="/images/"/>
+	<mvc:resources mapping="/js/**" location="/js/"/>
+	<mvc:resources mapping="/lezhi/**" location="/lezhi/"/>
+	<mvc:resources mapping="/teachCloud/**" location="/teachCloud/"/>
+	<mvc:resources mapping="/teacherDisk/**" location="/teacherDisk/"/>
+	<mvc:resources mapping="/wechat/**" location="/wechat/"/>
+	<mvc:resources mapping="/wechatclient/**" location="/wechatclient/"/>
+	<mvc:resources mapping="/cj/**" location="/cj/"/>
+	<mvc:resources mapping="/data/**" location="/data/"/>
+	<mvc:resources mapping="/pay/**" location="/pay/"/>
+	<mvc:resources mapping="/notice/**" location="/notice/"/>
+	<mvc:resources mapping="/recruitStudent/**" location="/recruitStudent/"/>
+	<mvc:resources mapping="/menu/**" location="/menu/"/>
+	<mvc:resources mapping="/microPortal/**" location="/microPortal/"/>
+	<mvc:resources mapping="/schoolMenu/**" location="/schoolMenu/"/>
+	<mvc:resources mapping="/workAttendance/**" location="/workAttendance/"/>
+	<mvc:resources mapping="/appDict/**" location="/appDict/"/>
+	<mvc:resources mapping="/teacherAttendLocation/**" location="/teacherAttendLocation/"/>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/**"/> 
+			<mvc:exclude-mapping path="/images/**"/> 
+			<mvc:exclude-mapping path="/**/*.js"/>
+			<mvc:exclude-mapping path="/**/*.html"/>
+			<mvc:exclude-mapping path="/**/*.css"/>  
+			<mvc:exclude-mapping path="/**/images/**"/> 
+			<mvc:exclude-mapping path="/**/img/**"/> 
+			<mvc:exclude-mapping path="/zju/**"/>  
+			<bean class="com.ninesky.framework.DataInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/schoolStyleActionAction/getSchoolStyleList"/> 
+			<bean class="com.ninesky.framework.BootstrapTableInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/*Action/**"/> 
+		 	<mvc:exclude-mapping path="/templateAction/**"/>
+			<mvc:exclude-mapping path="/wechatAuthAction/**"/>
+			<!--登录模块-->
+			<mvc:exclude-mapping path="/loginAction/regist"/>
+			<mvc:exclude-mapping path="/loginAction/login"/>
+			<mvc:exclude-mapping path="/loginAction/Login"/>
+			<mvc:exclude-mapping path="/loginAction/admlogin"/>
+			<mvc:exclude-mapping path="/loginAction/LezhiWebLogin"/>
+			<mvc:exclude-mapping path="/loginAction/changePassWord"/>
+			<mvc:exclude-mapping path="/loginAction/checkAppVerson"/>
+			<!--用户模块-->
+			<mvc:exclude-mapping path="/userAction/completeUserInfo"/>
+			<mvc:exclude-mapping path="/userAction/regist"/>
+			<mvc:exclude-mapping path="/userAction/getValidateCode"/>
+			<mvc:exclude-mapping path="/userAction/getValidateCodePhone"/>
+			<mvc:exclude-mapping path="/userAction/checkValidateCode"/>
+			<mvc:exclude-mapping path="/userAction/resetPassword"/>
+			<mvc:exclude-mapping path="/userAction/forgetPassword"/>
+			<!--学校申请模块-->
+			<mvc:exclude-mapping path="/schoolApplyAction/**"/>
+			<mvc:exclude-mapping path="/schoolAction/getSchoolModuleList"/>
+			<mvc:exclude-mapping path="/schoolAction/completeInformation"/>
+			<mvc:exclude-mapping path="/schoolAction/getSchoolById"/>
+			<mvc:exclude-mapping path="/schoolAction/redirect/**"/>
+			<mvc:exclude-mapping path="/schoolApplyAction/addLinkManFromBaidu"/>
+			<mvc:exclude-mapping path="/schoolAction/getSchoolApplyList"/>
+			<mvc:exclude-mapping path="/schoolAction/updateSchoolApply"/>
+			<!--资讯类模块-->
+			<mvc:exclude-mapping path="/newsAction/getMainPageNewsList"/>
+			<mvc:exclude-mapping path="/newsAction/getNewsListForAPP"/>
+			<mvc:exclude-mapping path="/newsAction/getNewsList"/>
+			<mvc:exclude-mapping path="/newsAction/getNews"/>
+			<mvc:exclude-mapping path="/newsAction/getNewsListOfLogin"/>
+			<!--模块管理-->
+			<mvc:exclude-mapping path="/moduleAction/getModuleList"/>
+			<mvc:exclude-mapping path="/moduleAction/getSchoolModuleByCode"/>
+			<!--APP模块-->
+			<mvc:exclude-mapping path="/systemAction/getLastVersion"/>
+			<mvc:exclude-mapping path="/systemAction/getMainView"/>
+			<mvc:exclude-mapping path="/dictAction/getDictSchoolList"/>
+			<!--扫码登录-->
+			<mvc:exclude-mapping path="/scanAction/createCode"/>
+			<mvc:exclude-mapping path="/scanAction/secondConfirm"/>
+			<mvc:exclude-mapping path="/fileAction/uploadFile"/>
+			<!--系统基础数据模块-->
+			<mvc:exclude-mapping path="/dictAction/getDictionary"/>
+			<mvc:exclude-mapping path="/gradeAction/getGradeAndClass"/>
+			<mvc:exclude-mapping path="/systemAction/getDictionary"/>
+			<mvc:exclude-mapping path="/bedroomAction/getBedroomList"/>
+			<mvc:exclude-mapping path="/appAction/addSuggest"/>
+			<mvc:exclude-mapping path="/scoreAction/getScoreReason"/>
+			<mvc:exclude-mapping path="/attendAction/getAttendCodeList"/>
+			<!--名人墙模块-->
+			<mvc:exclude-mapping path="/fameAction/getFameList"/>
+			<mvc:exclude-mapping path="/fameAction/getFameListForWeb"/>
+
+			<!--支付模块-->
+			<mvc:exclude-mapping path="/payAction/**"/>
+			<mvc:exclude-mapping path="/balanceAction/notify"/>
+
+			<!--新生报名模块-->
+			<mvc:exclude-mapping path="/enrollAction/getRecruitList"/>
+			<mvc:exclude-mapping path="/enrollAction/getRecruitByID"/>
+			<mvc:exclude-mapping path="/enrollAction/enroll"/>
+			
+			<!--新生报到模块-->
+			<mvc:exclude-mapping path="/studentRegisterAction/addRegister"/>
+
+			<!--学校官网模块-->
+			<mvc:exclude-mapping path="/schoolMainAction/**"/>
+
+			<!--提供给第三方的接口-->
+			<mvc:exclude-mapping path="/studentCardAction/addStudentAttend"/>
+			<mvc:exclude-mapping path="/studentCardAction/getSchoolMenuList"/>
+
+			<bean class="com.ninesky.framework.RequestInterceptor"/>
+		</mvc:interceptor>
+		<!--<mvc:interceptor>-->
+			<!--<mvc:mapping path="/schoolApplyAction/addLinkManFromBaidu"/>-->
+			<!--<bean class="com.ninesky.framework.CrossInterceptor" />-->
+		<!--</mvc:interceptor>-->
+	</mvc:interceptors>
+</beans>

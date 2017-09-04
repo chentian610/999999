@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="homeworkMap">
+	<!--插入表kt_bus_homework-->
+	<insert id="insertHomework" parameterType="HomeworkVO">
+	insert into	kt_bus_homework
+		(
+		school_id,
+		sender_id,
+		course,
+		title,
+		content,
+		end_date,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{sender_id},
+		#{course},
+		#{title},
+		#{content},
+		#{end_date},
+		#{create_by},
+		#{create_date},
+		0
+		)</insert>
+	<!--更新表kt_bus_homework-->
+	<update id="updateHomework" parameterType="HomeworkVO">
+	update kt_bus_homework
+		set 
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version = version+1 
+	where sender_id=#{sender_id} and school_id=#{school_id}
+	</update>
+	<!--查询表kt_bus_homework-->
+	<select id="getHomeworkList" parameterType="HomeworkVO"
+		resultType="HomeworkVO">
+	select
+		homework_id as homework_id,
+		school_id as school_id,
+		sender_id as sender_id,
+		title as title,
+		content as content,
+		version as version
+	from kt_bus_homework
+	where 1=1
+	</select>
+	<!--删除表kt_bus_homework-->
+	<delete id="deleteHomework" parameterType="HomeworkVO">
+	delete from	kt_bus_homework	where homework_id = #{homework_id}
+	</delete>
+	<!-- 获取发送者作业列表 -->
+	<select id="getHomeworkListBySenderId" parameterType="Map" resultType="HomeworkVO">
+	select
+		homework_id as homework_id,
+		school_id as school_id,
+		course as course,
+		sender_id as sender_id,
+		title as title,
+		content as content,
+		end_date as end_date,
+		create_date as create_date,
+		create_by as create_by,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bus_homework
+	where sender_id=#{user_id}
+		<if test="school_id != null and school_id != 0 ">    
+            and school_id=#{school_id} 
+        </if>
+		<if test="app_sql != null and app_sql != '' ">    
+            and homework_id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+            order by homework_id ${order_sql}  
+        </if> 
+	</select>
+	<!-- 根据作业id获取作业 -->
+	<select id="getHomeworkById" parameterType="Map" resultType="HomeworkVO">
+	select
+		homework_id as homework_id,
+		school_id as school_id,
+		course as course,
+		sender_id as sender_id,
+		title as title,
+		content as content,
+		end_date as end_date,
+		create_date as create_date,
+		create_by as create_by,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bus_homework
+	where homework_id=#{homework_id}
+		<if test="school_id != null and school_id != 0 ">    
+            and school_id=#{school_id} 
+        </if>
+	</select>
+	
+	<select id="getHomeworkByhId" parameterType="Integer" resultType="HomeworkVO">
+	select
+		homework_id as homework_id,
+		school_id as school_id,
+		course as course,
+		sender_id as sender_id,
+		title as title,
+		content as content,
+		end_date as end_date,
+		create_date as create_date,
+		create_by as create_by,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bus_homework
+	where homework_id=#{homework_id}
+	</select>
+	
+	<select id="getHomeworkEndDateByID" parameterType="Integer" resultType="String">
+	select
+		end_date as end_date
+	from kt_bus_homework
+	where homework_id=#{homework_id}
+	</select>
+</mapper>
+

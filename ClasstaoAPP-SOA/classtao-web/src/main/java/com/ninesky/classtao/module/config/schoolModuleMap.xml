@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schoolModuleMap">
+	<!--插入表kt_bas_school_module -->
+	<insert id="insertschoolModule" parameterType="schoolModuleVO">insert into
+		kt_bas_school_module
+		(
+		school_id,
+		module_code,
+		is_inactive,
+		module_name,
+		icon_url,
+		module_url,
+		count_action,
+		is_bigicon,
+		initdata,
+		is_news
+		) VALUES (
+		#{school_id},
+		#{module_code},
+		#{is_inactive},
+		#{module_name},
+		#{icon_url},
+		#{module_url},
+		#{count_action},
+		#{is_bigicon},
+		#{initdata},
+		#{is_news}
+		)
+	</insert>
+	
+	<!--批量插入-->
+	<insert id="insertSchoolModuleBatch" parameterType="List">insert into
+		kt_bas_school_module
+		(
+		school_id,
+		user_type,
+		module_code,
+		module_name,
+		icon_url,
+		module_url,
+		count_action,
+		is_bigicon,
+		is_news,
+		initdata,
+		partner_code,
+		create_by,
+		create_date
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+		    separator=",">(
+		#{item.school_id},
+		#{item.user_type},
+		#{item.module_code},
+		#{item.module_name},
+		#{item.icon_url},
+		#{item.module_url},
+		#{item.is_news},
+		#{item.count_action},
+		#{item.is_bigicon},
+		#{item.initdata},
+		#{item.partner_code},
+		#{item.create_by},
+		#{item.create_date}
+		)
+		</foreach>
+	</insert>
+	<!--更新表kt_bas_school_module-->
+	<update id="updateSchoolModule" parameterType="SchoolModuleVO">update
+		kt_bas_school_module
+		set id = #{id},
+		school_id = #{school_id},
+		module_code = #{module_code},
+		module_name = #{module_name},
+		icon_url = #{icon_url},
+		module_url = #{module_url},
+		count_action = #{count_action},
+		is_bigicon = #{is_bigicon},
+		is_news = #{is_news},
+		initdata = #{initdata}</update>
+	<!--查询表kt_bas_school_module-->
+	<select id="getSchoolModuleList" parameterType="Map" resultType="SchoolModuleVO">
+		select
+            case when isnull(t.module_name) = 1 then s.module_name
+                 when length(trim(t.module_name)) &lt; 1 then s.module_name
+            else t.module_name end as module_name,
+			t.id as id,
+			t.school_id as school_id,
+			t.module_code as module_code,
+			s.icon_url as icon_url,
+			t.icon_class as icon_class,
+			t.parent_code as parent_code,
+			s.module_url as module_url,
+			s.is_news as is_news,
+			t.count_action as count_action,
+			t.is_bigicon as is_bigicon,
+			t.initdata as initdata,
+			t.user_type as user_type
+		 from kt_bas_school_module t,kt_sys_module s
+		where school_id=#{school_id}
+		 and t.user_type = s.user_type
+		 and t.module_code = s.module_code
+		 and t.is_inactive = 0
+		 <if test="user_type!=null and user_type!='003' and user_type != '003099' and user_type!='0'">
+			and #{user_type} like CONCAT(s.user_type,'%')
+		 </if>
+		order by s.sort
+	</select>
+
+
+	<select id="getSchoolModuleBasicsList" parameterType="Map" resultType="Map">
+	select
+		s.school_id as school_id,
+		m.module_id as module_id,
+		m.module_code as module_code,
+		m.parent_code as parent_code,
+		s.module_name as module_name,
+		m.introduce as introduce,
+		m.user_type as user_type,
+		m.icon_url as icon_url,
+		m.is_must as is_must,
+		m.is_inactive as is_inactive,
+		m.sort as sort,
+		m.is_news as is_news,
+		m.create_by as create_by,
+		m.create_date as create_date,
+		p.module_price as module_price
+	from kt_sys_module m,kt_sys_module_price p,kt_bas_school_module s
+	WHERE m.module_code = p.module_code
+		AND m.user_type = p.user_type
+		AND m.module_code = s.module_code
+		AND m.user_type = s.user_type
+		AND m.is_inactive = #{is_inactive}
+		AND s.school_id = #{school_id}
+		<if test="partner_code != '' and partner_code != null">
+			AND m.partner_code like  CONCAT('%',#{partner_code},'%')
+		</if>
+		<if test="parent_code == '' and parent_code == null">
+			AND m.parent_code != '009'
+		</if>
+		<if test="school_type != '' and school_type != null">
+			AND p.school_type = #{school_type}
+		</if>
+	</select>
+	
+		<!--查询表kt_bas_school_module-->
+	<select id="getSchoolModuleListByIsNews" parameterType="SchoolModuleVO" resultType="SchoolModuleVO">
+	select
+		id as id,
+		school_id as school_id,
+		module_code as module_code,
+		module_name as module_name,
+		icon_url as icon_url,
+		icon_class as icon_class,
+		parent_code as parent_code,
+		module_url as module_url,
+		is_news as is_news,
+		count_action as count_action,
+		is_bigicon as is_bigicon,
+		initdata as initdata,
+		user_type as user_type
+		from kt_bas_school_module
+		where school_id=#{school_id}
+		and is_news = 1
+		order by parent_code,module_code
+	</select>
+	
+	<select id="getSchoolModuleCodeListBySchoolID" parameterType="Integer" resultType="SchoolModuleVO">
+		select module_code as module_code,user_type as user_type from kt_bas_school_module where school_id=#{school_id}
+	</select>
+
+	<select id="getSchoolModuleByID" parameterType="SchoolModuleVO" resultType="SchoolModuleVO">
+		SELECT s.school_id as school_id,m.module_code as module_code,m.user_type as user_type FROM kt_bas_school_module s,kt_sys_module m
+		WHERE s.user_type = m.user_type AND s.module_code = m.module_code
+		AND s.school_id = #{school_id} AND m.module_id = #{module_id}
+	</select>
+	
+	<!--删除表kt_bas_school_module-->
+	<delete id="deleteSchoolModule" parameterType="SchoolModuleVO">delete from
+		kt_bas_school_module
+		where id = #{id}</delete>
+	<delete id="deleteSchoolModuleBySchoolID" parameterType="Integer">delete from
+	kt_bas_school_module
+	where school_id = #{school_id}
+	</delete>
+	<select id="getSchoolModuleByModuleID" parameterType="SchoolModuleVO" resultType="SchoolModuleVO">
+	SELECT
+		s.id as id,
+		m.module_id as module_id,
+		s.school_id as school_id,
+		s.user_type as user_type,
+		s.module_code as module_code,
+		s.parent_code as parent_code,
+		s.partner_code as partner_code
+	FROM kt_bas_school_module s,kt_sys_module m
+	WHERE s.school_id = #{school_id} AND m.module_id = #{module_id}
+	AND s.module_code = m.module_code
+	AND s.user_type = m.user_type
+	</select>
+
+	<select id="getModuleByCode" parameterType="SchoolModuleVO" resultType="SchoolModuleVO">
+	select module_code,module_name from kt_bas_school_module where school_id=#{school_id} and
+	module_code=#{module_code} and is_inactive=0
+	</select>
+</mapper>

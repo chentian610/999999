@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sourceCatalogMap">
+	<select id="getz_version"  parameterType="String"
+			resultType="Map">
+		SELECT
+		version_no,version_name from z_version
+	</select>
+	<select id="getz_course"  parameterType="String"
+			resultType="Map">
+		SELECT
+		course_no,course_name from z_course
+	</select>
+	<select id="getz_grade"  parameterType="String"
+			resultType="Map">
+		SELECT
+		grade_no,grade_name from z_grade
+	</select>
+
+	<insert id="insertDatav02" parameterType="List">
+		insert into
+		v02
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav04" parameterType="List">
+		insert into
+		v04
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav05" parameterType="List">
+		insert into
+		v05
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav07" parameterType="List">
+		insert into
+		v07
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav11" parameterType="List">
+		insert into
+		v11
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav15" parameterType="List">
+		insert into
+		v15
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav16" parameterType="List">
+		insert into
+		v16
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav18" parameterType="List">
+		insert into
+		v18
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav19" parameterType="List">
+		insert into
+		v19
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav20" parameterType="List">
+		insert into
+		v20
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav29" parameterType="List">
+		insert into
+		v29
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav37" parameterType="List">
+		insert into
+		v37
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+	<insert id="insertDatav39" parameterType="List">
+		insert into
+		v39
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav40" parameterType="List">
+		insert into
+		v40
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav65" parameterType="List">
+		insert into
+		v65
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertDatav71" parameterType="List">
+		insert into
+		v71
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+				 separator=",">(
+			#{item.version_name},
+			#{item.grade_name},
+			#{item.course_name},
+			#{item.up_down_name},
+			#{item.part_name},
+			#{item.CourseListName}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertData2" parameterType="Map">
+		insert into
+		${table_name}
+		(
+		version_name,
+		grade_name,
+		course_name,
+		up_down_name,
+		part_name,
+		lesson_name
+		) VALUES
+		(
+			#{version_name},
+			#{grade_name},
+			#{course_name},
+			#{up_down_name},
+			#{part_name},
+			#{CourseListName}
+			)
+	</insert>
+
+	<insert id="insertRemark" parameterType="Map">
+		insert into
+		v_remark
+		(
+		remark,
+		url
+		) VALUES
+		(
+		#{remark},
+		#{url}
+		)
+	</insert>
+
+	<insert id="clearTable" parameterType="Map">
+		delete from	${version_no}
+	</insert>
+
+	<insert id="clearRemark" parameterType="Map">
+		delete from	v_remark where version = #{version_no}
+	</insert>
+</mapper>
+

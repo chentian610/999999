@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dictMap">
+	
+	<!-- 查询表kt_sys_dict -->
+	<select id="getDictList" parameterType="DictVO" resultType="DictVO">
+		select
+		id as id,
+		dict_code as dict_code,
+		dict_value as dict_value,
+		dict_group as dict_group,
+		other_field as other_field,
+		sort as sort,
+		description as description
+		from kt_sys_dict
+		<where>
+		<if test="dict_group!=null and dict_group!=''">
+		 and dict_group like concat(#{dict_group},'%')
+		</if> 
+		<if test="dict_code!=null and dict_code!=''">
+		 and dict_code = #{dict_code}
+		</if>
+		<if test="other_field!=null and other_field!=''">
+			and other_field=#{other_field}
+		</if>
+		and school_id=#{school_id} and is_configure=#{is_configure}
+		</where> order by dict_group,sort
+	</select>
+	
+	<!-- 查询表kt_sys_dict -->
+	<select id="getSubDictList" parameterType="DictVO" resultType="DictVO">
+		select
+			id as id,
+			dict_code as dict_code,
+			dict_value as dict_value,
+			dict_group as dict_group,
+			other_field as other_field,
+			sort as sort,
+			description as description
+		from kt_sys_dict
+		where dict_group = #{dict_group}
+			and school_id=#{school_id}
+		order by dict_group,sort
+	</select>
+
+	<!-- 查询表kt_sys_dict -->
+	<select id="getPayDictList" parameterType="Map" resultType="Map">
+		select
+		id as id,
+		dict_code as dict_code,
+		dict_value as dict_value,
+		dict_group as dict_group,
+		other_field as other_field,
+		sort as sort,
+		description as description
+		from kt_sys_dict
+		where dict_group = #{dict_group}
+	</select>
+	<!-- 查询表kt_sys_dict -->
+	<select id="getPayDictGroupList" parameterType="Map" resultType="DictVO">
+		select
+		id as id,
+		dict_code as dict_code,
+		dict_value as dict_value,
+		dict_group as dict_group,
+		other_field as other_field,
+		sort as sort,
+		description as description
+		from kt_sys_dict
+		where dict_group = #{dict_group}
+	</select>
+	
+	<!-- 查询表kt_sys_dict -->
+	<select id="getDictListByDict" parameterType="DictVO" resultType="DictVO">
+		select
+		id as id,
+		dict_code as dict_code,
+		dict_value as dict_value,
+		dict_group as dict_group,
+		other_field as other_field,
+		sort as sort,
+		description as description
+		from kt_sys_dict
+		where dict_group = #{dict_group}
+			and dict_code = #{dict_code}
+	</select>
+	
+	<!-- 查询表kt_sys_dict -->
+	<select id="getSubDictListByGroup" parameterType="String" resultType="DictVO">
+		select
+			id as id,
+			dict_code as dict_code,
+			dict_value as dict_value,
+			dict_group as dict_group,
+			other_field as other_field,
+			sort as sort,
+			description as description
+		from kt_sys_dict
+		where dict_group = #{dict_group}
+	</select>
+
+	<!-- 查询表kt_sys_dict,查询dict_code,dict_value是否重复 -->
+	<select id="getDict" parameterType="DictVO" resultType="DictVO">
+		select dict_code from kt_sys_dict where school_id=#{school_id} and dict_value=#{dict_value}
+	</select>
+	
+	<!-- 插入表 kt_sys_dict-->
+	<insert id="addDict" parameterType="DictVO">
+		insert into kt_sys_dict (id,school_id,dict_code,dict_value,dict_group,sort,description) 
+		values(#{id},#{school_id},#{dict_code},#{dict_value},#{dict_group},#{sort},#{description})
+	</insert>
+	
+	<delete id="deleteDict" parameterType="DictVO">
+		delete from kt_sys_dict where dict_code=#{dict_code}
+	</delete>
+	
+	<select id="getMaxCode" parameterType="String" resultType="DictVO">
+		select Max(dict_code) as dict_code,max(sort) as sort from kt_sys_dict where dict_group=#{dict_group}
+	</select>
+
+	 <update id="updateSort" parameterType="DictVO">
+		update kt_sys_dict set dict_group=#{dict_group},sort=#{sort} where dict_code=#{dict_code}
+	</update>
+
+	<update id="updateDictSchoolSort" parameterType="DictVO">
+		update kt_sys_dict_school set dict_group=#{dict_group},sort=#{sort},update_date=#{update_date} where dict_code=#{dict_code} and school_id=#{school_id}
+	</update>
+	<select id="getDictInfo" parameterType="String" resultType="DictVO">
+		select id,dict_group,dict_value,dict_code from kt_sys_dict where dict_code=#{dict_code}
+	</select>
+	<update id="updateName" parameterType="DictVO">
+		update kt_sys_dict set dict_value=#{dict_value} where dict_code=#{dict_code}
+	</update>
+	
+	<!-- 以下是兴趣班课程字典 kt_sys_dict_school -->
+	<select id="getDictSchoolList" parameterType="DictVO" resultType="DictVO">
+	select 
+		dict_code,dict_value,is_active,description,sort,dict_group,other_field
+	from 
+		kt_sys_dict_school
+	where 
+		school_id=#{school_id}
+		<if test="dict_group!=null and dict_group!=''">
+		and dict_group=#{dict_group}
+		</if>
+		<if test="dict_code!=null and dict_code != ''">
+			and dict_code=#{dict_code}
+		</if>
+		<if test="is_active!=null">
+		and is_active=#{is_active}
+		</if>
+		<if test="other_field!=null and other_field!=''">
+			and other_field=#{other_field}
+		</if>
+		order by sort
+	</select>
+	
+	<select id="getDictSchoolMax" parameterType="DictVO" resultType="DictVO">
+	select 
+		max(dict_code) as dict_code,max(sort) as sort
+	from 
+		kt_sys_dict_school
+	where 
+		school_id=#{school_id} and dict_group=#{dict_group}
+	</select>
+	
+	<insert id="addDictSchool" parameterType="DictVO">
+	insert into
+		kt_sys_dict_school (
+		school_id,
+		dict_code,
+		dict_value,
+		dict_group,
+		other_field,
+		sort,
+		description,
+		is_active
+		)
+	values (
+		#{school_id},
+		#{dict_code},
+		#{dict_value},
+		#{dict_group},
+		#{other_field},
+		#{sort},
+		#{dict_value},
+		1
+	)
+	</insert>
+	
+	<update id="updateDictSchool" parameterType="DictVO">
+	update 
+		kt_sys_dict_school 
+	set
+		<if test="dict_value!=null and dict_value!=''">
+			dict_value=#{dict_value},
+		</if>
+		<if test="other_field!=null and other_field!=''">
+			other_field=#{other_field},
+		</if>
+		<if test="is_active!=null">
+			is_active=#{is_active},
+		</if>
+		update_date=#{update_date}
+	where 
+		school_id=#{school_id} and dict_code=#{dict_code}
+	</update>
+	
+	<select id="getCourse" parameterType="ContactVO" resultType="DictVO">
+	select 
+		dict_value 
+	from 
+		kt_sys_dict_school 
+	where 
+		school_id=#{school_id} and dict_code=#{course}
+	</select>
+	<!--删除表kt_bus_news -->
+	<delete id="deleteDictSchool" parameterType="DictVO">
+		delete from kt_sys_dict_school
+		where dict_code= #{dict_code} and school_id=#{school_id}
+	</delete>
+	<!--删除表kt_bus_news -->
+	<delete id="deleteDictSchoolByGroup" parameterType="DictVO">
+		delete from kt_sys_dict_school
+		where dict_group= #{dict_code} and school_id=#{school_id}
+	</delete>
+
+	<select id="getDictByValue" parameterType="DictVO" resultType="DictVO">
+		select dict_code
+		from kt_sys_dict_school
+		where school_id=#{school_id} and dict_value=#{dict_value}
+		<if test="dict_group==null or dict_group==''">
+		and dict_group=(select dict_group from kt_sys_dict_school where school_id=#{school_id} and
+		 dict_code=#{dict_code})
+		</if>
+		<if test="dict_group!=null and dict_group!=''">
+		and dict_group=#{dict_group}
+		</if>
+		<if test="other_field!=null and other_field!=''">
+			and other_field=#{other_field}
+		</if>
+	</select>
+	<select id="getProvinceList" resultType="Map">
+		SELECT province_id as province_id,province_name as province_name FROM kt_bas_province
+	</select>
+
+	<select id="getDictByOtherField" parameterType="DictVO" resultType="DictVO">
+		select id,dict_group,dict_value,dict_code from kt_sys_dict_school where school_id=#{school_id} and
+		 dict_code=#{dict_code} and other_field=#{other_field}
+	</select>
+</mapper>
+

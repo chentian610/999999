@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="studentAttendMap">
+  <!--插入表kt_bus_student_attend-->
+  <insert id="insertStudentAttend" parameterType="StudentAttendVO">
+    insert into kt_bus_student_attend
+    (
+    attend_id,
+    school_id,
+    group_id,
+    team_id,
+    student_id,
+    attend_time,
+    file_url,
+    file_resize_url,
+    create_date,
+    version
+    ) VALUES (
+    #{attend_id},
+    #{school_id},
+    #{group_id},
+    #{team_id},
+    #{student_id},
+    #{attend_time},
+    #{file_url},
+    #{file_resize_url},
+    #{create_date},
+    1
+    )
+  </insert>
+  <!--更新表kt_bus_student_attend-->
+  <update id="updateStudentAttend" parameterType="StudentAttendVO">
+    update kt_bus_student_attend
+    set attend_id = #{attend_id},
+    group_id = #{group_id},
+    team_id = #{team_id},
+    student_id = #{student_id},
+    attend_time = #{attend_time},
+    file_url = #{file_url},
+    file_resize_url = #{file_resize_url},
+    create_by = #{create_by},
+    create_date = #{create_date},
+    update_by = #{update_by},
+    update_date = #{update_date},
+    version = #{version}
+   </update>
+  <!--查询表kt_bus_student_attend-->
+  <select id="getStudentAttendList" parameterType="StudentAttendVO" resultType="StudentAttendVO">
+    select
+    attend_id as attend_id,
+    attend_time as attend_time
+    from kt_bus_student_attend
+    where student_id=#{student_id}
+    <if test="app_sql != null and app_sql != ''">
+      and attend_id ${app_sql}
+    </if>
+    <if test="order_sql != null and order_sql != ''">
+      order by attend_id ${order_sql}
+    </if>
+  </select>
+  <!--删除表kt_bus_student_attend-->
+  <delete id="deleteStudentAttend" parameterType="StudentAttendVO">
+    delete from kt_bus_student_attend
+    where id = #{id}
+  </delete>
+
+  <select id="getStudentAttendById" parameterType="Integer" resultType="StudentAttendVO">
+    select student_id,attend_time,file_url,file_resize_url from kt_bus_student_attend
+    where attend_id=#{attend_id}
+  </select>
+
+  <select id="getNormalAttendList" parameterType="StudentAttendVO" resultType="StudentAttendVO">
+    select student_id,attend_time from kt_bus_student_attend
+    where school_id=#{school_id} and group_id=#{group_id} and team_id=#{team_id} and
+    DATE_FORMAT(attend_time, '%Y-%m-%d')=#{search_time}
+    and (#{work_time}>attend_time or attend_time>#{close_time})
+  </select>
+  
+  <select id="getAbnormalAttendList" parameterType="StudentAttendVO" resultType="StudentAttendVO">
+    select student_id,attend_time from kt_bus_student_attend
+    where school_id=#{school_id} and group_id=#{group_id} and team_id=#{team_id} and
+    DATE_FORMAT(attend_time, '%Y-%m-%d')=#{search_time}
+    and attend_time > #{work_time} and #{close_time} > attend_time
+  </select>
+</mapper>
+

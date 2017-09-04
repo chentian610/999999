@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>校园门户</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.pullrefresh.css"/>
+		<link rel="stylesheet" type="text/css" href="css/plist.css"/>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">{{title}}</h1>
+			</header>
+			<div class="mui-content">
+				<div class="mui-slider">
+					<div class="mui-scroll-wrapper">
+					    <div class="mui-scroll">
+					    	<ul class="hxx-list-group">
+						    	<li v-show='state == 1' v-for='news in news_list' @tap='gotoDetailPage(news)' class="hxx-list-item">
+						    		<div class="hxx-item-img" :style="{backgroundImage : 'url('+news.main_pic_url+')'}"></div>
+						    		<p>{{news.content_text}}</p>
+						    	</li>
+						    	<div v-show='state == 3' @tap='InitPage' class="hxx-tip-unconnection">
+									<img src="../images/tip_unconnection.png">
+									<div>请求失败，请检查网络后点击刷新</div>
+					    	    </div>
+								<div v-show='state == 2' class="hxx-tip-empty">
+									<img src="../images/tip_empty.png">
+								</div>
+								<div v-show='state == 0' class="hxx-tip-loading">
+									<img src="../images/tip_load.gif">
+								</div>
+						    </ul>
+					    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/mui/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/mui/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/plist.js" type="text/javascript" charset="utf-8"></script>
+</html>

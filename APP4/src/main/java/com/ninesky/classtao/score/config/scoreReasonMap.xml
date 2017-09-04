@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="scoreReasonMap">
+	<!--插入表kt_sys_score_reason -->
+	<insert id="insertScoreReason" parameterType="ScoreReasonVO">
+	insert into kt_sys_score_reason
+		(
+		school_id,
+		score_code,
+		team_type,
+		score_type,
+		score_reason,
+		description,
+		score,
+		is_active,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{score_code},
+		#{team_type},
+		#{score_type},
+		#{score_reason},
+		#{description},
+		#{score},
+		1,
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<!--更新表kt_sys_score_reason -->
+	<update id="updateScoreReason" parameterType="ScoreReasonVO">update
+		kt_sys_score_reason set
+		score_reason = #{score_reason},
+		score = #{score},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version=version+1 where id=#{id}
+	</update>
+	<!--查询表kt_sys_score_reason -->
+	<select id="getScoreReasonList" parameterType="ScoreReasonVO" resultType="ScoreReasonVO">
+	select id,
+		score_code as score_code,
+		team_type as team_type,
+		score_type as score_type,
+		score_reason as score_reason,
+		description as description,
+		score as score,
+		sort as sort,
+		create_by as create_by,
+		create_date as create_date
+		from kt_sys_score_reason
+	where school_id = #{school_id}
+		<if test="team_type!=null and team_type!=''">
+		and team_type=#{team_type}
+		</if>
+		<if test="score_type!=null and score_type!=''">
+		and score_type=#{score_type}
+		</if>
+		<if test="is_active!=null">
+		and is_active=#{is_active}
+		</if>
+		<if test="module_code!=null and module_code!=''">
+		and module_code=#{module_code}
+		</if>
+	</select>
+	
+	<!--删除表kt_sys_score_reason -->
+	<delete id="deleteScoreReason" parameterType="Integer">delete from
+		kt_sys_score_reason
+		where id = #{id}
+	</delete>
+	
+	<!-- 通过score_code查询score_reason -->
+	<select id="getScoreReasonByCode" parameterType="ScoreReasonVO" resultType="ScoreReasonVO">
+	select score_reason,score from kt_sys_score_reason where score_code=#{score_code} and school_id=#{school_id}
+	and score_type=#{score_type} and team_type=#{team_type}
+	</select>
+	
+	<!--删除表kt_sys_score_reason -->
+	<delete id="deleteScoreReasonBySchoolID" parameterType="Integer">
+		delete from	kt_sys_score_reason	where school_id = #{school_id}
+	</delete>
+	
+	<!--插入表kt_sys_score_reason -->
+	<insert id="initSchoolScoreReason" parameterType="SchoolVO">
+	INSERT INTO kt_sys_score_reason (
+		school_id,
+		score_code,
+		team_type,
+		score_type,
+		score_reason,
+		description,
+		score,
+		sort,
+		is_active,
+		create_by,
+		create_date
+	) SELECT
+		#{school_id},
+		score_code,
+		team_type,
+		score_type,
+		score_reason,
+		description,
+		score,
+		sort,
+		1,
+		0,
+		#{create_date}
+	FROM kt_sys_score_reason
+	WHERE school_id = 0
+	</insert>
+	
+	<select id="getScorecodemax" parameterType="Integer" resultType="String">
+	select max(score_code) as score_code from kt_sys_score_reason where school_id=#{school_id}
+	</select>
+	
+	<select id="getScoreReasonByID" parameterType="Integer" resultType="ScoreReasonVO">
+	select score_code,score_type,team_type,id,module_code from kt_sys_score_reason where id=#{id}
+	</select>
+	
+	<update id="updateReasonStatus" parameterType="ScoreReasonVO">
+	update 
+		kt_sys_score_reason 
+	set 
+		is_active=0,
+		update_date=#{update_date}
+	where 
+		id=#{id}
+	</update>
+</mapper>
+

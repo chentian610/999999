@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="suggestMap">
+	<!--插入表kt_bus_suggest-->
+	<insert id="insertSuggest" parameterType="SuggestVO">insert into
+		kt_bus_suggest
+		(
+		user_id,
+		user_name,
+		content,
+		create_by,
+		create_date
+		) VALUES (
+		#{user_id},
+		#{user_name},
+		#{content},
+		#{create_by},
+		#{create_date}
+		)</insert>
+	<!--更新表kt_bus_suggest-->
+	<update id="updateSuggest" parameterType="SuggestVO">update kt_bus_suggest
+		set id = #{id},
+		user_id = #{user_id},
+		user_name = #{user_name},
+		content = #{content},
+		create_by = #{create_by},
+		create_date = #{create_date}</update>
+	<!--查询表kt_bus_suggest-->
+	<select id="getSuggestList" parameterType="SuggestVO"	resultType="SuggestVO">select
+		id as id,
+		user_id as user_id,
+		user_name as user_name,
+		content as content,
+		create_by as create_by,
+		create_date as create_date
+		from kt_bus_suggest
+		where create_date between #{start_time} and #{end_time}
+		<if test="app_sql != null and app_sql != '' ">    
+            and id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+             order by id ${order_sql}  
+         </if> 
+	</select>
+	<!--删除表kt_bus_suggest-->
+	<delete id="deleteSuggest" parameterType="SuggestVO">delete from
+		kt_bus_suggest
+		where id = #{id}</delete>
+</mapper>
+

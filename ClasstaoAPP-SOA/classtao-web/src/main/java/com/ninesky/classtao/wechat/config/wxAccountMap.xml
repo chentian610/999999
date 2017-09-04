@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wxAccountMap">
+	<!--插入表kt_bus_wx_account -->
+	<insert id="insertWxAccount" parameterType="WxAccountVO">
+	insert into kt_bus_wx_account
+		(
+		account_id,
+		school_id,
+		platform_account_id,
+		account_name,
+		account_token,
+		weixin_accountid,
+		account_type,
+		account_email,
+		account_desc,
+		account_appid,
+		account_appsecret,
+		is_effective,
+		auth_status,
+		create_date,
+		version
+		) VALUES (
+		#{account_id},
+		#{school_id},
+		#{platform_account_id},
+		#{account_name},
+		#{account_token},
+		#{weixin_accountid},
+		#{account_type},
+		#{account_email},
+		#{account_desc},
+		#{account_appid},
+		#{account_appsecret},
+		#{is_effective},
+		#{auth_status},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bus_wx_account -->
+	<update id="updateWxAccountById" parameterType="WxAccountVO">update kt_bus_wx_account
+		set 
+		<if test="school_id !=null">
+			school_id = #{school_id},
+		</if>
+		<if test="platform_account_id !=null and platform_account_id != '' ">
+			platform_account_id = #{platform_account_id},
+		</if>
+		<if test="account_name !=null and account_name != '' ">
+			account_name = #{account_name},
+		</if>
+		<if test="account_token !=null and account_token != '' ">
+			account_token = #{account_token},
+		</if>
+		<if test="weixin_accountid !=null and weixin_accountid != '' ">
+			weixin_accountid = #{weixin_accountid},
+		</if>
+		<if test="account_type !=null">
+			account_type = #{account_type},
+		</if>
+		<if test="account_email != null and account_email != '' ">
+			account_email = #{account_email},
+		</if>
+		<if test="account_desc !=null and account_desc != '' ">
+			account_desc = #{account_desc},
+		</if>
+		<if test="account_appid !=null and account_appid != '' ">
+			account_appid = #{account_appid},
+		</if>
+		<if test="account_appsecret !=null and account_appsecret != '' ">
+			account_appsecret = #{account_appsecret},
+		</if>
+		<if test="is_effective !=null">
+			is_effective = #{is_effective},
+		</if>
+		<if test="auth_status !=null">
+			auth_status = #{auth_status},
+		</if>
+		<if test="update_date !=null">
+			update_date = #{update_date},
+		</if>
+		version = version + 1
+		where account_id=#{account_id}
+	</update>
+	<!--查询表kt_bus_wx_account -->
+	<select id="getWxAccountBySchool" parameterType="Integer" resultType="WxAccountVO">
+		select * from kt_bus_wx_account where school_id = #{school_id}
+	</select>
+	<select id="getWxAccountById" parameterType="Integer" resultType="WxAccountVO">
+		select * from kt_bus_wx_account where account_id = #{accoountId}
+	</select>
+	<select id="getAllSchoolAccount" resultType="WxAccountVO">
+		select * from kt_bus_wx_account
+	</select>
+</mapper>
+

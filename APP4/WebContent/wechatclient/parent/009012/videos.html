@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>教学视频</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../fonts/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+		<style type="text/css">
+
+			.mui-search::before{
+				top: 26%;
+			}
+			.mui-bar .mui-input-row .mui-input-clear~.mui-icon-clear{
+				top: 10px;
+			}
+			.mui-search .mui-placeholder{
+				line-height: 43px;
+			}
+			.mui-bar .mui-title{
+				position: absolute;
+				right: 50px;
+			}
+			.mui-table-view .hxx-cell-item{
+				margin:0;
+				width: calc(100% - 100px);
+			}
+			.hxx-footer-btn{
+				z-index: 4;
+				position: fixed;
+			    bottom: 0;
+			    width: 100%;
+			    background-color: #4FCB1A;
+			    overflow: hidden;
+				display: none;
+			}
+			.hxx-footer-btn .hxx-del{
+				float: left;
+			    width: 70px;
+			    border-right: 1px solid #4abf17;
+			    padding: 10px 20px;
+			    position: relative;
+			}
+			.hxx-footer-btn .hxx-del span{
+				position: absolute;
+			    right: 11px;
+			    top: 5px;
+			}
+			.hxx-footer-btn .hxx-del img{
+				width:100%;
+			}
+			.hxx-footer-btn .hxx-send{
+				float:left;
+			    width: calc(100% - 77px);
+			    color: #D2E1CB;
+			    font-size: 20px;
+			}
+			.hxx-footer-btn .hxx-send img{
+				width: 30px;
+			    position: relative;
+			    top: 7px;
+			    margin-left:33%;
+			}
+			.mui-icon-pulldown:before {
+			    content: '';
+			}
+			.mui-icon-pulldown:after {
+			    content: '\e588';
+			}
+			.mui-table-view-cell .hxx-cell-end{
+				margin-right: -14px;
+				margin-top: 14px;
+			}
+			.mui-scroll-wrapper{
+				top: 130px;
+			}
+			.hxx-text-line{
+				display: inline-block;
+				width: calc(100% - 40px);
+				white-space:nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<div class="mui-indexed-list-search mui-input-row mui-search mui-title mui-title-search">
+				<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索" id="searchValue">
+			</div>
+			<a class="mui-btn mui-btn-link mui-pull-right" id="search">搜索</a>
+		</header>
+		<div class="mui-content hxx-history" id="history">
+			<h5 class="hxx-history-title">历史搜索</h5>
+		    <ul class="mui-table-view" id="historyList">
+		    	<!--<li class="mui-table-view-cell"></li>-->
+			</ul>
+			<button class="hxx-btn-reset" id="resetHisList">清空搜索结果</button>
+	   </div>
+		<div class="mui-content">
+			<div class="hxx-btn-group-4" id="filtrate">
+				<div class="hxx-btn-cell">
+					<span id="gradeBtn">一年级</span>
+					<img class="hxx-btn-img-down" src="../images/icon_arrow_green@3x.png"/>
+				</div>
+				<div class="hxx-btn-cell">
+					<span id="courseBtn">语文</span>
+					<img class="hxx-btn-img-down" src="../images/icon_arrow_green@3x.png"/>
+				</div>
+				<div class="hxx-btn-cell">
+					<span id="versionBtn">人教版（新课标）</span>
+					<img class="hxx-btn-img-down" src="../images/icon_arrow_green@3x.png"/>
+				</div>
+				<div class="hxx-btn-cell" id="choise">
+					<span>筛选</span>
+					<img class="hxx-btn-img-down" src="../images/icon_arrow_green@3x.png"/>
+				</div>
+			</div>
+			<div class="hxx-btns-group-3" id="sort">
+				<div class="hxx-btn-cell">
+					<span class="mui-icon mui-icon-pulldown">评分</span>
+				</div>
+				<div class="hxx-btn-cell">
+					<span class="mui-icon mui-icon-pulldown">上传日期</span>
+				</div>
+				<div class="hxx-btn-cell">
+					<span class="mui-icon mui-icon-pulldown">阅读量</span>
+				</div>
+			</div>
+			<div class="mui-scroll-wrapper">
+			    <div class="mui-scroll">
+			        <ul class="mui-table-view" id="list">
+				        <!--<li class="mui-table-view-cell">
+				           	<div class="hxx-cell-head">
+				           		<img class="hxx-head-page" src="../images/photo.png"/>
+				           	</div>
+				           	<div class="hxx-cell-item">
+				           		<h4 class="hxx-item-page-name">上学的日子</h4>
+				           		<div class="hxx-item-star">
+				           			<span>
+				           				<i class="hxx-icon hxx-icon-star">&#xe622;</i>
+				           				<i class="hxx-icon hxx-icon-star">&#xe622;</i>
+				           				<i class="hxx-icon hxx-icon-star">&#xe622;</i>
+				           				<i class="hxx-icon hxx-icon-star">&#xe622;</i>
+										<i class="hxx-icon hxx-icon-star">&#xe622;</i>
+									</span>
+				           		</div>
+				           		<h5 class="hxx-item-page-read">阅读量：123123131</h5>
+				           	</div>
+				        </li>-->
+				    </ul> 
+			    </div>
+			</div>
+		</div>
+		<div id="tap_center1" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png"/>
+			<h4>网络请求失败<br />点击重新加载</h4>
+		</div>
+		<div id="tap_center2" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png"/>
+			<h4>数据为空</h4>
+		</div>
+		<div id="tap_center3" class="hxx-middle-center">
+			<a>
+				<span class="mui-spinner"></span>
+			</a>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.pullToRefresh.js"></script>
+		<script src="../js/mui.pullToRefresh.material.js"></script>
+		<script src="js/videos.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

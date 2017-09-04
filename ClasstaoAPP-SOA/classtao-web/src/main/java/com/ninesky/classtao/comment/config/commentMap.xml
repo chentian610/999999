@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="commentMap">
+	<!--插入表kt_bus_comment -->
+	<insert id="insertComment" parameterType="CommentVO">insert into
+		kt_bus_comment
+		(
+		school_id,
+		class_id,
+		comment_date,
+		student_id,
+		student_code,
+		comment,
+		create_by,
+		create_date,
+		is_read,
+		version
+		) VALUES (
+		#{school_id},
+		#{class_id},
+		#{comment_date},
+		#{student_id},
+		#{student_code},
+		#{comment},
+		#{create_by},
+		#{create_date},
+		0,
+		0
+		)
+	</insert>
+	<!--更新表kt_bus_comment -->
+	<update id="updateComment" parameterType="CommentVO">update kt_bus_comment
+		set 
+		comment = #{comment},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1
+		where comment_id=#{comment_id}
+	</update>
+	<!--查询表kt_bus_comment -->
+	<select id="getCommentList" parameterType="CommentVO"
+		resultType="CommentVO">select
+		comment_id as comment_id,
+		school_id as school_id,
+		class_id as class_id,
+		comment_date as comment_date,
+		student_id as student_id,
+		student_code as student_code,
+		comment as comment,
+		is_read as is_read,
+		create_by as create_by,
+		create_date as create_date
+		from kt_bus_comment
+		where 
+		school_id=#{school_id}
+		<if test="class_id != null and class_id != 0 ">
+		 	and class_id=#{class_id} 
+		</if>
+		<if test="student_id != null and student_id != 0 ">
+			and student_id = #{student_id}
+		</if>
+		<if test="comment_id != null and comment_id != 0 ">    
+             and comment_id  = #{comment_id} 
+        </if>
+		<if test="comment_date != null and comment_date != '' ">
+			and comment_date like CONCAT(#{comment_date},'%')
+		</if>
+		<if test="app_sql != null and app_sql != '' ">    
+             and comment_id  ${app_sql}  
+        </if>
+       	<if test="order_sql != null and order_sql != '' ">    
+            order by comment_id ${order_sql}  
+        </if> 
+	</select>
+	
+	<!--查询表kt_bus_comment -->
+	<select id="getCommentListByCommentID" parameterType="CommentVO"
+		resultType="CommentVO">select
+		comment_id as comment_id,
+		school_id as school_id,
+		class_id as class_id,
+		comment_date as comment_date,
+		student_id as student_id,
+		student_code as student_code,
+		comment as comment,
+		is_read as is_read,
+		create_by as create_by,
+		create_date as create_date
+		from kt_bus_comment
+		where comment_id  = #{comment_id} 
+	</select>
+	
+	<!-- 获取最新评论的学生列表 -->
+	<select id="getLatestComment" parameterType="CommentVO" 
+	    resultType="CommentVO">
+	    select s.student_id,s.head_url,s.student_name,comment_date
+		from kt_bas_student s left join (select max(t.comment_date) as comment_date,student_id  from kt_bus_comment t 
+		where class_id=#{class_id} and school_id=#{school_id}
+		group by student_id) d on s.student_id = d.student_id
+		where  s.class_id=#{class_id} and s.school_id=#{school_id}
+	</select>
+	<update id="setCommentIsRead" parameterType="CommentVO">update kt_bus_comment
+		set 
+		is_read = 1,
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1
+		where school_id=#{school_id}
+		<if test="class_id != null and class_id != 0 ">
+		 	and class_id=#{class_id} 
+		</if>
+		<if test="student_id != null and student_id != 0 ">
+			and student_id = #{student_id}
+		</if>
+		<if test="comment_date != null and comment_date != '' ">
+			and comment_date like CONCAT(#{comment_date},'%')
+		</if>
+	</update>
+	<!--删除表kt_bus_comment -->
+	<delete id="deleteComment" parameterType="CommentVO">delete from
+		kt_bus_comment
+		where comment_id = #{comment_id}
+	</delete>
+	<!-- 查询未读数量 -->
+	<select id="getUnReadCount" parameterType="CommentVO" 
+	    resultType="Integer">select
+	    count(comment_id) from kt_bus_comment
+	    where student_id=#{student_id}
+	    and is_read=0
+	</select>
+	
+	
+	
+	<!--教师查询表kt_bus_comment -->
+	<select id="getCommentListOfClass" parameterType="CommentVO"
+		resultType="CommentVO">select
+		c.comment_id as comment_id,
+		c.school_id as school_id,
+		s.class_id as class_id,
+		c.comment_type as comment_type,
+		c.comment_date as comment_date,
+		s.student_id as student_id,
+		s.student_code as student_code,
+		s.student_name as student_name,
+		c.comment as comment,
+		c.star_level as star_level from kt_bas_student s LEFT JOIN (select
+		comment_id as comment_id,
+		school_id as school_id,
+		class_id as class_id,
+		comment_type as comment_type,
+		comment_date as comment_date,
+		student_id as student_id,
+		student_code as student_code,
+		student_name as student_name,
+		comment as comment,
+		star_level as star_level
+		from kt_bus_comment where class_id=#{class_id} and comment_date=#{comment_date} and 
+		comment_type=#{comment_type} and create_by=#{create_by}) c ON s.student_id=c.student_id where s.class_id=#{class_id}
+	</select>
+	
+	<!-- 查询表kt_bus_comment -->
+	<select id="getParentUnreadCount" parameterType="List" resultType="Integer">
+		select count(*) from kt_bus_comment where student_id in 
+		<foreach collection="list"  item="item" index="index" separator="," open="(" close=")">
+			#{item.student_id}
+		</foreach>  and is_read=0
+	</select>
+	
+	<!-- 更新表kt_bus_comment -->
+	<update id="updateParentRead" parameterType="List">
+		update kt_bus_comment set is_read=1,
+		version=version+1 where student_id in 
+		<foreach collection="list"  item="item" index="index" separator="," open="(" close=")">
+			#{item.student_id} 
+		</foreach>  and is_read=0
+	</update>
+	
+	<!-- 查询表kt_bus_comment -->
+	<select id="getInfoCount" parameterType="CommentVO" resultType="Integer">
+		select count(comment_id) from kt_bus_comment where comment_date=#{comment_date} and class_id=#{class_id} 
+		and create_by=#{create_by} and school_id=#{school_id}
+	</select>
+	
+	<update id="updateStudentInfo" parameterType="CommentVO">
+	update kt_bus_comment set 
+	<if test="class_id!=null and class_id!=0">
+		class_id=#{class_id},
+	</if>
+	student_code=#{student_code},student_name=#{student_name},update_by=#{update_by},update_date=#{update_date},
+	version=version+1 where student_id=#{student_id} and school_id=#{school_id}
+	</update>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+	delete from kt_bus_comment where class_id=#{class_id}
+	</delete>
+</mapper>
+

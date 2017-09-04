@@ -1,0 +1,238 @@
+/*申请学校*/
+.clearfix:after {
+ visibility:hidden;
+ display:block;
+ font-size:0;
+ content:" ";
+ clear:both;
+ height:0;
+}
+.clearfix {
+ zoom:1;
+}
+.nav{
+	width:100%;
+	background-color: #e9e9e9;
+}
+.nav li{
+	font-family: "microsoft yahei";
+	width:25%;
+	float:left;
+	font-size: 18px;
+	text-align: center;
+	height: 36px;
+	line-height: 36px;
+	border-right: 1px solid #fff;
+}
+.nav li:last-child{
+	border-right: 0 none;
+}
+.nav li.active{
+	background-color:#1cbb9e;
+	color:#fff;
+}
+.add{
+	padding:30px 40px 0 40px;
+}
+.add .add_img{
+	float:left;
+	width:150px;
+	height: 150px;
+	overflow: hidden;
+	padding-right: 10px;
+}
+.add_img img{
+	width:100%;
+}
+.btn-large{
+	border: 0 none;
+	width:180px;
+	background-color: #1cbb9e;
+    color: #fff;
+    margin-left: 3px;
+    padding:  5px 0;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+.add .tip{
+	font-size: 14px;
+	color:#9b9b9b;
+	font-family: "microsoft yahei";
+	line-height: 25px;
+}
+.add .form-control{
+	width:80%;
+	color:#9b9b9b;
+	margin-bottom: 15px;
+}
+.add textarea.form-control{
+	width:80%;
+	color:#9b9b9b;
+	resize: none;
+	height: 100px;
+}
+.add .menu{
+	font-size: 18px;
+	font-family: "microsoft yahei";
+	color:#4a4a4a;
+	font-weight: bold;
+	padding-bottom: 20px;
+	
+}
+.add .menu:before{
+	content: '';
+
+    display: inline-block;
+    width: 8px;
+    height: 22px;
+    background-color: #1cbb9e;
+    margin-right: 8px;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+.cover1{
+	padding-top: 20px;
+}
+.cover1 img{
+	width:180px;
+	float:left;
+	margin-right: 30px;
+}
+.cover1 .cover_content{
+	width: 378px;
+    float: left;
+    text-align: justify;
+    padding-top: 10px;
+    line-height: 26px;
+    color: #9b9b9b;
+}
+.cover2{
+	padding-top: 20px;
+}
+.cover2 img{
+	width:180px;
+	float:left;
+	margin-right:30px;
+}
+.cover2 .cover_content{
+	width: 378px;
+    float: left;
+    text-align: justify;
+    padding-top: 10px;
+    line-height: 26px;
+    color: #9b9b9b;
+}
+.btn1{
+	padding-top: 50px;
+	width:380px;
+	margin:0 auto;
+}
+.btn1 .btn-middle{
+	border: 0 none;
+	width:90px;
+    background-color: #1cbb9e;
+    color: #fff;
+    margin-left: 3px;
+    padding: 5px 0;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-family: "microsoft yahei";
+    
+}
+
+/*教学资源*/
+.nav1{
+	width:100%;
+	list-style: none;
+	padding: 10px 0 0 0;
+	margin: 0;
+	border-bottom: 1px solid #e9e9e9;
+}
+.nav1 li{
+	list-style: none;
+	font-family: "microsoft yahei";
+	color:#3b3b3b;
+	width:100px;
+	float:left;
+	font-size: 18px;
+	text-align: center;
+	height: 36px;
+	line-height: 36px;
+}
+.nav1 li.active{
+	color:#1cbb9e;
+	border-bottom: 3px solid #1cbb9e;
+}
+.title1{
+	width: 80px;
+	float:left;
+	list-style: none;
+	padding: 0 10px 0 0;
+	text-align: right;
+}
+.title1 li{
+	list-style: none;
+	color: #404040;
+	font-family: "microsoft yahei";
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 30px;
+}
+.grade{
+	width: 680px;
+	margin-top: 6px;
+	float:left;
+	padding: 0;
+	margin-bottom: 0;
+}
+.grade li{
+	font-family: "microsoft yahei";
+	font-size: 14px;
+	color:#3b3b3b;
+	display: inline-block;
+	padding-right: 4px;
+	cursor: pointer;
+}
+.grade li.active{
+	color:#1cbb9e;
+}
+.topic{
+	width: 680px;
+	margin-top: 9px;
+	float:left;
+	padding: 0;
+	margin-bottom: 0;
+}
+.topic li{
+	font-family: "microsoft yahei";
+	font-size: 14px;
+	color:#3b3b3b;
+	display: inline-block;
+	padding-right: 4px;
+	cursor: pointer;
+}
+.topic li.active{
+	color:#1cbb9e;
+}
+.version1{
+	width: 680px;
+	margin-top: 6px;
+	float:left;
+	padding: 0;
+	margin-bottom: 0;
+}
+.version1 li{
+	font-family: "microsoft yahei";
+	font-size: 14px;
+	color:#3b3b3b;
+	display: inline-block;
+	padding-right: 4px;
+	cursor: pointer;
+	line-height: 24px;
+}
+.version1 li.active{
+	color:#1cbb9e;
+}
+
+
+

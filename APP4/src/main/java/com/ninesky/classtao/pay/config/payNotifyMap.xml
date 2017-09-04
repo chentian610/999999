@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="payNotifyMap">
+  <!--插入表kt_bus_pay_notify-->
+  <insert id="insertPayNotify" parameterType="PayNotifyVO">
+    insert into kt_bus_pay_notify
+      (
+      id,
+      notify_id,
+      app_id,
+      charset,
+      sign_type,
+      sign,
+      out_trade_no,
+      trade_no,
+      subject,
+      total_amount,
+      receipt_amount,
+      passback_params,
+      buyer_pay_amount,
+      buyer_id,
+      buyer_logon_id,
+      body,
+      auth_app_id,
+      notify_type,
+      invoice_amount,
+      trade_status,
+      gmt_payment,
+      point_amount,
+      gmt_create,
+      fund_bill_list,
+      seller_id,
+      seller_email,
+      version,
+      notify_time
+      ) VALUES (
+      #{id},
+      #{notify_id},
+      #{app_id},
+      #{charset},
+      #{sign_type},
+      #{sign},
+      #{out_trade_no},
+      #{trade_no},
+      #{subject},
+      #{total_amount},
+      #{receipt_amount},
+      #{passback_params},
+      #{buyer_pay_amount},
+      #{buyer_id},
+      #{buyer_logon_id},
+      #{body},
+      #{auth_app_id},
+      #{notify_type},
+      #{invoice_amount},
+      #{trade_status},
+      #{gmt_payment},
+      #{point_amount},
+      #{gmt_create},
+      #{fund_bill_list},
+      #{seller_id},
+      #{seller_email},
+      #{version},
+      #{notify_time}
+    )
+  </insert>
+  <!--更新表kt_bus_pay_notify-->
+  <update id="updatePayNotify" parameterType="PayNotifyVO">
+    update kt_bus_pay_notify
+      set id = #{id},
+      notify_id = #{notify_id},
+      app_id = #{app_id},
+      charset = #{charset},
+      sign_type = #{sign_type},
+      sign = #{sign},
+      out_trade_no = #{out_trade_no},
+      trade_no = #{trade_no},
+      subject = #{subject},
+      total_amount = #{total_amount},
+      receipt_amount = #{receipt_amount},
+      buyer_pay_amount = #{buyer_pay_amount},
+      buyer_id = #{buyer_id},
+      buyer_logon_id = #{buyer_logon_id},
+      body = #{body},
+      auth_app_id = #{auth_app_id},
+      notify_type = #{notify_type},
+      invoice_amount = #{invoice_amount},
+      trade_status = #{trade_status},
+      gmt_payment = #{gmt_payment},
+      point_amount = #{point_amount},
+      gmt_create = #{gmt_create},
+      fund_bill_list = #{fund_bill_list},
+      seller_id = #{seller_id},
+      seller_email = #{seller_email},
+      version = #{version},
+      notify_time = #{notify_time}
+  </update>
+  <!--查询表kt_bus_pay_notify-->
+  <select id="getPayNotifyList" parameterType="PayNotifyVO" resultType="PayNotifyVO">
+    select
+      id as id,
+      notify_id as notify_id,
+      app_id as app_id,
+      charset as charset,
+      sign_type as sign_type,
+      sign as sign,
+      out_trade_no as out_trade_no,
+      trade_no as trade_no,
+      subject as subject,
+      total_amount as total_amount,
+      receipt_amount as receipt_amount,
+      buyer_pay_amount as buyer_pay_amount,
+      buyer_id as buyer_id,
+      buyer_logon_id as buyer_logon_id,
+      body as body,
+      auth_app_id as auth_app_id,
+      notify_type as notify_type,
+      invoice_amount as invoice_amount,
+      trade_status as trade_status,
+      gmt_payment as gmt_payment,
+      point_amount as point_amount,
+      gmt_create as gmt_create,
+      fund_bill_list as fund_bill_list,
+      seller_id as seller_id,
+      seller_email as seller_email,
+      version as version,
+      notify_time as notify_time
+      from kt_bus_pay_notify
+      where 1=1
+  </select>
+  <!--删除表kt_bus_pay_notify-->
+  <delete id="deletePayNotify" parameterType="PayNotifyVO">
+      delete from kt_bus_pay_notify where id = #{id}
+  </delete>
+</mapper>
+

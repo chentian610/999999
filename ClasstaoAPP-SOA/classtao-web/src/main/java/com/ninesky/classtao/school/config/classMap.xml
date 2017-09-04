@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="classMap">
+	<!--插入表kt_bas_classroom -->
+	<insert id="insertClass" parameterType="ClassVO">insert into
+		kt_bas_classroom
+		(
+		school_id,
+		grade_id,
+		class_code,
+		class_type,
+		grade_num,
+		class_num,
+		class_name,
+		img_url,
+		count,
+		is_graduate,
+		sort,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{grade_id},
+		#{class_code},
+		#{class_type},
+		#{grade_num},
+		#{class_num},
+		#{class_name},
+		#{img_url},
+		#{count},
+		0,
+		#{sort},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<!--更新表kt_bas_classroom -->
+	<update id="updateClass" parameterType="ClassVO">
+	update kt_bas_classroom
+		set 
+		<if test="grade_id!=null and grade_id!=0">
+		grade_id=#{grade_id},
+		</if>
+		<if test="class_code!=null and class_code!=''">
+		class_code=#{class_code},
+		</if>
+		<if test="class_type!=null and class_type!=''">
+		class_type = #{class_type},
+		</if>
+		<if test="class_num!=null and class_num!=0">
+		class_num = #{class_num},
+		</if>
+		<if test="class_name!=null and class_name!=''">
+		class_name = #{class_name},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version + 1
+	where class_id = #{class_id}
+	</update>
+	
+	<!--查询表kt_bas_classroom -->
+	<select id="getClassList" parameterType="ClassVO" resultType="ClassVO">
+	select
+		class_id as class_id,
+		school_id as school_id,
+		enrollment_year as enrollment_year,
+		grade_id as grade_id,
+		class_code as class_code,
+		class_type as class_type,
+		grade_num as grade_num,
+		class_num as class_num,
+		class_name as class_name,
+		img_url as img_url,
+		count as count,
+		sort as sort,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+    from kt_bas_classroom
+	<where>    
+            <if test="class_id != 0 and class_id != null ">    
+                class_id = #{class_id}    
+            </if>    
+            <if test="class_code != null and class_code !='' ">    
+               and class_code = #{class_code}
+            </if>  
+            <if test="school_id != null and school_id !=0 ">    
+               and  school_id = #{school_id}
+            </if> 
+    </where> 
+      	order by grade_num,class_num
+	</select>
+	
+	<!--查询表kt_bas_classroom -->
+	<select id="getClassListByUserID" parameterType="long" resultType="ClassVO">
+	select
+		t.class_id as class_id,
+		t.school_id as school_id,
+		s.school_name as school_name,
+		t.class_code as class_code,
+		t.class_type as class_type,
+		t.grade_num as grade_num,
+		t.class_num as class_num,
+		t.class_name as class_name,
+		t.count as count,
+		t.sort as sort,
+		t.create_by as create_by,
+		t.create_date as create_date,
+		t.version as version
+	from kt_bas_classroom t,kt_bas_school s
+	where exists 
+		(select 1 from kt_bas_classroom_person p where t.class_id = p.class_id and p.user_id = #{user_id})
+	    and t.school_id = s.school_id 
+	</select>
+	
+		<!--查询表kt_bas_classroom -->
+	<select id="getClassListByClass" parameterType="ClassVO" resultType="ClassVO">
+	select
+		class_id as class_id,
+		school_id as school_id,
+		enrollment_year as enrollment_year,
+		class_code as class_code,
+		class_type as class_type,
+		grade_num as grade_num,
+		grade_id as grade_id,
+		class_num as class_num,
+		class_name as class_name,
+		img_url as img_url,
+		count as count,
+		is_graduate as is_graduate,
+		sort as sort,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bas_classroom
+	<where>    
+            <if test="class_id != 0 and class_id != null ">    
+                class_id = #{class_id}    
+            </if>    
+            <if test="grade_id != null and grade_id !=0 ">    
+               and grade_id = #{grade_id}
+            </if>  
+            and school_id=#{school_id}
+    </where> 
+    	order by enrollment_year DESC,class_num
+	</select>
+	
+	<select id="getClassByID" parameterType="Integer" resultType="ClassVO">
+		select
+			class_id as class_id,
+			school_id as school_id,
+			enrollment_year as enrollment_year,
+			class_code as class_code,
+			class_type as class_type,
+			grade_num as grade_num,
+			grade_id as grade_id,
+			class_num as class_num,
+			class_name as class_name,
+			img_url as img_url,
+			count as count,
+			sort as sort,
+			create_by as create_by,
+			create_date as create_date,
+			update_by as update_by,
+			update_date as update_date,
+			version as version
+		from kt_bas_classroom
+	    where  class_id = #{class_id}    
+	</select>
+	
+	<select id="getClassListByGrade" parameterType="ClassVO" resultType="TeamVO">
+	select
+		school_id as school_id,
+		class_id as class_id,
+		class_name as class_name,
+		is_graduate as is_graduate
+	from kt_bas_classroom
+	<where>    
+            <if test="class_id != 0 and class_id != null ">    
+                class_id = #{class_id}    
+            </if>    
+            <if test="grade_id != null and grade_id !=0 ">    
+               and grade_id = #{grade_id}
+            </if>  
+            and school_id=#{school_id} 
+            AND (is_graduate=0 or is_graduate is null)
+    </where> 
+    	GROUP BY enrollment_year,class_id 
+    	order by class_num
+	</select>
+	
+	<!-- 根据班级名字判断该学校的班级是否存在 -->
+	<select id="getClassCountByName" parameterType="ClassVO" resultType="Integer">
+	select count(class_id) from kt_bas_classroom
+	where school_id=#{school_id}
+		<if test="grade_num != null and grade_num != 0">
+			and grade_num=#{grade_num}
+		</if>
+		<if test="class_num != null and class_num != 0">
+			and class_num=#{class_num}
+		</if>
+		<if test="class_name != null ">
+			and class_name=#{class_name}
+		</if>
+	</select>
+	<!--删除表kt_bas_classroom -->
+	<delete id="deleteClass" parameterType="Integer">
+	delete from kt_bas_classroom where class_id = #{class_id}
+	</delete>
+
+	<insert id="insertNewClass" parameterType="ClassVO">
+	insert into kt_bas_classroom
+		(
+		school_id,
+		enrollment_year,
+		grade_id,
+		class_code,
+		class_type,
+		class_num,
+		is_graduate,
+		img_url,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{enrollment_year},
+		#{grade_id},
+		#{class_code},
+		#{class_type},
+		#{class_num},
+		0,
+		#{img_url},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<select id="getClassCount" parameterType="ClassVO" resultType="Integer">
+		select count(*) as count from kt_bas_classroom where school_id=#{school_id} and 
+		enrollment_year=#{enrollment_year}
+	</select>
+	
+	<select id="getClassByClassNum" parameterType="ClassVO" resultType="Integer">
+		select class_id from kt_bas_classroom where school_id=#{school_id} and 
+		enrollment_year=#{enrollment_year} and class_num=#{class_num}
+	</select>
+	
+	<update id="updataClassIsGraduateByGradeID" parameterType="ClassVO">
+	update kt_bas_classroom set is_graduate = 1 where grade_id=#{grade_id}
+	</update>
+	
+	<update id="updateEnrollment" parameterType="ClassVO">
+	update kt_bas_classroom set enrollment_year=#{enrollment_year} where grade_id=#{grade_id}
+	</update>
+
+	<select id="getTeamList" parameterType="TeamVO" resultType="TeamVO">
+	SELECT t.* FROM  ((SELECT
+		school_id as school_id,
+		0 as group_id,
+		contact_id as team_id,
+		0 as enrollment_year,
+		'011015' as team_type
+	FROM kt_bas_contact WHERE school_id = #{school_id} AND user_type = #{user_type})
+	UNION  (SELECT
+		school_id as school_id,
+	  	grade_id as group_id,
+		class_id as team_id,
+		enrollment_year as enrollment_year,
+		'011005' as team_type
+	FROM kt_bas_classroom WHERE school_id = #{school_id} AND is_graduate = #{is_graduate}
+	)) t
+		ORDER BY t.enrollment_year desc,t.team_id
+	</select>
+	<select id="getAllClassList" parameterType="TeamVO" resultType="PayGroupVO">
+		SELECT
+		school_id as school_id,
+	  	grade_id as group_id,
+		class_id as team_id,
+		'011005' as team_type
+	FROM kt_bas_classroom WHERE school_id = #{school_id} AND is_graduate = #{is_graduate}
+	ORDER BY group_id
+	</select>
+</mapper>
+

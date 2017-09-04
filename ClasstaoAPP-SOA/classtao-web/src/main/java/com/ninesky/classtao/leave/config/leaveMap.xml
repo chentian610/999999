@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="leaveMap">
+	<!--插入表kt_bus_leave -->
+	<insert id="insertLeave" parameterType="LeaveVO">
+	insert into kt_bus_leave
+	(
+		school_id,
+		user_id,
+		start_date,
+		end_date,
+		leave_type,
+		is_change_course,
+		leave_status,
+		approver_id,
+		approver_content,
+		master_id,
+		master_content,
+		content,
+		remarks,
+		leave_days,
+		leave_hours,
+		create_by,
+		create_date,
+		version
+	) VALUES (
+		#{school_id},
+		#{user_id},
+		#{start_date},
+		#{end_date},
+		#{leave_type},
+		#{is_change_course},
+		#{leave_status},
+		#{approver_id},
+		#{approver_content},
+		#{master_id},
+		#{master_content},
+		#{content},
+		#{remarks},
+		#{leave_days},
+		#{leave_hours},
+		#{create_by},
+		#{create_date},
+		0
+	)
+	</insert>
+
+	<!--查询表kt_bus_leave -->
+	<select id="getLeaveList" parameterType="Map" resultType="LeaveVO">
+	SELECT
+		leave_id as leave_id,
+		school_id as school_id,
+		user_id as user_id,
+		start_date as start_date,
+		end_date as end_date,
+		leave_type as leave_type,
+		is_change_course as is_change_course,
+		leave_status as leave_status,
+		approver_id as approver_id,
+		approver_content as approver_content,
+		approver_date as approver_date,
+		master_id as master_id,
+		master_content as master_content,
+		master_date as master_date,
+		content as content,
+		remarks as remarks,
+		leave_days as leave_days,
+		leave_hours as leave_hours,
+		create_by as create_by,
+		create_date as create_date,
+		version as version
+	FROM kt_bus_leave l
+	WHERE school_id = #{school_id}
+	<if test="user_id != null and user_id != ''">
+			AND user_id = #{user_id}
+	</if>
+	<if test="leave_id != null and leave_id != ''">
+			AND leave_id = #{leave_id}
+	</if>
+	<if test="leave_status != null and leave_status != ''">
+			AND leave_status = #{leave_status}
+	</if>
+	<if test="status != null and status != ''">
+			AND leave_status != #{status}
+	</if>
+	<if test="leave_type != null and leave_type != ''">
+			AND leave_type = #{leave_type}
+	</if>
+	<if test="leave_date != null and leave_date != ''">
+			AND #{leave_date} BETWEEN start_date AND end_date
+	</if>
+	<if test="app_sql != null and app_sql != '' ">
+            AND leave_id  ${app_sql}
+    </if>
+    <if test="order_sql != null and order_sql != '' ">
+            order by leave_id ${order_sql}
+    </if>
+	</select>
+	<!--查询表kt_bus_leave -->
+	<select id="getLeaveApplyList" parameterType="Map" resultType="LeaveVO">
+	SELECT
+		leave_id as leave_id,
+		school_id as school_id,
+		user_id as user_id,
+		start_date as start_date,
+		end_date as end_date,
+		leave_type as leave_type,
+		is_change_course as is_change_course,
+		leave_status as leave_status,
+		approver_id as approver_id,
+		approver_content as approver_content,
+		approver_date as approver_date,
+		master_id as master_id,
+		master_content as master_content,
+		master_date as master_date,
+		content as content,
+		remarks as remarks,
+		leave_days as leave_days,
+		leave_hours as leave_hours,
+		create_by as create_by,
+		create_date as create_date,
+		version as version
+	FROM kt_bus_leave l
+	WHERE ((l.school_id = #{school_id} and (l.leave_status != '034005'
+		<if test="leave_status != null and leave_status != ''">
+			<if test="leave_status == '034010'">
+				AND l.approver_id=#{user_id}
+				AND l.leave_status = #{leave_status}
+			</if>
+			<if test="leave_status == '034015'">
+				AND l.master_id = #{user_id}
+				AND l.leave_status = #{leave_status}
+			</if>
+			<if test="leave_status == '034010,034015'">
+				AND ((l.approver_id=#{user_id} AND l.leave_status = LEFT (#{leave_status},6))
+				OR l.master_id = #{user_id} AND l.leave_status = RIGHT (#{leave_status},6))
+			</if>
+			<if test="leave_status == '034020,034030'">
+				AND (l.approver_id=#{user_id} OR l.master_id = #{user_id})
+				AND l.leave_status IN (${leave_status})
+			</if>
+		</if>
+		))
+		OR EXISTS (SELECT 1 FROM kt_bus_leave_change c WHERE c.user_id = #{user_id} AND c.school_id = #{school_id}
+			<if test="leave_status == '034010' or leave_status == '034015' or leave_status == '034010,034015' or leave_status == '034015,034010'">
+				AND c.is_agree = 0
+			</if>
+			<if test="leave_status == '034020,034030'">
+				AND (c.is_agree = 1 or c.is_agree = -1)
+			</if>
+		AND l.leave_id=c.leave_id
+		))
+	<if test="leave_id != null and leave_id != ''">
+			AND l.leave_id = #{leave_id}
+	</if>
+	<if test="leave_type != null and leave_type != ''">
+			AND l.leave_type = #{leave_type}
+	</if>
+	<if test="leave_date != null and leave_date != ''">
+		AND DATE_FORMAT(#{leave_date},'%Y-%m-%d') BETWEEN  DATE_FORMAT(l.start_date,'%Y-%m-%d') AND DATE_FORMAT(l.end_date ,'%Y-%m-%d')
+	</if>
+	<if test="app_sql != null and app_sql != ''">
+            AND l.leave_id  ${app_sql}
+    </if>
+    <if test="order_sql != null and order_sql != ''">
+            order by l.leave_id ${order_sql}
+     </if>
+	</select>
+
+	<update id="updateLeaveByID" parameterType="Map">
+	UPDATE kt_bus_leave
+	SET
+	<if test="approver_id != '' and approver_id != null">
+	approver_id = #{approver_id},
+	</if>
+	<if test="master_id != '' and master_id != null">
+	master_id = #{master_id},
+	</if>
+	<if test="approver_content != '' and approver_content != null">
+	approver_content = #{approver_content},
+	</if>
+	<if test="approver_date != '' and approver_date != null">
+	approver_date = #{approver_date},
+	</if>
+	<if test="master_content != '' or master_content !=null">
+	master_content = #{master_content},
+	</if>
+	<if test="master_date != '' or master_date !=null">
+	master_date = #{master_date},
+	</if>
+	<if test="leave_days != '' and leave_days != null">
+		leave_days = #{leave_days},
+	</if>
+	<if test="leave_hours != '' and leave_hours != null">
+		leave_hours = #{leave_hours},
+	</if>
+	leave_status=#{leave_status},version=version+1
+	WHERE leave_id = #{leave_id} and version=#{version}
+	</update>
+
+	<update id="updateApproverByID" parameterType="Map">
+	UPDATE kt_bus_leave
+	SET master_id = #{master_id},
+	leave_status=#{leave_status},version=version+1
+	WHERE leave_id = #{leave_id} and version=#{version}
+	</update>
+
+	<update id="updateLeaveStatusByID" parameterType="Map">
+	UPDATE kt_bus_leave
+	SET leave_status=#{leave_status},version=version+1
+	WHERE leave_id = #{leave_id} and version=#{version}
+	</update>
+
+	<update id="updateLeave" parameterType="Map">
+	UPDATE kt_bus_leave
+	SET
+	<if test="start_date != '' and start_date != null">
+		start_date = #{start_date},
+	</if>
+	<if test="end_date != '' and end_date != null">
+		end_date = #{end_date},
+	</if>
+	<if test="leave_type != '' and leave_type != null">
+		leave_type = #{leave_type},
+	</if>
+	<if test="is_change_course != '' and is_change_course != null">
+		is_change_course = #{is_change_course},
+	</if>
+	<if test="leave_status != '' and leave_status != null">
+		leave_status = #{leave_status},
+	</if>
+	<if test="approver_id != '' and approver_id != null">
+		approver_id = #{approver_id},
+	</if>
+	<if test="content != '' and content != null">
+		content = #{content},
+	</if>
+	<if test="leave_days != '' and leave_days != null">
+		leave_days = #{leave_days},
+	</if>
+	<if test="leave_hours != '' and leave_hours != null">
+		leave_hours = #{leave_hours},
+	</if>
+	remarks = #{remarks},version=version+1
+		WHERE leave_id = #{leave_id}
+	</update>
+	<!--删除表kt_bus_leave -->
+	<select id="getLeaveByID" parameterType="Map" resultType="LeaveVO">
+	SELECT
+		leave_id as leave_id,
+		school_id as school_id,
+		user_id as user_id,
+		start_date as start_date,
+		end_date as end_date,
+		leave_type as leave_type,
+		is_change_course as is_change_course,
+		leave_status as leave_status,
+		approver_id as approver_id,
+		approver_content as approver_content,
+		approver_date as approver_date,
+		master_id as master_id,
+		master_content as master_content,
+		master_date as master_date,
+		content as content,
+		remarks as remarks,
+		leave_days as leave_days,
+		leave_hours as leave_hours,
+		create_by as create_by,
+		create_date as create_date,
+		version as version
+	FROM kt_bus_leave where leave_id = #{leave_id} AND school_id = #{school_id}
+	</select>
+	<!--删除表kt_bus_leave -->
+	<delete id="deleteLeave" parameterType="Integer">
+	delete from kt_bus_leave where leave_id = #{leave_id}
+	</delete>
+	<!--删除表kt_bus_leave -->
+	<delete id="removeLeave" parameterType="LeaveVO">
+		delete from kt_bus_leave where leave_id = #{leave_id} AND school_id = #{school_id}
+	</delete>
+	<!--查询表kt_bus_leave -->
+	<select id="getLeaveCCList" parameterType="Map" resultType="LeaveVO">
+		SELECT
+		leave_id as leave_id,
+		school_id as school_id,
+		user_id as user_id,
+		start_date as start_date,
+		end_date as end_date,
+		leave_type as leave_type,
+		is_change_course as is_change_course,
+		leave_status as leave_status,
+		approver_id as approver_id,
+		approver_content as approver_content,
+		approver_date as approver_date,
+		master_id as master_id,
+		master_content as master_content,
+		master_date as master_date,
+		content as content,
+		remarks as remarks,
+		leave_days as leave_days,
+		leave_hours as leave_hours,
+		create_by as create_by,
+		create_date as create_date,
+		version as version
+		FROM kt_bus_leave l
+		WHERE EXISTS (SELECT 1 FROM kt_bus_leave_cc c WHERE c.school_id = #{school_id} AND c.user_id = #{user_id} AND l.leave_id=c.leave_id)
+		<if test="leave_id != null and leave_id != ''">
+			AND l.leave_id = #{leave_id}
+		</if>
+		<if test="leave_status != null and leave_status != ''">
+			AND l.leave_status = #{leave_status}
+		</if>
+		<if test="leave_type != null and leave_type != ''">
+			AND l.leave_type = #{leave_type}
+		</if>
+		<if test="leave_date != null and leave_date != ''">
+			AND DATE_FORMAT(#{leave_date},'%Y-%m-%d') BETWEEN  DATE_FORMAT(l.start_date,'%Y-%m-%d') AND DATE_FORMAT(l.end_date ,'%Y-%m-%d')
+		</if>
+		<if test="app_sql != null and app_sql != ''">
+			AND l.leave_id  ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != ''">
+			order by l.leave_id ${order_sql}
+		</if>
+	</select>
+	<select id="getLeaveCountByDate" parameterType="Map" resultType="Integer">
+	SELECT COUNT(l.user_id) FROM (
+		SELECT user_id FROM kt_bus_leave WHERE school_id = #{school_id} AND leave_status = #{leave_status}
+		  AND (#{leave_date} BETWEEN start_date AND end_date OR start_date LIKE CONCAT(#{leave_date},'%') OR end_date LIKE CONCAT(#{leave_date},'%')) GROUP BY user_id) l
+	</select>
+
+	<select id="getLeaveListOfSomeDay" parameterType="LeaveVO" resultType="LeaveCountVO">
+	SELECT
+		t.user_id as user_id,
+		SUM(l.leave_days) as leave_days_sum,
+		SUM(l.leave_hours) as leave_hours_sum,
+		COUNT(l.leave_id) as leave_counts
+	FROM kt_bus_leave l
+	,(SELECT user_id,all_letter,first_letter FROM kt_bas_teacher WHERE school_id = #{school_id} AND (user_id is NOT NULL or user_id != '') GROUP BY user_id) t
+	WHERE l.school_id = #{school_id}
+	<if test="start_date != null  and end_date != null">
+		AND (l.start_date BETWEEN #{start_date} AND #{end_date} OR l.end_date BETWEEN #{start_date} AND #{end_date}
+		OR #{start_date} BETWEEN l.start_date AND l.end_date OR #{end_date} BETWEEN l.start_date AND l.end_date)
+	</if>
+	<if test="leave_type != null and leave_type != ''">
+		AND l.leave_type = #{leave_type}
+	</if>
+	<if test="create_by != null and create_by != ''">
+		AND l.user_id = #{create_by}
+	</if>
+	<if test="leave_name != null and leave_name != ''">
+		AND (t.user_name like CONCAT('%',#{leave_name},'%')
+		or t.all_letter like CONCAT('%',#{leave_name},'%') or t.first_letter like CONCAT('%',#{leave_name},'%'))
+	</if>
+	<if test="leave_status != null and leave_status != ''">
+		AND l.leave_status = #{leave_status}
+	</if>
+		AND l.user_id = t.user_id
+	GROUP BY t.user_id
+	</select>
+	<select id="getSomeTeaLeaveListOfSomeDay" parameterType="LeaveVO" resultType="LeaveVO">
+	SELECT
+		leave_id as leave_id,
+		school_id as school_id,
+		user_id as user_id,
+		start_date as start_date,
+		end_date as end_date,
+		leave_type as leave_type,
+		leave_days as leave_days,
+		leave_hours as leave_hours,
+		create_date as create_date
+	FROM kt_bus_leave
+	WHERE school_id = #{school_id}
+		<if test="start_date != null and end_date != null">
+			AND (start_date BETWEEN #{start_date} AND #{end_date} OR end_date BETWEEN #{start_date} AND #{end_date}
+			OR #{start_date} BETWEEN start_date AND end_date OR #{end_date} BETWEEN start_date AND end_date)
+		</if>
+		<if test="leave_type != null and leave_type != ''">
+			AND leave_type = #{leave_type}
+		</if>
+		<if test="create_by != null and create_by != ''">
+			AND user_id = #{create_by}
+		</if>
+		<if test="leave_status != null and leave_status != ''">
+			AND leave_status = #{leave_status}
+		</if>
+	</select>
+</mapper>
+

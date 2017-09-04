@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="noticeReplyMap">
+	<!--插入表kt_bus_notice_reply -->
+	<insert id="insertNoticeReply" parameterType="NoticeReplyVO">insert into
+		kt_bus_notice_reply
+		(
+		receive_id,
+		receive_type,
+		notice_id,
+		school_id,
+		student_id,
+		user_id,
+		user_type,
+		reply_content,
+		reply_time,
+		head_url,
+		is_read,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{receive_id},
+		#{receive_type},
+		#{notice_id},
+		#{school_id},
+		#{student_id},
+		#{user_id},
+		#{user_type},
+		#{reply_content},
+		#{reply_time},
+		#{head_url},
+		0,
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<!--查询表kt_bus_notice_reply -->
+	<select id="getNoticeReplyList" parameterType="NoticeReplyVO" resultType="NoticeReplyVO">
+		select
+		id as reply_id,
+		receive_id as receive_id,
+		notice_id as notice_id,
+		user_id as user_id,
+		student_id as student_id,
+		head_url as head_url,
+		reply_content as reply_content,
+		reply_time as reply_time,
+		head_url as head_url,
+		user_type as user_type
+		from kt_bus_notice_reply
+		where notice_id=#{notice_id} 
+		and user_type=#{user_type}
+		<if test="user_id!=null and user_id!=0">
+		and user_id=#{user_id}
+		</if>
+		<if test="student_id!=null and student_id!=0">
+		and student_id=#{student_id}
+		</if>
+	</select>
+	
+	<select id="getNoticeReplyList1" parameterType="NoticeReplyVO" resultType="NoticeReplyVO">
+	select id as reply_id,
+		receive_id as receive_id,
+		notice_id as notice_id,
+		user_id as user_id,
+		student_id as student_id,
+		head_url as head_url,
+		reply_content as reply_content,
+		reply_time as reply_time,
+		head_url as head_url,
+		receive_type as receive_type,
+		user_type as user_type
+	from kt_bus_notice_reply
+	where notice_id=#{notice_id} 
+		<if test="receive_id!=null and receive_id!=0">
+		 and receive_id=#{receive_id} 
+		 and receive_type=#{receive_type}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">    
+               and id  ${app_sql}  
+            </if>
+            ORDER BY reply_id
+	</select>
+	
+	<select id="getNoticeReplyListByNoticeid" parameterType="Integer" resultType="NoticeReplyVO">
+		select  
+			id as reply_id,
+			receive_id as receive_id,
+			notice_id as notice_id,
+			user_id as user_id,
+			student_id AS student_id,
+			head_url AS head_url,
+			reply_content AS reply_content,
+			reply_time AS reply_time,
+			user_type as user_type,
+			receive_type as receive_type
+		from
+			kt_bus_notice_reply 
+		where id in 
+			(select max(id) from kt_bus_notice_reply where notice_id=#{notice_id} group by receive_id,receive_type )
+			 order by reply_id desc
+	</select>
+	
+	<!--删除表kt_bus_notice_reply -->
+	<delete id="deleteNoticeReply" parameterType="NoticeReplyVO">delete from
+		kt_bus_notice_reply
+		where id = #{id}
+	</delete>
+	
+	<!-- 未读的回复条数（某个人的回复） -->
+	<select id="getCountOfReply" parameterType="Integer" resultType="Integer">
+		select count(*) as count from kt_bus_notice_reply where receive_id=#{receive_id} and is_read=0 
+		and student_id>0
+	</select>
+	
+	<select id="getCountOfReply1" parameterType="NoticeReplyVO" resultType="Integer">
+		select count(*) as count from kt_bus_notice_reply where notice_id=#{notice_id} and receive_id=#{receive_id} 
+	  	and is_read=0 and id not in (select id from kt_bus_notice_reply where user_type=#{user_type} and user_id=#{user_id} )
+	</select>
+	
+	<update id="updateIsRead" parameterType="Integer">
+	update kt_bus_notice_reply set is_read=1 where receive_id=#{receive_id}
+	</update>
+	
+	<update id="updateIsRead1" parameterType="NoticeReplyVO">
+	update kt_bus_notice_reply set is_read=1 where notice_id=#{notice_id} and receive_id=#{receive_id} and 
+	receive_type=#{receive_type}
+	</update>
+</mapper>
+

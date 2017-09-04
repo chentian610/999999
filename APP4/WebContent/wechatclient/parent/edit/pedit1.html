@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>修改个人资料</title>
+        <script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+        <link href="../css/common1.css" rel="stylesheet" />
+        <link href="css/edit.css" rel="stylesheet" />
+		<style>
+			.head-img{
+				width: 100%;
+				border-radius: 50%;
+			}
+			.colorgrey{
+				color: #999999;
+			}
+			.mui-table-view-cell:after{left:0;}
+		</style>
+    </head>
+    <body class="">
+        <!-- <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left white"></a>
+            <h1 class="mui-title white">修改个人资料</h1>
+        </header> -->
+        <div class="mui-content">
+            <ul class="mui-table-view mui-table-view-chevron">
+                <li id="li0" class="mui-table-view-cell mui-media pr52">
+                   	<a class="mui-navigate-right">
+	                  	<img id="img" class="mui-media-object mui-pull-right head-img" id="head_img" src="../images/default_img_user.png">
+                   	 	<div class="mui-media-body mt12">头像</div>
+                    </a>
+                </li>
+                <li id="li1" class="mui-table-view-cell pr52">
+                    <a class="mui-navigate-right">姓名 <span id="name" class="mui-pull-right colorgrey"></span></a>
+                </li>
+                <li id="li2" class="mui-table-view-cell pr52">
+                    <a class="mui-navigate-right">性别 <span id="sex" class="mui-pull-right colorgrey"></span></a>
+                </li>
+                <li id="li3" class="mui-table-view-cell pr52">
+                    <a class="mui-navigate-right">密码 </a>
+                </li>
+            </ul> 
+        </div>
+    	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript">
+        	var uImg = document.getElementById("img"),
+        		uName = document.getElementById("name"),
+       			uSex = document.getElementById("sex");
+        	var wvParent = null;
+        		
+        	mui.ready(function(){
+    			BindEvent();
+        		InitPage();	
+        	});
+        	
+        	function InitPage(){
+        		uImg.src = cache.getHeadPath();
+        		uImg.onerror = function(){
+        			uImg.src = '../images/default_img_user.png';
+        		}
+	        	uName.innerText = cache.getUserName();
+	        	uSex.innerText = cache.getUserSex();
+        	};
+        	
+        	function BindEvent(){
+        		window.addEventListener('updatePage',function(){
+					setTimeout(function(){
+						mui.fire(wvParent,'InitInfo');
+						InitPage();
+					},100);
+				});
+				
+	        	/* document.getElementById('li0').addEventListener('tap',function(){
+	        		var self = this;
+	        		if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},600);
+	        		mui.openWindow({
+						url: "pAlterUserHead.html",
+						id: "pAlterUserHead",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+	        	}); */
+	        	
+	        	document.getElementById('li1').addEventListener('tap',function(){
+	        		var self = this;
+	        		if(self.disable){
+						
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},1000);
+	        		mui.openWindow({
+						url: "pename.html",
+						id: "pename",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+	        	});
+	        	
+	        	document.getElementById('li2').addEventListener('tap',function(){
+	        		var self = this;
+	        		if(self.disable){
+						
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},1000);
+	        		mui.openWindow({
+						url: "pesex.html",
+						id: "pesex",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+	        	});
+	        	 
+	        	document.getElementById('li3').addEventListener('tap',function(){
+	        		var self = this;
+	        		if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},400);
+	        		mui.openWindow({
+						url: "tepasswd.html",
+						id: "tepasswd",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+	        	});
+	        	//BindEvent end
+        	};
+        </script>
+	</body>
+</html>

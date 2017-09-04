@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="scheduleMap">
+
+	<select id="getScheduleList" parameterType="Integer" resultType="ScheduleVO">
+		select
+		class_date,place
+		from kt_bas_schedule
+		where contact_id=#{contact_id}
+	</select>
+
+	<insert id="insertSchedule" parameterType="ScheduleVO">
+		insert into kt_bas_schedule (
+			contact_id,
+			class_date,
+			place,
+			create_by,
+			create_date,
+			version
+		) values (
+			#{contact_id},
+			#{class_date},
+			#{place},
+			#{create_by},
+			#{create_date},
+			0
+		)
+	</insert>
+
+	<delete id="deleteSchedule" parameterType="Integer">
+		delete from kt_bas_schedule where contact_id=#{contact_id}
+	</delete>
+</mapper>
+

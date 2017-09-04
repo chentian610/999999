@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="homeworkReceiveMap">
+	<!--插入表kt_bus_homework_receive-->
+	<insert id="insertHomeworkReceiveBatch" parameterType="List">
+	insert into	kt_bus_homework_receive
+		(
+		homework_id,
+		course,
+		school_id,
+		sender_id,
+		student_id,
+		title,
+		content,
+		end_date,
+		is_submit,
+		submit_time,
+		create_by,
+		create_date,
+		version,
+		is_read
+		) VALUES 
+		(
+		#{homework_id},
+		#{course},
+		#{school_id},
+		#{sender_id},
+		#{student_id},
+		#{title},
+		#{content},
+		#{end_date},
+		#{is_submit},
+		#{submit_time},
+		#{create_by},
+		#{create_date},
+		0,
+		0
+		)
+		</insert>
+	<!--更新表kt_bus_homework_receive-->
+	<update id="updateHomeworkDoneById" parameterType="HomeworkReceiveVO">
+	update	kt_bus_homework_receive
+		set 
+		is_submit = 1,
+		submit_time = #{submit_time},
+		version = version + 1
+	where homework_id=#{homework_id} and student_id=#{student_id}
+	</update>
+		<!--更新表kt_bus_homework_receive-->
+	<update id="updateHomeworkDoneByStudentID" parameterType="HomeworkReceiveVO">
+	update	kt_bus_homework_receive
+		set 
+		is_submit = 1,
+		submit_time = #{submit_time},
+		photo_list = #{photo_list},
+		version = version + 1
+	where homework_id=#{homework_id} and student_id =#{student_id}
+	</update>
+	<!--查询表kt_bus_homework_receive-->
+	<select id="getHomeworkReceiveListById" parameterType="Map"
+		resultType="HomeworkReceiveVO">
+	select
+		receive_id as receive_id,
+		homework_id as homework_id,
+		course as course,
+		school_id as school_id,
+		sender_id as sender_id,
+		student_id as student_id,
+		title as title,
+		content as content,
+		end_date as end_date,
+		is_submit as is_submit,
+		submit_time as submit_time,
+		photo_list as photo_list,
+		is_read as is_read,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bus_homework_receive
+	where homework_id=#{homework_id}
+		<if test="school_id != null and school_id != 0 ">    
+            and school_id=#{school_id} 
+        </if>
+        <if test="student_id != null and student_id != 0 ">    
+            and student_id=#{student_id} 
+        </if>
+		<if test="app_sql != null and app_sql != '' ">    
+            and receive_id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+            order by receive_id ${order_sql}  
+        </if> 
+	</select>
+	<!-- 根据学生获取作业列表 -->
+	<select id="getHomeworkListByStuId" parameterType="Map"
+		resultType="HomeworkReceiveVO">
+	select
+		receive_id as receive_id,
+		homework_id as homework_id,
+		course as course,
+		school_id as school_id,
+		sender_id as sender_id,
+		student_id as student_id,
+		title as title,
+		content as content,
+		end_date as end_date,
+		is_submit as is_submit,
+		submit_time as submit_time,
+		photo_list as photo_list,
+		is_read as is_read,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bus_homework_receive
+	where student_id=#{student_id}
+		<if test="school_id != null and school_id != 0 ">    
+            and school_id=#{school_id} 
+        </if>
+		<if test="app_sql != null and app_sql != '' ">    
+            and receive_id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+            order by receive_id ${order_sql}  
+        </if> 
+	</select>
+	<!--删除表kt_bus_homework_receive-->
+	<delete id="deleteHomeworkReceive" parameterType="HomeworkReceiveVO">
+	delete from	kt_bus_homework_receive	where receive_id = #{receive_id}
+	</delete>
+	<!-- 获取消息未读数量 -->
+	<select id="getUnreadCount" parameterType="Map" resultType="Integer">
+	select count(receive_id) 
+	from kt_bus_homework_receive 
+	where school_id=#{school_id} 
+		and student_id=#{student_id} 
+		and is_read=0
+	</select>
+	<!-- 更新为已读 -->
+	<update id="updateHomeworkIsRead" parameterType="Map">
+	update kt_bus_homework_receive 
+		set is_read=1
+	where student_id=#{student_id}
+	</update>
+	<!-- 根据作业id查询作业提交情况 -->
+	<select id="getCountList" parameterType="Integer" resultType="CountVO">
+	select is_submit as is_submit,
+		homework_id as homework_id, 
+		count(is_submit) as count
+	from kt_bus_homework_receive 
+	where homework_id=#{homework_id}
+		group by is_submit
+	</select>
+	
+	<!-- 根据作业id，学生id获取指定作业 -->
+	<select id="getHomeworkByMap" parameterType="Map" resultType="HomeworkReceiveVO">
+	select
+		receive_id as receive_id,
+		homework_id as homework_id,
+		course as course,
+		school_id as school_id,
+		sender_id as sender_id,
+		student_id as student_id,
+		title as title,
+		content as content,
+		end_date as end_date,
+		is_submit as is_submit,
+		submit_time as submit_time,
+		photo_list as photo_list,
+		is_read as is_read,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bus_homework_receive
+	where homework_id=#{homework_id}
+		and student_id=#{student_id}
+		<if test="school_id != null and school_id != 0 ">    
+            and school_id=#{school_id} 
+        </if>
+	</select>
+	
+	<update id="updateStudentInfo" parameterType="HomeworkReceiveVO">
+	update kt_bus_homework_receive set update_by=#{update_by},
+		update_date=#{update_date},version=version+1 
+	where student_id=#{student_id} and school_id=#{school_id}
+	</update>
+	
+	<update id="updateSender" parameterType="HomeworkReceiveVO">
+	update kt_bus_homework_receive set update_by=#{update_by},
+		update_date=#{update_date},version=version+1 
+	where sender_id=#{sender_id} and school_id=#{school_id}
+	</update>
+	
+	<select id="getCountlistByID" parameterType="Integer"
+		resultType="CountVO">
+	SELECT 
+		is_submit as is_submit,
+		homework_id as homework_id, 
+		count(receive_id) as count_done
+	FROM kt_bus_homework_receive
+	WHERE homework_id = #{homework_id} AND is_submit = 1
+	</select>
+	<select id="getHomeworkReceiveList" parameterType="HomeworkReceiveVO"
+		resultType="HomeworkReceiveVO">
+	SELECT 
+		student_id as student_id,
+		homework_id as homework_id,
+		end_date as end_date,
+		submit_time as submit_time 
+	FROM kt_bus_homework_receive
+	WHERE school_id = #{school_id} AND homework_id = #{homework_id} 
+	AND is_submit = 1
+	</select>
+</mapper>
+

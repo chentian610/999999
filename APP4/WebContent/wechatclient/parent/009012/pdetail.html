@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>课件详情</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../player/js/jquery.min.js"></script>
+		<style type="text/css">
+			iframe{
+				position: fixed;
+				bottom: 0;
+				z-index: 999;
+				display: none;
+			}
+			.hxx-box-player{
+				position: relative;
+				top: 45px;
+				width: 30rem;
+				height: 24rem;
+				display: none;
+			}
+			.hxx-box-player h4{
+				position: absolute;
+				z-index: 999999999;
+				top: 10rem;
+				width: 100%;
+				height: 2rem;
+				font-size: 1.5rem;
+				line-height: 2rem;
+				color: #fff;
+				text-align: center;
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id="title"></h1>
+		</header> -->
+		<iframe id="BoxSub" src=""></iframe>
+		<div id="BoxPlay" class="hxx-box-player">
+			<h4 id="TxtLoading">数据加载中...</h4>
+			<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+			<script type="text/javascript" src="../player/sewise.player.min.js"></script>
+			<script type="text/javascript">
+			mui.ready(function(){
+				SewisePlayer.setup({
+					server: "vod",
+					type: "m3u8",
+			        claritybutton: "disable",
+			        title: '',
+			        lang: 'zh_CN'
+				});
+				SewisePlayer.onStart(function(name){
+					cache.showDom(uTxtLoading);
+				});
+				SewisePlayer.onPlayTime(function(time, name){
+					cache.hideDom(uTxtLoading);
+				});
+			});
+			</script>
+		</div>
+	</body>
+	<script type="text/javascript">
+		/* var uTitle = document.getElementById("title"); */
+		var uBoxSub = document.getElementById("BoxSub");
+		var uBoxPlay = document.getElementById("BoxPlay");
+		var uTxtLoading = document.getElementById("TxtLoading");
+		var oExtras = {};
+		mui.ready(function(){
+			oExtras.ResourceUrl = getParamValue("ResourceUrl");
+			oExtras.ResourceName = getParamValue("ResourceName");
+			oExtras.ExtensionName = getParamValue("ExtensionName");
+			uBoxSub.width = '100%';
+			uBoxSub.height = (uHtml.offsetHeight/*  - uTitle.parentNode.offsetHeight */)+ 'px';
+		});
+		
+		mui.ready(function() {
+			if (oExtras.id) {
+				InitPage(oExtras.id);
+			}else{
+				document.title = oExtras.ResourceName;
+				if (oExtras.ExtensionName == 'MP4') {
+					cache.showDom(uBoxPlay);
+					SewisePlayer.toPlay(oExtras.ResourceUrl,oExtras.ResourceName,0,true);
+				}else{
+					cache.showDom(uBoxSub);
+					uBoxSub.src = oExtras.ResourceUrl;
+				}
+			}
+		});
+
+		function InitPage(id) {
+			cache.ajax("teachCloudAction/getSourceByID", {
+				data: {
+					id: id
+				},
+				success: function(oRe) {
+					try{
+						oExtras = JSON.parse(oRe.source_data);
+						document.title = oExtras.ResourceName;
+						if (oExtras.ExtensionName == 'MP4') {
+							cache.showDom(uBoxPlay);
+							SewisePlayer.toPlay(oExtras.ResourceUrl,oExtras.ResourceName,0,true);
+						}else{
+							cache.showDom(uBoxSub);
+							uBoxSub.src = oExtras.ResourceUrl;
+						}
+					}catch(e){
+						
+					}
+					
+				},
+				error: function(err) {
+					mui.toast('获取数据失败，请重新获取');
+				}
+			});
+		}
+	</script>
+
+</html>

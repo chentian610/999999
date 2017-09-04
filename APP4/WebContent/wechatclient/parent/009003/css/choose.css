@@ -1,0 +1,62 @@
+.mui-content>.mui-table-view:first-child {
+	margin: 0;
+}
+
+.mui-checkbox input[type=checkbox]:checked:before {
+	content: '\e472';
+	color: #57cebf !important;
+	font-size:50px;
+}
+
+.mui-checkbox input[type=checkbox]:before {
+	content: '';
+}
+
+.icon-banji:before {
+	font-size:20px;
+	padding-right:10px;
+	color: #a8a8a8;
+}
+
+.classname {
+	color: #5a5a5a;
+	font-size:16px;
+	white-space:nowrap; 
+	text-overflow:ellipsis;
+	overflow: hidden;
+	line-height:50px;
+	padding-left:15px;
+	padding-right: 50px !important;
+}
+.mui-checkbox label{
+	padding-right:0;
+}
+.mui-table-view-cell{
+	padding: 0;
+	height: 50px;
+	overflow: hidden;
+}
+.mui-bar-nav {
+	border-bottom: 1px solid #efeff4;
+}
+.mui-table-view-radio .mui-table-view-cell{
+	padding-right: 0;
+}
+.mui-table-view:before {
+	height: 0;
+}
+
+.mui-table-view-cell:after {
+	left: 0;
+	background-color: #e9e9e9;
+}
+
+.mui-table-view-cell.mui-checkbox input[type=checkbox] {
+	top: -4px;
+}
+
+.box-line {
+	width: 100%;
+	height: 10px;
+	color: #f2f2f2;
+}

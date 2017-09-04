@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="appVersionMap">
+	<!--插入表kt_sys_app_version -->
+	<insert id="insertAppVersion" parameterType="AppVersionVO">insert into
+		kt_sys_app_version
+		(
+		app_code,
+		school_id,
+		user_type,
+		app_type,
+		app_name,
+		app_version,
+		update_url,
+		update_msg,
+		must_update,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version,
+		kap_update_url,
+		ka_time,
+		kap_last_time,
+		kap_state,
+		kap_redactor,
+		kap_type,
+		kap_if_examine
+		) VALUES (
+		#{app_code},
+		#{school_id},
+		#{user_type},
+		#{app_type},
+		#{app_name},
+		#{app_version},
+		#{update_url},
+		#{update_msg},
+		#{must_update},
+		#{create_by},
+		#{create_date},
+		#{update_by},
+		#{update_date},
+		0,
+		#{kap_update_url},
+		#{ka_time},
+		#{kap_last_time},
+		#{kap_state},
+		#{kap_redactor},
+		#{kap_type},
+		#{kap_if_examine}
+		)
+	</insert>
+	<!--更新表kt_sys_app_version -->
+	<update id="updateAppVersion" parameterType="AppVersionVO">update kt_sys_app_version
+		set id = #{id},
+		app_code = #{app_code},
+		school_id = #{school_id},
+		user_type = #{user_type},
+		app_type = #{app_type},
+		app_name = #{app_name},
+		app_version = #{app_version},
+		update_url = #{update_url},
+		update_msg = #{update_msg},
+		must_update = #{must_update},
+		create_by = #{create_by},
+		create_date = #{create_date},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = #{version},
+		kap_update_url = #{kap_update_url},
+		ka_time = #{ka_time},
+		kap_last_time = #{kap_last_time},
+		kap_state = #{kap_state},
+		kap_redactor = #{kap_redactor},
+		kap_type = #{kap_type},
+		kap_if_examine = #{kap_if_examine}
+	</update>
+	<!--查询表kt_sys_app_version -->
+	<select id="getAppVersionList" parameterType="Map" resultType="AppVersionVO">
+	select
+		id as id,
+		app_code as app_code,
+		school_id as school_id,
+		user_type as user_type,
+		app_type as app_type,
+		app_name as app_name,
+		app_version as app_version,
+		update_url as update_url,
+		update_msg as update_msg,
+		must_update as must_update,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version,
+		kap_update_url as kap_update_url,
+		ka_time as ka_time,
+		kap_last_time as kap_last_time,
+		kap_state as kap_state,
+		kap_redactor as kap_redactor,
+		kap_type as kap_type,
+		kap_if_examine as kap_if_examine
+		from kt_sys_app_version
+	    <where>    
+            <if test="school_id != 0 and school_id != null ">    
+                school_id = #{school_id}    
+            </if>    
+            <if test="user_type != null and user_type !='' ">    
+               and user_type = #{user_type}
+            </if>  
+            <if test="app_type != null and app_type !='' ">    
+               and  app_type = #{app_type}
+            </if> 
+        </where> 
+	</select>
+	<!--删除表kt_sys_app_version -->
+	<delete id="deleteAppVersion" parameterType="AppVersionVO">delete from
+		kt_sys_app_version
+		where id = #{id}
+	</delete>
+</mapper>
+

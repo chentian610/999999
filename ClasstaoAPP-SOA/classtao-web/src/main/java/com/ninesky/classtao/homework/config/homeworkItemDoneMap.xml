@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="homeworkItemDoneMap">
+	<insert id="insertHomeworkItemDone" parameterType="homeworkItemDoneVO">
+	INSERT kt_bus_homework_item_done
+		(
+			item_id,
+			homework_id,
+			student_id,
+			content,
+			is_done,
+			done_date,
+			create_by,
+			create_date,
+			version
+		) VALUES 
+		(
+			#{item_id},
+			#{homework_id},
+			#{student_id},
+			#{content},
+			#{is_done},
+			#{done_date},
+			#{create_by},
+			#{create_date},
+			0
+		)
+	</insert>
+	
+	<select id="getHomeworkItemDonelist" parameterType="Map"
+		resultType="homeworkItemDoneVO">
+		SELECT 
+			homework_id as homework_id,
+			item_id as item_id,
+			student_id as student_id,
+			content as content,
+			is_done as is_done,	
+			done_date as done_date
+		FROM kt_bus_homework_item_done
+		WHERE homework_id = #{homework_id} AND student_id = #{student_id} and item_id = #{item_id}
+	</select>
+	<!-- 根据作业id查询作业提交情况 -->
+	<select id="getCountList" parameterType="Integer" resultType="Integer">
+	select count(is_done) as count_done
+        from kt_bus_homework_item_done
+	where item_id=#{item_id}
+	  group by is_done
+	</select>
+	<!-- 根据作业id查询作业提交情况 -->
+	<select id="getHomeworkItemDone" parameterType="HomeworkItemVO" resultType="homeworkItemDoneVO">
+		select
+			homework_id as homework_id,
+			item_id as item_id,
+			student_id as student_id,
+			content as content,
+			is_done as is_done,	
+			done_date as done_date
+		from kt_bus_homework_item_done 
+		where item_id=#{item_id} and homework_id = #{homework_id} 
+			and student_id = #{student_id}
+	</select>
+	
+	<update id="updateHomeworkItemDone" parameterType="homeworkItemDoneVO">
+	UPDATE kt_bus_homework_item_done SET content=#{content},update_by = #{update_by},update_date= #{update_date} 
+	WHERE item_id = #{item_id} and student_id=#{student_id} and homework_id = #{homework_id}
+	</update>
+</mapper>

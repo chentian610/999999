@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schoolMap">
+	<!--插入表kt_bas_school -->
+	<insert id="insertSchool" parameterType="SchoolVO">
+	insert into
+		kt_bas_school
+		(
+		fistpage_url,
+		fistpage_type,
+		school_id,
+		school_type,
+		school_name,
+		school_admin,
+		school_admin_phone,
+		agent_phone,
+		english_name,
+		school_motto,
+		organize_pic_url,
+		status,
+		province,
+		address,
+		phone,
+		domain,
+		main_domain,
+		record_no,
+		copyright,
+		host_url,
+		manager_url,
+		app_name,
+		app_pic_url,
+		app_status,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version
+		) VALUES (
+		#{fistpage_url},
+		#{fistpage_type},
+		#{school_id},
+		#{school_type},
+		#{school_name},
+		#{school_admin},
+		#{school_admin_phone},
+		#{agent_phone},
+		#{english_name},
+		#{school_motto},
+		#{organize_pic_url},
+		#{status},
+		#{province},
+		#{address},
+		#{phone},
+		#{domain},
+		#{main_domain},
+		#{record_no},
+		#{copyright},
+		#{host_url},
+		#{manager_url},
+		#{app_name},
+		#{app_pic_url},
+		#{app_status},
+		#{create_by},
+		#{create_date},
+		#{update_by},
+		#{update_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bas_school -->
+	<update id="updateSchoolById" parameterType="SchoolVO">
+		update kt_bas_school
+		set 
+		<if test="school_type != null and school_type != '' ">
+			school_type = #{school_type},		    
+		</if>
+		<if test="school_name != null and school_name != '' ">
+			school_name = #{school_name},		    
+		</if>
+		<if test="school_admin != null and school_admin != '' ">
+			school_admin = #{school_admin},		    
+		</if>
+		<if test="english_name != null and english_name != '' ">
+			english_name = #{english_name},		    
+		</if>
+		<if test="school_motto != null and school_motto != '' ">
+			school_motto = #{school_motto},		    
+		</if>
+		<if test="organize_pic_url != null and organize_pic_url != '' ">
+			organize_pic_url = #{organize_pic_url},		    
+		</if>
+		<if test="fistpage_url != null and fistpage_url != '' ">
+			fistpage_url = #{fistpage_url},		    
+		</if>
+		<if test="fistpage_type != null and fistpage_type != '' ">
+			fistpage_type = #{fistpage_type},		    
+		</if>
+		<if test="status != null and status != '' ">
+			status = #{status},
+		</if>
+		<if test="app_status != null and app_status != '' ">
+			app_status = #{app_status},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1
+		where school_id = #{school_id}
+	</update>
+	<!--查询表kt_bas_school -->
+	<select id="getSchoolAdminPhone" parameterType="Integer" resultType="String">
+	select
+		school_admin_phone as school_admin_phone from  kt_bas_school
+		where school_id=#{school_id}
+	</select>
+	<!--删除表kt_bas_school -->
+	<delete id="deleteSchool" parameterType="SchoolVO">delete from
+		kt_bas_school
+		where id = #{id}
+	</delete>
+	
+	<!--获取已经通过审核的学校 -->
+	<select id="getSchoolByAdminPhone" parameterType="String" resultType="SchoolVO">
+	select
+		school_id as school_id,
+		school_type as school_type,
+		school_name as school_name,
+		school_admin as school_admin,
+		school_admin_phone as school_admin_phone,
+		organize_pic_url as organize_pic_url,
+		fistpage_url as fistpage_url,
+		fistpage_type as fistpage_type,
+		status as status,
+		province as province,
+		address as address,
+		phone as phone,
+		domain as domain,
+		app_name as app_name,
+		app_pic_url as app_pic_url,
+		app_status as app_status,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bas_school
+	where school_admin_phone in (${school_admin_phone})
+	</select>
+	<!-- 获取申请的指定学校
+	<select id="getApplySchoolByAdminPhone" parameterType="SchoolVO" resultType="SchoolVO">
+	select
+		school_id as school_id,
+		school_type as school_type,
+		school_name as school_name,
+		school_admin as school_admin,
+		school_admin_phone as school_admin_phone,
+		organize_pic_url as organize_pic_url,
+		status as status,
+		province as province,
+		address as address,
+		phone as phone,
+		domain as domain,
+		app_name as app_name,
+		app_pic_url as app_pic_url,
+		app_status as app_status,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	from kt_bas_school
+	where school_admin_phone=#{school_admin_phone}
+	and status = '007005'
+	</select> -->
+	<!--获取学校信息 -->
+	<select id="getSchoolInfo" parameterType="Integer" resultType="SchoolVO">select
+		school_id as school_id,
+		school_type as school_type,
+		school_name as school_name,
+		english_name as english_name,
+		school_motto as school_motto,
+		school_admin as school_admin,
+		school_admin_phone as school_admin_phone,
+		organize_pic_url as organize_pic_url,
+		fistpage_url as fistpage_url,
+		fistpage_type as fistpage_type,
+		status as status,
+		install_url as install_url,
+		province as province,
+		address as address,
+		phone as phone,
+		zip_code as zip_code,
+		record_no as record_no,
+		domain as domain,
+		app_name as app_name,
+		app_pic_url as app_pic_url,
+		app_status as app_status,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_school
+	    where school_id=#{school_id}
+	</select>
+	<!--获取学校申请列表 -->
+	<select id="getSchoolApplyList" parameterType="SchoolVO" 
+	    resultType="SchoolVO">select
+		school_id as school_id,
+		school_type as school_type,
+		school_name as school_name,
+		english_name as english_name,
+		school_motto as school_motto,
+		school_admin as school_admin,
+		organize_pic_url as organize_pic_url,
+		fistpage_url as fistpage_url,
+		fistpage_type as fistpage_type,
+		status as status,
+		province as province,
+		address as address,
+		phone as phone,
+		domain as domain,
+		app_name as app_name,
+		app_pic_url as app_pic_url,
+		app_status as app_status,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		school_admin_phone,
+		version as version
+		from kt_bas_school
+		where
+		 status = #{status} 
+		 <if test="school_admin_phone !=null and school_admin_phone !=''">
+		and school_admin_phone in (${school_admin_phone})
+		</if>
+		order by create_date
+	</select>
+	
+		<!--获取学校申请列表 -->
+	<select id="getSchoolList" parameterType="SchoolVO"  resultType="SchoolVO">
+	select
+		school_id as school_id,
+		school_type as school_type,
+		school_name as school_name,
+		english_name as english_name,
+		school_motto as school_motto,
+		school_admin as school_admin,
+		school_admin_phone as school_admin_phone,
+		organize_pic_url as organize_pic_url,
+		fistpage_url as fistpage_url,
+		fistpage_type as fistpage_type,
+		status as status,
+		province as province,
+		address as address,
+		phone as phone,
+		domain as domain,
+		app_name as app_name,
+		app_pic_url as app_pic_url,
+		app_status as app_status,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_school
+		where 1=1
+			<if test="school_name != null and school_name != '' ">
+				and school_name like CONCAT("%",#{school_name},"%")	    
+			</if>
+			<if test="school_id != null and school_id != '' ">
+				and school_id = #{school_id}
+			</if>
+			<if test="agent_phone != null and agent_phone != '' ">
+				and agent_phone = #{agent_phone}
+			</if>
+			<if test="app_sql != null and app_sql != '' ">
+	              and school_id  ${app_sql}  
+	       	</if>
+		  	<if test="order_sql != null and order_sql != '' ">
+				order by school_id ${order_sql}
+		  	</if>
+	</select>
+	<!--获取学校申请列表 -->
+	<select id="getAgentApplySchoolList" parameterType="SchoolVO"  resultType="SchoolVO">
+		select
+		g.agent_id as agent_id,
+		s.school_id as school_id,
+		s.school_type as school_type,
+		s.school_name as school_name,
+		s.english_name as english_name,
+		s.school_motto as school_motto,
+		s.school_admin_phone as school_admin_phone,
+		s.agent_phone as agent_phone,
+		g.valid_date as valid_date,
+		g.agent_name as agent_name,
+		g.unit_price as unit_price,
+		s.organize_pic_url as organize_pic_url,
+		s.fistpage_url as fistpage_url,
+		s.fistpage_type as fistpage_type,
+		s.status as status,
+		s.domain as domain,
+		s.app_name as app_name,
+		s.main_url as main_url,
+		s.app_pic_url as app_pic_url,
+		s.create_by as create_by,
+		s.create_date as create_date,
+		s.version as version
+		from kt_bas_school s,kt_bas_agent g
+		where s.agent_phone = g.phone
+		<if test="school_name != null and school_name != '' ">
+			and s.school_name like CONCAT("%",#{school_name},"%")
+		</if>
+		<if test="school_id != null and school_id != '' ">
+			and s.school_id = #{school_id}
+		</if>
+		<if test="agent_phone != null and agent_phone != '' ">
+			and s.agent_phone = #{agent_phone}
+		</if>
+		<if test="school_type != null and school_type != '' ">
+			and s.school_type = #{school_type}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">
+			and s.school_id  ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != '' ">
+			order by s.school_id ${order_sql}
+		</if>
+	</select>
+
+	<!--获取学校申请列表 -->
+	<select id="getSchoolAPPUpdateHistoryList" parameterType="SchoolVO"  resultType="AppVO">
+		SELECT
+		a.id as id ,
+		s.school_id as school_id,
+		a.app_code as app_code,
+		a.app_type as app_type,
+		a.app_version as app_version,
+		a.is_all as is_all,
+		a.is_disable as is_disable,
+		a.update_url as update_url,
+		a.update_phone as update_phone,
+		a.update_msg as update_msg,
+		a.must_update as must_update,
+		a.create_by as create_by,
+		a.create_date as create_date,
+		a.update_by as update_by,
+		a.update_date as update_date,
+		a.version as version
+		FROM kt_bas_school s, kt_sys_app a
+		where s.school_id = a.school_id
+		<if test="school_id != null and school_id != '' ">
+			and s.school_id = #{school_id}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">
+			and school_id  ${app_sql}
+		</if>
+		ORDER BY a.create_date DESC
+	</select>
+
+	<!--获取学校申请列表 -->
+	<select id="getSchoolListByID" parameterType="SchoolVO"  resultType="SchoolVO">
+		select
+		school_id as school_id,
+		school_type as school_type,
+		school_name as school_name,
+		english_name as english_name,
+		school_motto as school_motto,
+		school_admin as school_admin,
+		school_admin_phone as school_admin_phone,
+		organize_pic_url as organize_pic_url,
+		fistpage_url as fistpage_url,
+		fistpage_type as fistpage_type,
+		status as status,
+		province as province,
+		address as address,
+		phone as phone,
+		domain as domain,
+		app_name as app_name,
+		app_pic_url as app_pic_url,
+		app_status as app_status,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_school
+		where 1=1
+		<if test="school_name != null and school_name != '' ">
+			and school_name like CONCAT("%",#{school_name},"%")
+		</if>
+		<if test="create_by != null and create_by != '' ">
+			and create_by = #{create_by}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">
+			and school_id  ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != '' ">
+			order by school_id ${order_sql}
+		</if>
+	</select>
+	<!--获取学校申请列表 -->
+	<select id="getSchoolAPPUpdateList" parameterType="Map"  resultType="Map">
+		SELECT
+		s.school_id as school_id,
+		s.school_type as school_type,
+		s.school_name as school_name,
+		s.status as status,
+		s.app_name as app_name,
+		a.app_type as app_type,
+		a.app_version as app_version,
+		a.is_all as is_all,
+		a.must_update as must_update,
+		a.create_date as create_date
+		FROM kt_bas_school s
+		left join  kt_sys_app  a on s.school_id = a.school_id and a.id in (select max(id)  from kt_sys_app group by school_id)
+		<where>
+			<if test="school_name != null and school_name != '' ">
+				and s.school_name like CONCAT("%",#{school_name},"%")
+			</if>
+			<if test="status == '007025,007030'">
+				and s.status in (${status})
+			</if>
+			<if test="status != '' and status != null and status != '-1' and status != '007025,007030'">
+				and s.status = #{status}
+			</if>
+			<if test="status == '-1'">
+				and a.is_all = #{app_status}
+			</if>
+			<if test="school_id != null and school_id != '' ">
+				and s.school_id = #{school_id}
+			</if>
+			<if test="app_sql != null and app_sql != '' ">
+				and s.school_id  ${app_sql}
+			</if>
+		</where>
+	</select>
+
+	<!--获取学校信息 -->
+	<select id="getSchoolByDomain" parameterType="String" resultType="SchoolVO">
+		select
+		school_id as school_id,
+		school_type as school_type,
+		school_name as school_name,
+		english_name as english_name,
+		school_motto as school_motto,
+		school_admin as school_admin,
+		school_admin_phone as school_admin_phone,
+		organize_pic_url as organize_pic_url,
+		fistpage_url as fistpage_url,
+		fistpage_type as fistpage_type,
+		status as status,
+		province as province,
+		address as address,
+		phone as phone,
+		domain as domain,
+		app_name as app_name,
+		app_pic_url as app_pic_url,
+		app_status as app_status,
+		install_url as install_url
+		from kt_bas_school
+		where domain=#{domain}
+	</select>
+	<!--获取学校信息 -->
+	<select id="getSchoolInfoByDomain" parameterType="SchoolVO" resultType="SchoolVO">
+		select
+		school_id as school_id,
+		school_type as school_type,
+		school_name as school_name,
+		english_name as english_name,
+		school_motto as school_motto,
+		school_admin as school_admin,
+		school_admin_phone as school_admin_phone,
+		organize_pic_url as organize_pic_url,
+		fistpage_url as fistpage_url,
+		fistpage_type as fistpage_type,
+		status as status,
+		province as province,
+		address as address,
+		phone as phone,
+		domain as domain,
+		app_name as app_name,
+		app_pic_url as app_pic_url,
+		app_status as app_status,
+		install_url as install_url
+		from kt_bas_school
+		where domain=#{domain} OR main_domain = #{main_domain}
+	</select>
+	<!--插入表kt_bas_school -->
+	<insert id="insertSchoolLinkman" parameterType="LinkManVO">
+		insert into
+		kt_bas_school_linkman
+		(
+		school_name,
+		link_man,
+		link_style,
+		ip_address,
+		link_email,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version
+		) VALUES (
+		#{school_name},
+		#{link_man},
+		#{link_style},
+		#{ip_address},
+		#{link_email},
+		#{create_by},
+		#{create_date},
+		#{update_by},
+		#{update_date},
+		0
+		)
+	</insert>
+	<delete id="removeSchoolByID" parameterType="Integer">
+		DELETE FROM kt_bas_school WHERE school_id = #{school_id}
+	</delete>
+
+	<select id="getSchoolMainInfo" parameterType="SchoolMainVO" resultType="SchoolMainVO">
+		select
+		school_id as school_id,
+		school_name as school_name,
+		install_url as install_url,
+		province as province,
+		urban_district as urban_district,
+		address as address,
+		phone as phone,
+		record_no as record_no,
+		zip_code as zip_code,
+		host_url as host_url,
+		path as path,
+		manager_url as manager_url,
+		copyright as copyright,
+		content as content,
+		domain as domain,
+		main_domain as main_domain,
+		organize_pic_url as organize_pic_url,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		FROM kt_bas_school
+		<where>
+			<if test="main_domain != '' and main_domain != null">
+				AND main_domain = #{main_domain}
+			</if>
+			<if test="main_url != null and main_url != ''">
+				AND (main_url LIKE CONCAT('%',#{main_url},'%') OR host_url LIKE CONCAT('%',#{main_url},'%'))
+			</if>
+			<if test="school_id != null and school_id != ''">
+				AND school_id = #{school_id}
+			</if>
+		</where>
+	</select>
+
+	<update id="updateSchoolMainInfo" parameterType="SchoolMainVO">
+		UPDATE kt_bas_school SET
+		<if test="content != null and content != ''">
+			content = #{content},
+		</if>
+		<if test="copyright != null and copyright != ''">
+			copyright = #{copyright},
+		</if>
+		<if test="record_no != null and record_no != ''">
+			record_no = #{record_no},
+		</if>
+		<if test="path != null and path != ''">
+			path = #{path},
+		</if>
+		<if test="host_url != null and host_url != ''">
+			host_url = #{host_url},
+		</if>
+		<if test="zip_code != null and zip_code != ''">
+			zip_code = #{zip_code},
+		</if>
+		<if test="phone != null and phone != ''">
+			phone = #{phone},
+		</if>
+		<if test="address != null and address != ''">
+			address = #{address},
+		</if>
+		<if test="urban_district != null and urban_district != ''">
+			urban_district = #{urban_district},
+		</if>
+		<if test="province != null and province != ''">
+			province = #{province},
+		</if>
+		<if test="main_url != null and main_url != ''">
+			main_url = #{main_url},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1
+		where school_id = #{school_id}
+	</update>
+	<insert id="insertSchoolTT" parameterType="String">
+		insert into
+		t_t
+		(
+		df
+		) VALUES (
+		#{df}
+		)
+	</insert>
+</mapper>
+

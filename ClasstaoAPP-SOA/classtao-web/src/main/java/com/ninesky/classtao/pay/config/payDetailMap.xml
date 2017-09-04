@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="payDetailMap">
+	<!--插入表kt_bus_pay_detail -->
+	<insert id="insertPayDetail" parameterType="PayDetailVO">
+	insert into kt_bus_pay_detail
+		(
+		pay_id,
+		school_id,
+  		user_id,
+   		student_id,
+   		pay_date,
+   		pay_type,
+   		client_id,
+   		trade_no,
+   		out_trade_no,
+   		trade_status,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{pay_id},
+		#{school_id},
+  		#{user_id},
+   		#{student_id},
+   		#{pay_date},
+   		#{pay_type},
+   		#{client_id},
+   		#{trade_no},
+   		#{out_trade_no},
+   		#{trade_status},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<select id="getPayDetailCount" parameterType="PayVO" resultType="Integer">
+		SELECT COUNT(d.id) FROM kt_bus_pay_detail d WHERE school_id = #{school_id} AND pay_id = #{pay_id} AND trade_status= #{trade_status}
+		<if test="team_type == '011005'">
+			AND EXISTS (SELECT 1 FROM kt_bas_student s WHERE d.student_id = s.student_id AND s.class_id = #{team_id})
+		</if>
+		<if test="team_type == '011015'">
+			AND EXISTS (SELECT 1 FROM kt_bas_contact_list l WHERE d.student_id = l.student_id AND l.contact_id = #{team_id})
+		</if>
+	</select>
+	<select id="getPayDetailList" parameterType="PayGroupVO" resultType="PayDetailVO">
+		SELECT
+			pay_id as pay_id,
+			school_id as school_id,
+			user_id as user_id,
+			student_id as student_id,
+			pay_date as pay_date,
+			pay_type as pay_type,
+			client_id as client_id,
+			trade_no as trade_no,
+			out_trade_no as out_trade_no,
+			trade_status as trade_status,
+			create_by as create_by,
+			create_date as create_date,
+			version as version
+		FROM kt_bus_pay_detail
+		WHERE school_id = #{school_id}
+		<if test="pay_id != null and pay_id != ''">
+			AND pay_id = #{pay_id}
+		</if>
+		<if test="user_id != null and user_id != ''">
+			AND user_id = #{user_id}
+		</if>
+		<if test="student_id != null and student_id != ''">
+			AND student_id = #{student_id}
+		</if>
+		<if test="trade_status != null and trade_status != ''">
+			AND trade_status= #{trade_status}
+		</if>
+	</select>
+</mapper>
+

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" wp-site wp-site-is-master-page class="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <base href="http://112.124.100.26/APP4/" target="_blank">  
+        <title>APP提交审核</title>
+        <!-- Bootstrap core CSS -->
+        <link href="audit/m/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="audit/m/dashboard.css" rel="stylesheet">
+        <!-- Style Library -->         
+        <link href="audit/detail/css/plugins.css" rel="stylesheet">
+        <link href="audit/detail/css/blocks.css" rel="stylesheet">
+        <link href="audit/detail/css/custom.css" rel="stylesheet">
+        <link href="audit/detail/css/style-library-1.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+    <body class="">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="javascript:void(0)" style="background: url(audit/detail/img/lezhi_logo.png) no-repeat 16px ;">乐智教育系统&nbsp; &nbsp;系统管理</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li class="active">
+                            <a href="audit/m/index.jsp" target="_self">申请管理</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">学校管理</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">用户管理</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">渠道管理</a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li>
+                            <a href="javascript:void(0)">基础数据维护</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">日志分析</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">数据统计</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="#" class="">
+                                    <img src="audit/detail/img/arrow_gray_down.png" />18958097845
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">用户信息</a>
+                            </li>
+                            <li>
+                                <a href="#">系统设置</a>
+                            </li>
+                            <li>
+                                <a href="#">帮助</a>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-right">
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </form>
+                    </div>
+                           <section id="content-2-10" class="content-2-10 content-block">
+            <div class="container bg-white border-box">
+                <div class="col-md-8 col-xs-12 pull-left" id="info-head">
+                </div>
+                <div class="col-md-2 col-xs-12 pull-right">
+                    <a class="btn btn-lg btn-info btn-block" onclick="EV_modeAlert('refuse-box')">拒绝</a>
+                </div>
+                <div class="col-md-2 col-xs-12 pull-right">
+                    <a href="javascript:void(0)" class="btn btn-lg btn-info btn-block" id="agree-apply">通过</a>
+                </div>
+            </div>
+            <div class="row content-2-10 content-block container" style="width: 1182px;margin: 0 auto;">
+                <form role="form" class=""> 
+                    <div class="form-group"> 
+                        <label class="control-label" for="exampleInputEmail1">
+                            <h6><h5><b>申请人</b></h5></h6>
+                        </label>                         
+                        <input type="text" class="form-control" id="apply-people" readonly="readonly" placeholder="申请人及电话"> 
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label" for="exampleInputPassword1">
+                            <h6><h5><b>学校信息</b></h5></h6>
+                        </label>                         
+                        <input type="text" class="form-control" id="school-name" readonly="readonly" placeholder="学校名称"> 
+                    </div>
+                    <input type="text" class="form-control" id="school-type" readonly="readonly" placeholder="学校类型">                     
+                    <div class="form-group shchool-pic"> 
+                        <label class="control-label" for="exampleInputFile">
+                            <h6><h6><h6><h5><b>学校logo</b></h5></h6></h6></h6>
+                            <div class="col-xs-6 col-sm-3 placeholder">
+                            <a>
+                            	<img width=200 height=200 id="schoolLogo"src="audit/detail/img/school-logo.png"/>
+                            </a>
+                            </div>
+                        </label>                         
+                    </div>                     
+                    <div class="form-group"> 
+                        <label class="control-label" for="exampleInputPassword1">
+                            <h6><h6><h6><h5><b>功能模块&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</b></h5></h6></h6></h6>
+                        </label>
+                        <section id="content-1-3" class="content-block content-1-3" style="padding: 40px 0;width: 800px;">
+                            <img src="audit/detail/img/img_mokuai.png" />
+                            <!-- /.container -->
+                        </section>  
+                        <ul class="gn-list clear" id="app-module-list__">
+			            </ul>                       
+                    </div>
+                    <div class="form-group"> 
+                        <label class="control-label" for="exampleInputPassword1">
+                            <h6><h5><b>生成平台</b></h5></h6>
+                        </label>
+                        <section id="content-1-3" class="content-block content-1-3" style="width: 200px;padding: 40px 0;">
+                            <img src="audit/detail/img/img_pintai.png" />
+                            <div class="container">
+                                <div class="row">
+</div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.container -->
+                        </section>                         
+                    </div>                     
+                </form>
+            </div>
+        </section>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="refuse-box" class="tc-box">
+			    <em class="close_btn" onclick="EV_closeAlert()">关闭</em>
+			    <div class="tc-tit">拒绝</div>
+			    <div class="tc-con">
+			        <textarea class="textarea-css" id="refuse-reason">您提交的“一个学校一个APP”申请，没有通过，请重新核实后再提交！</textarea>
+			    </div>
+			    <div class="tc-btn">
+			        <button type="button" class="btn btn-primary" onclick="EV_closeAlert()">取消</button>
+			        <button type="button" class="btn btn-primary" id="refuse-apply">发送</button>
+			    </div>
+			</div>
+        <!-- Bootstrap core JavaScript
+    	================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="hplus/js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/tc_js.js"></script>
+		<script src="application/js/myajax.js"></script>
+		<script src="js/functionUtil.js"></script>
+		<script src="audit/m/js/auditDetails.js"></script>
+		<script src="hplus/js/plugins/sweetalert/sweetalert.min.js"></script>
+		<script type="text/javascript">
+		    $(function(){
+		        $('.gn-list').on('click','li',function(){
+		            if($(this).find('i').is(':visible')){
+		                $(this).find('i').hide();
+		                $(this).removeClass('licur');
+		            }else{
+		                $(this).find('i').show();
+		                $(this).addClass('licur');
+		            }
+		        });
+		    });
+		    loadApplyedSchool();
+		</script>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="noticeFileMap">
+	<!--插入表kt_bus_notice_file -->
+	<insert id="insertNoticeFileList" parameterType="List">
+		insert into kt_bus_notice_file
+		(
+		notice_id,
+		file_url,
+		file_resize_url,
+		play_time,
+		file_name,
+		file_type,
+		create_by,
+		create_date,
+		version
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.notice_id},
+			#{item.file_url},
+			#{item.file_resize_url},
+			#{item.play_time},
+			#{item.file_name},
+			#{item.file_type},
+			#{item.create_by},
+			#{item.create_date},
+			0
+			)
+		</foreach>
+	</insert>
+
+	<!--更新表kt_bus_notice_file -->
+	<update id="updateNoticeFile" parameterType="NoticeFileVO">update
+		kt_bus_notice_file
+		set id = #{id},
+		notice_id = #{notice_id},
+		file_url = #{file_url},
+		file_name=#{file_name},
+		file_type=#{file_type},
+		version = #{version}
+	</update>
+	
+	<!--查询表kt_bus_notice_file -->
+	<select id="getNoticeFileList" parameterType="NoticeFileVO"
+		resultType="NoticeFileVO">select
+		id as id,
+		notice_id as notice_id,
+		file_url as file_url,
+		file_resize_url as file_resize_url,
+		play_time as play_time,
+		file_name as file_name,
+		file_type as file_type,
+		version as version
+		from kt_bus_notice_file
+		where notice_id=#{notice_id}
+		<if test="app_sql != null and app_sql != '' ">    
+               and id  ${app_sql}  
+            </if>
+            <if test="order_sql != null and order_sql != '' ">    
+               order by id ${order_sql}  
+            </if>
+	</select>
+	
+	<!--删除表kt_bus_notice_file -->
+	<delete id="deleteNoticeFile" parameterType="NoticeFileVO">delete from
+		kt_bus_notice_file
+		where id = #{id}
+	</delete>
+</mapper>
+

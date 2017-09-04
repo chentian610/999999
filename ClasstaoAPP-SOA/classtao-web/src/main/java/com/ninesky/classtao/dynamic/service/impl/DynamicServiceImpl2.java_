@@ -1,0 +1,330 @@
+package com.ninesky.classtao.dynamic.service.impl;
+
+import com.ninesky.classtao.dynamic.vo.DynamicVO;
+import com.ninesky.classtao.info.vo.InfoVO;
+import com.ninesky.classtao.redis.service.RedisService;
+import com.ninesky.classtao.school.service.ClassService;
+import com.ninesky.common.Constants;
+import com.ninesky.common.DictConstants;
+import com.ninesky.common.util.BeanUtil;
+import com.ninesky.common.util.ListUtil;
+import com.ninesky.common.util.RedisKeyUtil;
+import com.ninesky.common.util.StringUtil;
+import com.ninesky.common.vo.ReceiveVO;
+import com.ninesky.common.util.ActionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
+import java.util.*;
+import java.util.Map.Entry;
+
+@Service
+public class DynamicServiceImpl2  {
+	
+	@Autowired
+	protected RedisTemplate<Serializable, Object> redisTemplate;
+	@Autowired
+	private ClassService classService;
+	@Autowired
+	private RedisService redisServece;
+
+	/**
+	 * 插入动态信息
+	 * @param map
+	 * @return
+	 */
+	public void insertDynamic(HashMap<String,Object> map) {
+		redisTemplate.multi();
+		String key = RedisKeyUtil.KEY_DYNAMIC_PRE+map.get("dynamic_id");
+		switch (map.get("module_code").toString()) {
+		case DictConstants.MODULE_CODE_NOTICE:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_PHOTO:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_HOMEWORK:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_ATTEND:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_NOTE:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_COMMENT:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_SCHOOLSTYLE:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_PARTYBUILD:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_BEDROOM:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_CLASSROOM:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_CONTACT:
+			insertNoticeDynamic(map,key);
+			break;
+		case DictConstants.MODULE_CODE_PERFORMANCE:
+			insertNoticeDynamic(map,key);
+			break;
+		default: break;
+		}
+		redisTemplate.exec();
+	}
+	
+	/**
+	 * 更新动态信息
+	 * @param vo
+	 * @return
+	 */
+	public void updateDynamic(HashMap<String, Object> vo){
+		
+	}
+
+	/**
+	 * 有title、content、un_receive_count、un_read_count、reply_count
+	 */
+	private void insertNoticeDynamic(HashMap<String,Object> map,String key) {
+		redisTemplate.opsForHash().putAll(key,map);
+		//发给个人
+		if (map.containsKey("class_id") && (map.get("class_id")!=null) && (Integer.parseInt(map.get("class_id").toString())>0));
+		//发给班级
+		if (map.containsKey("class_id") && (map.get("class_id")!=null) && (Integer.parseInt(map.get("class_id").toString())>0));
+//		String zKey = 
+	}
+
+	
+	public void insertDynamic(final HashMap<String, String> dataMap,final List<ReceiveVO> receivelist) {
+		redisTemplate.execute(new RedisCallback<Object>() {
+			public Object doInRedis(RedisConnection connection) throws DataAccessException {
+				if (ListUtil.isEmpty(receivelist)) return null;
+				RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
+				String link_type = dataMap.get("link_type").toString();
+				String module_code = dataMap.get("module_code").toString();
+				Integer pkID = Integer.parseInt(dataMap.get("module_pkid"));
+				String title =  dataMap.get("info_title").toString();
+				String content =  dataMap.get("info_content").toString();
+				String suffix = ""; 
+				if (DictConstants.LINK_TYPE_DETAIL.equals(link_type)) 
+					suffix = "detail.html";
+				else if (DictConstants.LINK_TYPE_REPLY.equals(link_type)) 
+					suffix = "conve.html";
+				byte[] DynamicKey = serializer.serialize(RedisKeyUtil.getDynamicKey(module_code, pkID, suffix));
+				byte[] DynamicReceivekey = serializer.serialize(RedisKeyUtil.getDynamicKey(module_code, pkID, RedisKeyUtil.KEY_DYNAMIC_RECEIVE));
+				connection.hSet(DynamicKey, serializer.serialize("info_title"), serializer.serialize(title));
+				connection.hSet(DynamicKey, serializer.serialize("info_content"), serializer.serialize(content));
+				connection.hSet(DynamicKey, serializer.serialize("module_code"),serializer.serialize(module_code.toString()));
+				connection.hSet(DynamicKey, serializer.serialize("module_pkid"),serializer.serialize(pkID.toString()));
+				connection.hSet(DynamicKey, serializer.serialize("link_type"),serializer.serialize(link_type));
+				connection.hSet(DynamicKey, serializer.serialize("info_url"),serializer.serialize(suffix));
+				connection.hSet(DynamicKey, serializer.serialize("info_date"),serializer.serialize(ActionUtil.getSysTime().getTime()+""));
+				connection.hSet(DynamicKey, serializer.serialize("student_id"),serializer.serialize("0"));
+				for (ReceiveVO vo:receivelist) {
+					if (DictConstants.TEAM_TYPE_CLASS.equals(vo.getTeam_type()) && vo.getGroup_id() == null)
+						vo.setGroup_id(classService.getClassByID(vo.getTeam_id()).getGrade_id());
+					String groupKey = RedisKeyUtil.getGroupKey(vo);
+					//遍历集合获取接收组总数信息
+					byte[] BGroupKey = serializer.serialize(groupKey);
+					Integer total = redisServece.getTotalFromTeam(vo);
+					connection.hIncrBy(DynamicKey, serializer.serialize("total"), total);
+					connection.hIncrBy(DynamicKey, serializer.serialize("un_read_num"), total);
+					//将该条动态加入到分组动态中
+					byte[] setKey = serializer.serialize(RedisKeyUtil.KEY_SET_PRE+RedisKeyUtil.KEY_DYNAMIC_PRE+RedisKeyUtil.getGroupKey(vo));
+					connection.zAdd(setKey, ActionUtil.getSysTime().getTime(),DynamicKey);
+					connection.sAdd(DynamicReceivekey,BGroupKey);
+				}
+				return null;
+			}
+
+		});
+	}
+	
+	/**
+	 * 插入消息到动态中
+	 * @param info 转换后的消息对象
+	 * @param receive_list 接收的分组对象
+	 */
+	public void insertDynamic2(InfoVO info, String receive_list) {
+		List<ReceiveVO> receivelist=BeanUtil.jsonToList(receive_list, ReceiveVO.class);
+		String key = RedisKeyUtil.KEY_DYNAMIC_PRE+info.getInfo_id();
+		HashOperations<Serializable, String, Object> template = redisTemplate.opsForHash();
+		template.put(key, "info_title", StringUtil.subString(info.getInfo_title(),15));
+		template.put(key, "info_content", StringUtil.subString(info.getInfo_content(),20));
+		template.put(key, "info_content", StringUtil.subString(info.getInfo_content(),20));
+		template.put(key, "module_code",info.getModule_code());
+		template.put(key, "module_pkid",info.getModule_pkid());
+		template.put(key, "reply_num",0);
+		template.put(key, "read_num",0);
+		//String操作
+		ValueOperations<Serializable, Object> vot = redisTemplate.opsForValue();
+		//有序集合
+		ZSetOperations<Serializable, Object> zot = redisTemplate.opsForZSet();
+		for (ReceiveVO vo:receivelist) {
+			//遍历集合获取接收组总数信息
+			String GroupKey = RedisKeyUtil.getGroupKey(vo);
+			template.increment(key, "total", Long.parseLong(vot.get(GroupKey).toString()));
+			template.increment(key, "un_read_num", Long.parseLong(vot.get(GroupKey).toString()));
+			//将该条动态加入到分组动态中
+			String setKey = RedisKeyUtil.KEY_SET_PRE+RedisKeyUtil.KEY_DYNAMIC_PRE+GroupKey;
+			zot.add(setKey, key, ActionUtil.getSysTime().getTime());
+		}
+	}
+
+	
+	public void updateReadFlag(Integer info_id) {
+		HashOperations<Serializable, String, Object> hot = redisTemplate.opsForHash();
+		Boolean isExists = hot.putIfAbsent(RedisKeyUtil.KEY_READ_PRE+RedisKeyUtil.KEY_DYNAMIC_PRE+info_id, RedisKeyUtil.getUnionKey(), ActionUtil.getSysTime());
+		if (isExists && hot.hasKey(RedisKeyUtil.KEY_DYNAMIC_PRE+info_id, "un_read_num"))
+		{
+			hot.increment(RedisKeyUtil.KEY_DYNAMIC_PRE+info_id, "un_read_num", -1);
+			hot.increment(RedisKeyUtil.KEY_DYNAMIC_PRE+info_id, "read_num", 1);
+		}
+	}
+
+	public List<Map<String, Object>> getDynamicList1(final DynamicVO vo) {
+		return redisTemplate.execute(new RedisCallback<List<Map<String,Object>>>() {
+			public List<Map<String,Object>> doInRedis(RedisConnection connection) throws DataAccessException {
+				RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
+				String personKey = RedisKeyUtil.getUnionKey();
+				byte[] BunionKey = serializer.serialize(personKey);
+				byte[] GroupUnionKey = serializer.serialize(RedisKeyUtil.KEY_GROUP_PRE+personKey);
+				byte[] seqKey = serializer.serialize(RedisKeyUtil.KEY_SEQUENCE_PRE+RedisKeyUtil.KEY_DYNAMIC_PRE);
+				//tempZkey：临时存放个人所有动态的有序集合
+				byte[] tempZkey = serializer.serialize(RedisKeyUtil.KEY_TEMP_PRE + RedisKeyUtil.KEY_DYNAMIC_PRE + connection.incr(seqKey));
+				if (!addKeys2TempSet(connection, serializer, personKey,GroupUnionKey, tempZkey)) return null;
+				List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+				Set<byte[]> IDList = getKeyList(vo, connection,serializer, tempZkey,BunionKey);
+				if (IDList==null) return null;
+				Integer i = 0;
+				for (byte[] obj:IDList) {
+					if (i!=0 && i.equals(ActionUtil.getLimit())) break;
+					Map<byte[], byte[]> map = connection.hGetAll(obj);
+					Boolean hExists = connection.hExists(serializer.serialize(RedisKeyUtil.KEY_READ_PRE+serializer.deserialize(obj)), BunionKey);
+					Iterator<Entry<byte[], byte[]>> iter = map.entrySet().iterator();
+					HashMap<String,Object> resultMap = new HashMap<String,Object>();
+					resultMap.put("is_read", hExists);
+					resultMap.put("key", serializer.deserialize(obj));
+					while (iter.hasNext()) {
+						Map.Entry entry = (Map.Entry) iter.next();
+						String strkey = serializer.deserialize((byte[]) entry.getKey());
+						Object value = serializer.deserialize((byte[]) entry.getValue());
+						resultMap.put(strkey, value);
+					}
+					list.add(resultMap);  
+					i++;
+				}
+				//connection.del(tempZkey);
+				return list;
+			}
+			
+			private Set<byte[]> getKeyList(final DynamicVO vo, RedisConnection connection,RedisSerializer<String> serializer, byte[] tempZkey, byte[] BunionKey) {
+				long start,end;
+				//如果下拉刷新
+				if (StringUtil.isEmpty(vo.getStart_key())) {
+					start = 0;
+					end = vo.getLimit()-1;
+				} else if (Constants.IS_PULLDOWN==vo.getDirection()) {
+					long keyIndex = getIndexByKey(vo.getStart_key(), connection, serializer, tempZkey);
+					//说明下拉刷新没有数据
+					if (keyIndex==0) return null;
+					start = keyIndex-vo.getLimit()<0?0:keyIndex-vo.getLimit();
+					end = keyIndex-1;
+				} else {
+					long keyIndex = getIndexByKey(vo.getStart_key(), connection, serializer, tempZkey);
+					start = keyIndex + 1;
+					end = keyIndex +vo.getLimit();
+				}
+				Set<byte[]> list = new LinkedHashSet<byte[]>();
+				//如果没有到满足的长度，那么就一直添加 直到到达
+				if (DictConstants.USERTYPE_TEACHER.equals(ActionUtil.getUserType()) && StringUtil.isEmpty(vo.getModule_code()) && !vo.isUn_read())
+				{
+					Set<byte[]> IDList =connection.zRevRange(tempZkey, start, end);
+					return IDList;
+				} else {
+					byte[] Bstu = serializer.serialize("student_id");
+					byte[] Bmodule_code = serializer.serialize("module_code");
+					while (list.size()<vo.getLimit()) {
+						Set<byte[]> IDList =connection.zRevRange(tempZkey, start, end);
+						if (IDList==null || IDList.size()==0) break;
+						String frist_key = null;
+						List<String> a = new ArrayList<String>();
+						for (byte[] obj:IDList) {
+							if (frist_key==null) frist_key=serializer.deserialize(obj);
+							a.add(serializer.deserialize(obj));
+							//家长端将没有发送给学生的动态过滤
+							if (DictConstants.USERTYPE_PARENT.equals(ActionUtil.getUserType()) && !connection.hExists(obj,Bstu))
+								continue;
+							if (StringUtil.isNotEmpty(vo.getModule_code()) && !serializer.deserialize(connection.hGet(obj,Bmodule_code)).equals(vo.getModule_code()))
+								continue;
+							if (vo.isUn_read() && connection.hExists(serializer.serialize(RedisKeyUtil.KEY_READ_PRE+serializer.deserialize(obj)), BunionKey))
+								continue;
+							list.add(obj);
+						}
+						//说明已经没有最新数据了
+						if (IDList.size()<vo.getLimit()) break;
+						if (Constants.IS_PULLDOWN==vo.getDirection()) {
+							long keyIndex = getIndexByKey(frist_key, connection, serializer, tempZkey);
+							//说明下拉刷新没有数据
+							if (keyIndex==0) break;
+							start = keyIndex-vo.getLimit()<0?0:keyIndex-vo.getLimit();
+							end = keyIndex-1;
+						} else {
+							long keyIndex = getIndexByKey(frist_key, connection, serializer, tempZkey);
+							start = keyIndex + 1;
+							end = keyIndex +vo.getLimit();
+						}
+					}
+					return list;
+				}
+			}
+
+			private long getIndexByKey(final String start_key,RedisConnection connection,RedisSerializer<String> serializer, byte[] tempZkey) {
+				long keyIndex;
+				//获取到Key的集合
+				try	{
+					 keyIndex = connection.zRevRank(tempZkey,serializer.serialize(start_key));
+				} catch (Exception e) {
+					keyIndex = 0;
+				}
+				return keyIndex;
+			}
+
+			/**
+			 * 将数据存放到临时集合中
+			 * @param connection
+			 * @param serializer
+			 * @param personKey
+			 * @param GroupUnionKey
+			 * @param tempZkey
+			 * @return
+			 */
+			private boolean addKeys2TempSet(RedisConnection connection,
+					RedisSerializer<String> serializer, String personKey,
+					byte[] GroupUnionKey, byte[] tempZkey) {
+				//获取个人所在班级、寝室、自定义分组等列表
+				Set<byte[]> set = connection.sMembers(GroupUnionKey);
+				if (StringUtil.isEmpty(set)) return false;
+				for (byte[] obj :set) {
+					String dataKey = RedisKeyUtil.KEY_SET_PRE+RedisKeyUtil.KEY_DYNAMIC_PRE+serializer.deserialize(obj);
+					//将级、寝室、自定义分组的数据添加到临时集合
+					connection.zUnionStore(tempZkey,tempZkey,serializer.serialize(dataKey));
+				}
+				//将个人动态添加的临时集合
+				connection.zUnionStore(tempZkey,tempZkey,serializer.serialize(RedisKeyUtil.KEY_SET_PRE+RedisKeyUtil.KEY_DYNAMIC_PRE+personKey));
+				return true;
+			}
+		});
+	}
+	
+}

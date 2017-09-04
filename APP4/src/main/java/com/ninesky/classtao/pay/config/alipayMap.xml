@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="alipayMap">
+    <!--插入表kt_sys_pay-->
+    <insert id="insertPay" parameterType="AliPayVO">
+      insert into kt_sys_pay
+        (
+        school_id,
+        alipay_app_id,
+        alipay_app_private_key,
+        alipay_public_key
+        ) VALUES (
+        #{school_id},
+        #{alipay_app_id},
+        #{alipay_app_private_key},
+        #{alipay_public_key}
+        )
+    </insert>
+    <!--更新表kt_sys_pay-->
+    <update id="updatePay" parameterType="AliPayVO">
+    update kt_sys_pay
+        set school_id = #{school_id},
+        alipay_app_id = #{alipay_app_id},
+        alipay_app_private_key = #{alipay_app_private_key},
+        alipay_public_key = #{alipay_public_key}
+    </update>
+    <!--查询表kt_sys_pay-->
+    <select id="getPayList" parameterType="AliPayVO" resultType="AliPayVO">
+      select
+        school_id as school_id,
+        alipay_app_id as alipay_app_id,
+        alipay_gateway_url as alipay_gateway_url,
+        alipay_app_public_key as alipay_app_public_key,
+        alipay_app_private_key as alipay_app_private_key,
+        alipay_public_key as alipay_public_key
+        from kt_sys_pay
+        where 1=1
+    </select>
+
+    <!--查询表kt_sys_pay-->
+    <select id="getPayBySchoolID" parameterType="Integer" resultType="AliPayVO">
+        select
+        school_id as school_id,
+        alipay_app_id as alipay_app_id,
+        alipay_gateway_url as alipay_gateway_url,
+        alipay_app_public_key as alipay_app_public_key,
+        alipay_app_private_key as alipay_app_private_key,
+        alipay_public_key as alipay_public_key
+        from kt_sys_pay
+        where school_id = #{school_id}
+    </select>
+
+    <!--删除表kt_sys_pay-->
+    <delete id="deletePay" parameterType="AliPayVO">
+      delete from kt_sys_pay where id = #{id}
+    </delete>
+</mapper>
+

@@ -1,0 +1,258 @@
+.mui-content{
+	margin-bottom: 70px;
+}
+.hxx-haeder-content{
+	padding: 11px 15px;
+}
+.hxx-notice-title{
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.hxx-notice-info{
+	height: 30px;
+	color: #5A5A5A;
+}
+.hxx-notice-info:after{
+	clear: both;
+}
+.hxx-notice-info .hxx-notice-sender-time{
+	font-size: 12px;
+	float: left;
+}
+.hxx-notice-info .hxx-notice-sender-name{
+	font-size: 12px;
+	float: right;
+}
+.hxx-notice-content{
+	font-size: 16px;
+}
+/*底部恢复输入框*/
+.hxx-footer-btn{
+	display: none;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	background-color: #fff;
+	border-top: 1px solid #E3E3E3;
+	z-index: 9;
+}
+.hxx-footer-btn input{
+	display: block;
+	width: 100%;
+	height: 40px;
+	margin: 5px;
+	padding: 0 7rem 0 0;
+}
+.hxx-btn-link-right{
+	position: absolute;
+	top: 5px;
+	right: 0;
+	font-size: 2rem;
+	color: #57cebf;
+	height: 40px;
+	border-left: 1px solid #E3E3E3;
+	line-height: 40px;
+	width: 6rem;
+	text-align: center;
+	background-color: #fff;
+}
+.hxx-btn-link-right.active{
+	color: #D6D6D6;
+}
+
+/*列表*/
+.mui-control-content {
+	background-color: white;
+	min-height: 300px;
+}
+.hxx-table-cell{
+	position: relative;
+	height: 60px;
+	border-bottom: 1px solid #d5d5d5;
+	padding: 10px;
+}
+.hxx-table-cell .hxx-cell-xing{
+	font-size: 18px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	border: 1px solid #57cebf;
+	text-align: center;
+	border-radius: 50%;
+	color: #57cebf;
+	margin: 0 10px;
+}
+.hxx-table-cell .hxx-cell-ming{
+	position: absolute;
+	top: 0px;
+	left: 65px;
+	line-height: 60px;
+	font-size: 15px;
+	color: #000;
+}
+.hxx-table-cell .hxx-cell-body{
+	position: absolute;
+	top: 15px;
+	left: 65px;
+	line-height: 18px;
+}
+.hxx-cell-body .hxx-body-ming{
+	font-size: 15px;
+	color: #000;
+	margin: 0;
+	padding: 0;
+}
+.hxx-cell-body .hxx-body-content{
+	color: #888888;
+	display: block;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 20rem;
+}
+
+
+/*附件*/
+.mui-row {
+	margin: 20px 0;
+}
+.hxx-affix-item {
+	font-family: classtao;
+	height: 8.5rem;
+	border: 1px solid #F2F2F2;
+}
+.hxx-affix-item span {
+	position: absolute;
+	display: block;
+	top: 0;
+	right: 0;
+	width: 20px;
+	height: 18px;
+	padding: 0 !important;
+	margin: 0;
+	line-height: 25px;
+	text-align: left;
+	font-size: 20px;
+	color: #000 !important;
+	border-radius: 50%;
+	background-color: #FFF;
+}
+.hxx-affix-item .hxx-affix-downlad {
+	margin: 0;
+	padding: 0;
+	border: 1px solid #57cebf;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	font-size: 1.12rem;
+	color: #57cebf;
+	text-align: center;
+	line-height: 8.5rem;
+	background-color: #fff;
+	z-index: 6;
+}
+/*图片*/
+.BtnImg img {
+	width: 100%;
+	height: 100%;
+}
+/*录音*/
+.BtnAudioPaly {
+	font-family: classtao;
+	height: 8.5rem;
+	border: 1px solid #F2F2F2;
+}
+
+.BtnAudioPaly h2 {
+	font-family: classtao;
+	text-align: center;
+	color: #4a90e2;
+	font-size: 6rem;
+}
+
+.BtnAudioPaly h2:after {
+	content: '';
+	position: absolute;
+	top: 20px;
+	left: 50%;
+	margin-left: -15px;
+	width: 1px;
+	height: 3rem;
+	display: block;
+	border-radius: 50%;
+	background-color: #4a90e2;
+}
+
+.BtnAudioPaly h2.active:after {
+	animation: Audioname 0.9s ease 0 infinite;
+	-o-animation: Audioname 0.9s ease infinite;
+	-ms-animation: Audioname 0.9s ease infinite;
+	-moz-animation: Audioname 0.9s ease infinite;
+	-webkit-animation: Audioname 0.9s ease infinite;
+}
+
+@-webkit-keyframes Audioname {
+	form {
+		width: 0px;
+	}
+	to {
+		width: 30px;
+	}
+}
+
+.BtnAudioPaly h4 {
+	text-align: center;
+	color: #4a90e2;
+	font-size: 18px;
+	letter-spacing: 0px;
+}
+
+/*聊天内容列表*/
+.hxx-chat-content{
+	border: 1px solid #E3E3E3;
+	background-color: #F2F2F2;
+}
+.hxx-chat-cell{
+	position: relative;
+	min-height: 50px;
+	padding-top: 10px;
+}
+.hxx-chat-cell .hxx-cell-xing{
+	position: absolute;
+	top: 0;
+	border: 1px solid #57CEBF;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #57CEBF;
+}
+.hxx-chat-cell .hxx-cell-content{
+	width: calc(100% - 100px);
+}
+.hxx-pull-left .hxx-cell-xing{
+	left: 15px;
+}
+.hxx-pull-left .hxx-cell-content{
+	background-color: #fff;
+	margin-left: 60px;
+	padding: 5px;
+	border-radius: 5px;
+}
+.hxx-pull-right .hxx-cell-xing{
+	right: 15px;
+}
+.hxx-pull-right .hxx-cell-content{
+	background-color: #4FCB19;
+	margin-left: 40px;
+	color: #fff;
+	padding: 5px 10px;
+	border-radius: 5px;
+	text-align: right;
+}

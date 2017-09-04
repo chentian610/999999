@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="scoreMap">
+	<!--插入表kt_bus_score -->
+	<insert id="insertScore" parameterType="ScoreVO">insert into
+		kt_bus_score
+		(
+		score_id,
+		school_id,
+		team_type,
+		score_type,
+		<if test="attend_item!=null and attend_item!=''">
+		attend_item,
+		</if>
+		group_id,
+		team_id,
+		team_code,
+		team_name,
+		module_code,
+		<if test="student_id!=null">
+		student_id,
+		</if>
+		score_date,
+		count_info,
+		count,
+		team_count,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{score_id},
+		#{school_id},
+		#{team_type},
+		#{score_type},
+		<if test="attend_item!=null and attend_item!=''">
+			#{attend_item},
+		</if>
+		#{group_id},
+		#{team_id},
+		#{team_code},
+		#{team_name},
+		#{module_code},
+		<if test="student_id!=null">
+		#{student_id},
+		</if>
+		#{score_date},
+		#{count_info},
+		#{count},
+		#{team_count},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<!-- 添加时使用 -->
+	<update id="updateCountInfo" parameterType="ScoreVO">
+		update kt_bus_score set count_info=#{count_info} where score_id=#{score_id}
+	</update>
+	
+	<!--查询表kt_bus_score -->
+	<select id="getScoreList" parameterType="ScoreVO" resultType="ScoreVO">select
+		score_id as score_id,
+		school_id as school_id,
+		team_type as team_type,
+		group_id as group_id,
+		team_id as team_id,
+		team_name as team_name,
+		module_code as module_code,
+		attend_item as attend_item,
+		score_date as score_date,
+		count_info as count_info,
+		count as count,
+		team_count as team_count,
+		create_by as create_by,
+		create_date as create_date,
+		team_code as team_code,
+		score_type as score_type
+		from kt_bus_score
+		where score_id=#{score_id}
+	</select>
+	
+	<!--查询表kt_bus_score -->
+	<select id="getAttendScore" parameterType="ScoreVO" resultType="ScoreVO">
+	select 1 from kt_bus_score 
+	where team_type=#{team_type}
+	and team_id=#{team_id}
+	and score_type=#{score_type}
+	<if test="attend_item!=null and attend_item!=''">
+	and attend_item = #{attend_item}
+	</if>
+	and score_date = #{score_date}	
+	</select>
+	
+	<!--更新表kt_bus_score 修改时使用-->
+	<update id="updateScore" parameterType="ScoreVO">update kt_bus_score
+		set 
+		count_info = #{count_info},
+		<if test="count!=null and count!=0">
+		count = #{count},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1 where score_id=#{score_id}
+	</update>
+	
+	<!-- 查询表 kt_bus_score-->
+	<select id="getScore" parameterType="ScoreVO" resultType="ScoreVO">
+	select
+	score_id,team_type,attend_item,score_date,team_id,team_name,team_count,
+	count,count_info,create_by,score_type,create_date,student_id
+	from kt_bus_score
+	<where>
+		<if test="team_type!=null and team_type!=''">
+		team_type=#{team_type}
+		</if>
+		<if test="score_type!=null and score_type!=''">
+		and score_type=#{score_type}
+		</if>
+		<if test="group_id!=null and group_id!=0">
+		and group_id=#{group_id}
+		</if>
+		<if test="school_id!=null and school_id!=0">
+		and school_id=#{school_id}
+		</if>
+		<if test="team_id!=null and team_id!=0">
+		and team_id=#{team_id}
+		</if>
+		<if test="start_time!=null">
+		and create_date between #{start_time} and #{end_time}
+		</if>
+		<if test="attend_item!=null and attend_item!=''">
+		and attend_item=#{attend_item}
+		</if>
+		<if test="module_code!=null and module_code!=''">
+			and module_code=#{module_code}
+		</if>
+		<if test="app_sql != null and app_sql != ''">
+		and score_id ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != ''">
+		order by score_id ${order_sql}
+		</if>
+	</where>
+	</select>
+
+	<!-- 查詢考勤班級人數 -->
+	<select id="getAttendAmount" parameterType="ScoreVO" resultType="ScoreVO">
+		select 
+	    score_id,team_type,attend_item,score_date,team_id,team_name,team_count,count,count_info,score_type  
+	    from (
+		select school_id, score_id,team_type,attend_item,score_date,team_id,team_name,team_count,count,count_info,score_type  
+		from kt_bus_score order by score_id desc) kt_bus_score 
+		where
+		team_type=#{team_type}
+	    and score_type=#{score_type}
+	    and score_date=#{score_date}
+	    and school_id=#{school_id} 
+	    group by team_id 
+	    order by score_id desc
+		
+	</select>
+	
+	<delete id="deleteScore" parameterType="Integer">delete from
+		kt_bus_score
+		where score_id = #{score_id}
+	</delete>
+	
+	<select id="getScore1" parameterType="ScoreVO" resultType="ScoreVO">
+	select count_info,team_count,count,create_date from kt_bus_score where score_id=(SELECT
+	max(score_id)
+	FROM
+	kt_bus_score
+	WHERE
+	team_type = #{team_type}
+	AND score_type =#{score_type}
+	AND school_id = #{school_id}
+	AND team_id = #{team_id})
+	</select>
+	<!-- 获取最新考勤信息 -->
+	<select id="getNewAttendScore" parameterType="ScoreVO" resultType="ScoreVO">
+	select count_info,team_count,count,create_date from kt_bus_score where score_id=(SELECT
+	max(score_id)
+	FROM
+	kt_bus_score
+	WHERE
+	team_type = #{team_type}
+	AND score_type =#{score_type}
+	AND school_id = #{school_id}
+	AND team_id = #{team_id})
+	</select>
+	
+	<select id="getScoreNoAttend" parameterType="ScoreVO" resultType="ScoreVO">
+		select score_id,team_type,attend_item,score_date,team_id,team_name,team_count,count,count_info,
+		score_type,create_by,create_date  from kt_bus_score
+		<where>
+			<if test="team_type!=null and team_type!=''">
+				team_type=#{team_type}
+			</if>
+			<if test="group_id!=null and group_id!=0">
+				and group_id=#{group_id}
+			</if>
+			<if test="team_id!=null and team_id!=0">
+				and team_id=#{team_id}
+			</if>
+			<if test="school_id!=null and school_id!=0">
+			 and school_id=#{school_id}
+			</if>
+			<if test="start_time!=null">
+				and create_date between #{start_time} and #{end_time}
+			</if>
+			<if test="attend_item!=null and attend_item!=''">
+				and attend_item=#{attend_item}
+			</if>
+			and (score_type='012005' or score_type='012010')
+			<if test="app_sql != null and app_sql != '' ">    
+               and score_id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+           order by score_id ${order_sql}  
+        </if> 
+		</where>
+	</select>
+	
+	<select id="getCount" parameterType="ScoreVO" resultType="Integer">
+		select count(*) from kt_bus_score where score_date=#{score_date} and score_type=#{score_type} and 
+		team_type=#{team_type} and attend_item=#{attend_item}
+	</select>
+	<!-- 统计考勤班级 -->
+	<select id="getCountClass" parameterType="ScoreVO" resultType="Integer">
+		select count(distinct(team_id)) from kt_bus_score where score_date=#{score_date} and score_type=#{score_type} and 
+		team_type=#{team_type} 
+	</select>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+	delete from kt_bus_score where team_id=#{team_id}
+	</delete>
+	
+	<!-- 查询学校管理层教师 -->
+	<select id="getSchoolLeaderList" parameterType="ScoreVO" resultType="TaskVO">
+	    select 
+	    distinct(t.teacher_name), s.school_id,t.phone,t.duty 
+	    from 
+	    kt_bas_teacher t  
+	    left join 
+	    kt_bus_score s  
+	    on s.school_id=t.school_id 
+	    where 
+	    duty!=#{duty}
+	    and 
+	    score_date=#{score_date}
+	</select>
+	
+	<select id="getUnAttendTeamOfClass" parameterType="ScoreVO" resultType="ClassVO">
+	select 
+	school_id,
+	grade_id,
+	class_id from kt_bas_classroom where
+	school_id=#{school_id} 
+	and class_id not in (
+	select DISTINCT team_id from
+	kt_bus_score
+	where school_id=#{school_id} 
+	and team_type=#{team_type} 
+	and score_type=#{score_type} 
+	<if test="attend_item!=null and attend_item!=''">
+	and attend_item=#{attend_item} 
+	</if>
+	AND create_date BETWEEN #{start_time} and #{end_time}) and is_graduate=0 
+	order by enrollment_year desc,class_num
+	</select>
+	
+	<select id="getUnAttendTeamOfBed" parameterType="ScoreVO" resultType="BedroomVO">
+	select 
+	school_id,
+	bedroom_id from kt_bas_bedroom where
+	school_id=#{school_id} 
+	and bedroom_id not in (
+	select DISTINCT team_id from
+	kt_bus_score
+	where school_id=#{school_id} 
+	and team_type=#{team_type} 
+	and score_type=#{score_type} 
+	AND create_date BETWEEN #{start_time} and #{end_time})
+	</select>
+	
+	<select id="getScoreInfo" parameterType="ScoreListVO" resultType="ScoreVO">
+	SELECT
+	score_id,
+	score_date,
+	create_by 
+	FROM
+	kt_bus_score
+	WHERE
+	team_type = #{team_type}
+	AND score_type = #{score_type}
+	AND team_id =#{team_id}
+	AND score_date = #{score_date}
+	<if test="attend_item!=null and attend_item!=''">
+	AND attend_item = #{attend_item}
+	</if>
+	</select>
+	
+	<select id="getStudentCountOfClass" parameterType="ScoreVO" resultType="Integer">
+	select count(*) as count from kt_bas_student where class_id in(
+	SELECT
+		DISTINCT team_id
+	FROM
+		kt_bus_score
+	WHERE
+		school_id = #{school_id}
+	AND team_type = #{team_type}
+	AND score_type = #{score_type}
+	AND attend_item = #{attend_item}
+	AND score_date >= #{score_date})
+	</select>
+	
+	<select id="getStudentCountOfBed" parameterType="ScoreVO" resultType="Integer">
+	select count(*) as count from kt_bas_position_bed where bedroom_id in(
+	SELECT
+		DISTINCT team_id
+	FROM
+		kt_bus_score
+	WHERE
+		school_id = #{school_id}
+	AND team_type = #{team_type}
+	AND score_type = #{score_type}
+	AND score_date >= #{score_date})
+	</select>
+</mapper>
+

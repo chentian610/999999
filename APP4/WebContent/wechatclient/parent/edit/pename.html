@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>修改名字</title>
+        <script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+        <link href="../css/mui.min.css" rel="stylesheet" />
+        <link href="../css/common1.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="css/edit.css"/>
+		<style>
+			.head-img{
+				border-radius: 50%;
+			}
+			.mui-table-view-cell:after{left:0;}
+			.mui-input-row input{
+				padding: 5px 10px;
+    			border: 0;
+    			border-top: 1px solid #cecece;
+    			border-bottom: 1px solid #cecece;
+    			border-radius: 0;
+    			margin-top: 15px;
+    		}
+			.mui-table-view-chevron .mui-table-view-cell{padding: 0;}
+			.mui-input-row .mui-input-clear~.mui-icon-clear{top: 25px;}
+		</style>
+    </head>
+    <body class="">
+        <header class="mui-bar mui-bar-nav">
+          <!--   <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">修改名字</h1> -->
+            <a id="bc" class="mui-btn mui-btn-link mui-pull-right">保存</a>
+        </header>
+      
+        <div class="mui-content">
+            <div class="mui-input-row">
+				<input id="name" type="text" class="mui-input-clear" placeholder="输入姓名">
+			</div>
+        </div>
+        <script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript">
+        	var stateCode = 0;
+        	var wvParent = null,
+			oPdata = {},
+			oPitem = {};
+        	mui.ready(function(){
+        		document.getElementById("bc").addEventListener('tap',function(){
+        			if (stateCode>0) {
+        				return;
+        			}
+        			stateCode = 1;
+        			var name  = document.getElementById("name").value;
+        			cache.myajax("userAction/updateUserInfo", {
+						data: {
+							user_type :"003015",
+							user_name: name
+						},
+						success: function(data) {
+							cache.setUserName(name);
+							stateCode = 0;
+							mui.fire(wvParent,'updatePage');
+							mui.back();
+						},
+						error: function(err) {
+							stateCode = 0;
+						}
+					});
+        		});
+        	});
+        	
+        </script>
+	</body>
+</html>

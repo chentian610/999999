@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="menuMap">
+	<!--插入表kt_sys_menu -->
+	<insert id="insertMenu" parameterType="MenuVO">insert into kt_sys_menu
+		(
+		menu_id,
+		menu_name,
+		parent_id,
+		title_url,
+		sort,
+		css_name,
+		user_type,
+		is_active,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version
+		) VALUES (
+		#{menu_id},
+		#{menu_name},
+		#{parent_id},
+		#{title_url},
+		#{sort},
+		#{css_name},
+		#{user_type},
+		1,
+		#{create_by},
+		#{create_date},
+		#{update_by},
+		#{update_date},
+		#{version}
+		)
+	</insert>
+	<!--更新表kt_sys_menu -->
+	<update id="updateMenu" parameterType="MenuVO">update kt_sys_menu
+		set menu_id = #{menu_id},
+		menu_name = #{menu_name},
+		parent_id = #{parent_id},
+		title_url = #{title_url},
+		sort = #{sort},
+		css_name = #{css_name},
+		user_type = #{user_type},
+		create_by = #{create_by},
+		create_date = #{create_date},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = #{version}
+	</update>
+	<!--查询表kt_bus_Menu -->
+	<select id="getMenuList" parameterType="MenuVO"	resultType="MenuVO">
+		select
+			menu_id as menu_id,
+			menu_name as menu_name,
+			parent_id as
+			parent_id,
+			sort as sort,
+			css_name as css_name,
+			target as target,
+			title_url as title_url,
+			user_type as user_type,
+			create_by as create_by,
+			create_date as create_date,
+			update_by as update_by,
+			update_date as update_date,
+			version as version
+		from kt_sys_menu m
+		<where>
+			<if test="parent_id != '' and parent_id != null">
+				AND parent_id = #{parent_id}
+			</if>
+			<if test="user_type != '' and user_type != null">
+				AND user_type like  CONCAT('%',#{user_type},'%')
+			</if>
+			<if test="partner_code != '' and partner_code != null">
+				AND partner_code like  CONCAT('%',#{partner_code},'%')
+			</if>
+			<if test="is_active != '' and is_active != null">
+				AND is_active = #{is_active}
+			</if>
+			<if test="role_code != '' and role_code != null">
+				AND EXISTS ( SELECT 1 FROM kt_bas_role_menu rm
+				WHERE rm.menu_id = m.menu_id AND rm.is_active = #{is_active}
+				AND #{role_code} like CONCAT('%',rm.role_code,'%') AND rm.school_id = #{school_id})
+			</if>
+		</where>
+		order by sort 
+	</select>
+	<!--删除表kt_bus_Menu -->
+	<delete id="deleteMenu" parameterType="MenuVO">delete from
+		kt_sys_menu
+		where id = #{id}
+	</delete>
+
+	<select id="getMenuByID" parameterType="Integer" resultType="MenuVO">
+		select
+		menu_id as menu_id,
+		menu_name as menu_name,
+		parent_id as parent_id,
+		sort as sort,
+		css_name as css_name,
+		title_url as title_url,
+		user_type as user_type,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_sys_menu
+		WHERE menu_id = #{menu_id}
+	</select>
+</mapper>
+

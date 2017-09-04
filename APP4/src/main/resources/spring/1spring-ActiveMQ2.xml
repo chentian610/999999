@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- ActiveMQ 连接工厂 -->
+	<!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供 -->
+	<bean id="connectinFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<!-- <property name="brokerURL" value="tcp://192.168.1.79:61616" /> -->
+		<property name="brokerURL" value="tcp://localhost:61616" />
+	</bean>
+
+	<!-- Spring Caching连接工厂 -->
+	<!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
+	<bean id="cachingConnectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
+		<property name="targetConnectionFactory" ref="connectinFactory"></property>
+		<!-- Session缓存数量 -->
+		<property name="sessionCacheSize" value="10"></property>
+	</bean>
+
+	<!-- 配置消息发送目的地方式 -->
+	<!-- Queue队列：仅有一个订阅者会收到消息，消息一旦被处理就不会存在队列中 -->
+	<bean id="notifyQueue" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="q.notify"></constructor-arg>
+	</bean>
+	
+	<!-- 目的地：Topic主题 ：放入一个消息，所有订阅者都会收到 -->
+	<!--这个是主题目的地，一对多的 -->
+	<bean id="notifyTopic" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="t.notify"></constructor-arg>
+	</bean>
+	
+	<!-- Spring JMS Template 配置JMS模版 -->
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="cachingConnectionFactory" />
+	</bean>
+	<!-- 使用Spring JmsTemplate 的消息生产者 -->
+	<bean id="queueMessageProducer" class="com.ninesky.classtao.framework.MQ2.QueueMessageProducer">
+		<property name="jmsTemplate" ref="jmsTemplate"></property>
+		<property name="notifyQueue" ref="notifyQueue"></property>
+		<property name="messageConverter" ref="messageConverter"></property>
+	</bean>
+	
+	<!--bean id="topicMessageProducer" class="com.ninesky.classtao.framework.MQ2.TopicMessageProducer">
+		<property name="jmsTemplate" ref="jmsTemplate"></property>
+		<property name="notifyTopic" ref="notifyTopic"></property>
+		<property name="messageConverter" ref="messageConverter"></property>
+	</bean-->
+	
+	<!-- 消息消费者 一般使用spring的MDP异步接收Queue模式 -->
+	<!-- 消息监听容器 -->
+	<bean id="queueContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectinFactory"></property>
+		<property name="destination" ref="notifyQueue"></property>
+		<property name="messageListener" ref="queueMessageListener"></property>
+	</bean>
+	
+	<!-- 消息监听容器 -->
+	<bean id="topicContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectinFactory"></property>
+		<property name="destination" ref="notifyTopic"></property>
+		<property name="messageListener" ref="topicMessageListener"></property>
+		<!-- 发布订阅模式 -->
+		<property name="pubSubDomain" value="true" />
+
+	</bean>
+	
+	<!-- 异步接收消息处理类 -->
+	<!--  >bean id="queueMessageListener" class="com.common.jms.QueueMessageListener">
+		<property name="messageConverter" ref="messageConverter"></property>
+	</bean-->
+	<!--bean id="topicMessageListener" class="com.ninesky.classtao.framework.MQ2.TopicMessageListener">
+		<property name="messageConverter" ref="messageConverter"></property>
+	</bean-->
+	<bean id="messageConverter" class="com.ninesky.classtao.framework.MQ2.NotifyMessageConverter">
+	</bean>
+</beans>

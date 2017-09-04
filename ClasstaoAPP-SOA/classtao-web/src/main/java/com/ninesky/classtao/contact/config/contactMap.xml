@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="contactMap">
+	<!--插入表kt_bas_contact -->
+	<insert id="insertContact" parameterType="ContactVO">insert into
+		kt_bas_contact
+		(
+		school_id,
+		user_id,
+		contact_name,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{school_id},
+		#{user_id},
+		#{contact_name},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bas_contact -->
+	<update id="updateContact" parameterType="ContactVO">update kt_bas_contact
+		set
+		<if test="contact_name!=null and contact_name!=''">
+		contact_name = #{contact_name},
+		</if>
+		<if test="is_active!=null">
+		is_active=#{is_active},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1
+		where contact_id=#{contact_id}
+	</update>
+	<!--查询表kt_bas_contact -->
+	<select id="getContactListByUserId" parameterType="ContactVO"
+		resultType="ContactVO">select
+		contact_id as contact_id,
+		school_id as school_id,
+		user_id as user_id,
+		contact_name as contact_name,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_contact
+		where user_id=#{user_id} 
+		and school_id=#{school_id}
+	</select>
+	
+	<select id="getContactListByManager" parameterType="ContactVO" resultType="ContactVO">
+		select
+		contact_id as contact_id,
+		school_id as school_id,
+		user_id as user_id,
+		contact_name as contact_name,
+		course as course,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_contact
+		where user_id=#{user_id}
+		and school_id=#{school_id} and user_type=#{user_type} and is_active=#{is_active}
+	</select>
+	
+	<insert id="insertContactManager" parameterType="ContactVO">insert into
+		kt_bas_contact
+		(
+		school_id,
+		user_id,
+		user_type,
+		contact_name,
+		course,
+		create_by,
+		create_date,
+		version,
+		grade_id,
+		phone,
+		start_date,
+		end_date,
+		remark,
+		team_count,
+		apply_count,
+		apply_start_date,
+		apply_end_date,
+		schedule_url,
+		is_grab
+		) VALUES (
+		#{school_id},
+		#{user_id},
+		#{user_type},
+		#{contact_name},
+		#{course},
+		#{create_by},
+		#{create_date},
+		0,
+		#{grade_id},
+		#{phone},
+		#{start_date},
+		#{end_date},
+		#{remark},
+		#{team_count},
+		#{apply_count},
+		#{apply_start_date},
+		#{apply_end_date},
+		#{schedule_url},
+		#{is_grab}
+		)
+	</insert>
+
+	<select id="getContactById" parameterType="Integer" resultType="ContactVO">
+	select contact_name,course,is_grab,start_date ,
+		user_id,
+		phone,
+		end_date,
+		apply_start_date,
+		apply_end_date,
+		remark,
+		team_count,
+		apply_count,
+		contact_id,
+		school_id,schedule_url from kt_bas_contact where contact_id=#{contact_id}
+	</select>
+	
+	<select id="getInterestByCourse" parameterType="ContactVO" resultType="ContactVO">
+	select 
+		contact_id,contact_name 
+	from 
+		kt_bas_contact 
+	where 
+		school_id=#{school_id} and course=#{course}
+	</select>
+
+	<select id="getInterestClass" parameterType="ContactVO" resultType="ContactVO">
+		select contact_name,
+		course,
+		user_id,
+		phone,
+		start_date,
+		end_date,
+		apply_start_date,
+		apply_end_date,
+		remark,
+		team_count,
+		apply_count,
+		contact_id,
+		school_id,is_grab,schedule_url
+		from kt_bas_contact where school_id=#{school_id} and (grade_id=#{grade_id} or grade_id=0)
+		and user_type=#{user_type}
+		and apply_end_date>#{create_date}
+		<if test="app_sql != null and app_sql != '' ">
+			and contact_id ${app_sql}
+		</if>
+		<if test="order_sql != null and order_sql != '' ">
+			order by contact_id ${order_sql}
+		</if>
+	</select>
+
+	<select id="getInterestClassToManage" parameterType="ContactVO" resultType="ContactVO">
+		select contact_name,
+		course,
+		user_id,
+		phone,
+		start_date,
+		end_date,
+		apply_start_date,
+		apply_end_date,
+		remark,
+		team_count,
+		apply_count,
+		contact_id,
+		school_id,is_grab,grade_id,schedule_url,create_by
+		from kt_bas_contact where school_id=#{school_id}
+		<if test="grade_id!=null and grade_id!=0">
+			and grade_id=#{grade_id}
+		</if>
+		and user_type=#{user_type}
+		<if test="is_active==1"><!--未过期-->
+			and end_date>#{end_date}
+		</if>
+		<if test="is_active==0"><!--已结束-->
+			and #{end_date}>end_date
+		</if>
+		<if test="course!=null and course!=''">
+			and course=#{course}
+		</if>
+		<if test="create_by!=null and create_by!=0">
+			and create_by=#{create_by}
+		</if>
+		<if test="contact_id!=null and contact_id!=0">
+			and contact_id=#{contact_id}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">
+			and contact_id ${app_sql}
+		</if>
+		order by contact_id desc
+	</select>
+
+	<update id="updateInterestClass" parameterType="ContactVO">
+		update kt_bas_contact set
+		grade_id=#{grade_id},
+		phone=#{phone},
+		contact_name=#{contact_name},
+		course=#{course},
+		start_date=#{start_date},
+		end_date=#{end_date},
+		remark=#{remark},
+		team_count=#{team_count},
+		apply_count=#{apply_count},
+		apply_start_date=#{apply_start_date},
+		apply_end_date=#{apply_end_date},
+		schedule_url=#{schedule_url},
+		is_grab=#{is_grab},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version=version+1 where contact_id=#{contact_id}
+	</update>
+
+	<select id="getInterestByName" parameterType="ContactVO" resultType="ContactVO">
+		select contact_id from kt_bas_contact where school_id=#{school_id} and contact_name=#{contact_name}
+	</select>
+</mapper>
+

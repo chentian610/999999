@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="studentMap">
+	<!-- 根据年级、班级获取学生user列表 -->
+	<select id="getStuUserList" parameterType="StudentVO" resultType="StudentVO">
+		select  
+			student_id as student_id,
+			user_id as user_id,
+			school_id as school_id,
+			grade_id as grade_id,
+			class_id as class_id,
+			student_code as student_code,
+			student_name as student_name,
+			head_url as head_url,
+			sex as sex
+		from kt_bas_student
+		<where>
+		 <if test="grade_id!=null and grade_id!=0">
+		grade_id=#{grade_id} 
+		</if>
+		<if test="class_id!=null and class_id!=0">
+		and class_id=#{class_id}
+		</if>
+		<if test="school_id!=null and school_id!=0">
+			and school_id=#{school_id}
+		</if>
+		<if test="student_name!=null and student_name!=''">
+			and student_name=#{student_name}
+		</if>
+	  	<if test="app_sql != null and app_sql != '' ">
+			and student_id ${app_sql}
+		</if>
+	  	<if test="order_sql != null and order_sql != '' ">
+			order by student_id ${order_sql}
+		</if>
+        </where> 
+	</select>
+	
+	<!--查询表kt_bas_student -->
+	<select id="getStudentById" parameterType="Integer" resultType="StudentVO">
+		select  
+			student_id as student_id,
+			user_id as user_id,
+			school_id as school_id,
+			grade_id as grade_id,
+			class_id as class_id,
+			student_code as student_code,
+			student_name as student_name,
+			head_url as head_url,
+			sex as sex
+		from kt_bas_student
+		where student_id=#{student_id}
+	</select>
+	<select id="getStudentByCode" parameterType="Map" resultType="StudentVO">select
+		 student_id as student_id,
+		 school_id as school_id,
+		 student_name as student_name
+		 from kt_bas_student 
+		 where school_id=#{school_id}
+		 and student_code=#{student_code}
+	</select>
+	
+	<!-- 向表kt_bas_student查询 -->
+	<select id="getStudent" parameterType="StudentVO" resultType="StudentVO">
+		select school_id,grade_id,student_id,user_id,student_code,student_name,class_id,sex,head_url from
+        kt_bas_student
+		<where> 
+		<if test="student_code!=null and student_code!='' ">
+		student_code=#{student_code}
+		</if>
+		<if test="student_name!=null and student_name!='' ">
+		and student_name=#{student_name}
+		</if>
+		<if test="class_id!=null and class_id!=0">
+		and class_id=#{class_id} 
+		</if>
+		<if test="school_id!=null and school_id!=0">
+		and school_id=#{school_id}
+		</if>
+		</where>
+	</select>
+	
+	<update id="updateStudentHeadurl" parameterType="StudentVO">
+		update kt_bas_student set 
+		<if test="head_url!=null and head_url!='' ">
+		head_url=#{head_url},
+		</if>
+		<if test="sex!=null">
+			sex=#{sex},
+		</if>
+		student_code=#{student_code},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version=version+1
+		 where student_code=#{student_code} and school_id=#{school_id}
+	</update>
+	
+	<!-- 向表kt_bas_student查询 -->
+	<select id="getStudentByStudentcode" parameterType="StudentVO" resultType="StudentVO">
+		select student_id,user_id,student_code,student_name,class_id,sex from kt_bas_student 
+		where student_code=#{student_code} 
+		<if test="school_id!=null and school_id!=0">
+		 and school_id=#{school_id}
+		</if>
+	</select>
+	
+	<!-- 添加学生 -->
+	<insert id="addStudent" parameterType="StudentVO">
+		insert into kt_bas_student(student_id,user_id,school_id,grade_id,class_id,student_code,student_name,
+		head_url,sex,all_letter,first_letter,create_by,create_date,version) values(#{student_id},#{user_id},#{school_id},#{grade_id},
+		#{class_id},#{student_code},#{student_name},#{head_url},#{sex},#{all_letter},#{first_letter},#{create_by},#{create_date},0)
+	</insert>
+	
+	<!-- 删除学生 -->
+	<delete id="deleteStudent"  parameterType="StudentVO">
+	delete from kt_bas_student where student_id=#{student_id}
+	</delete>
+	
+	<select id="getStudentOfManager" parameterType="StudentVO" resultType="StudentVO">
+		select student_id,grade_id,class_id,student_code,student_name,sex from kt_bas_student where
+		school_id=#{school_id}
+		<if test="student_name!=null and student_name!=''">
+			and (student_name like CONCAT ('%',#{student_name},'%') or student_code like CONCAT
+			('%',#{student_name},'%'))
+		</if>
+		<if test="class_id!=null and class_id!=0">
+		 and class_id=#{class_id}
+		</if> order by student_id DESC
+	</select>
+
+	<select id="getStudentNotContact" parameterType="Map" resultType="StudentVO">
+	SELECT
+	student_id,grade_id,class_id,student_code,student_name,sex
+FROM
+	kt_bas_student a
+WHERE school_id = #{school_id} and (student_name like CONCAT('%',#{student_name},'%')  or student_code like 
+CONCAT('%',#{student_name},'%') ) 
+<if test="class_id!=null and class_id!=0">
+		 and class_id=#{class_id}
+		</if> and
+	NOT EXISTS (
+		SELECT
+			1
+		FROM
+			kt_bas_contact_list b
+		WHERE
+			contact_id = #{contact_id}
+		AND b.student_id = a.student_id
+	)
+	</select>
+
+	<select id="getStudentNotBedroom" parameterType="Map" resultType="StudentVO">
+		SELECT
+		student_id,grade_id,class_id,student_code,student_name,sex
+		FROM
+		kt_bas_student a
+		WHERE school_id = #{school_id} and (student_name like CONCAT('%',#{student_name},'%')  or student_code like
+		CONCAT('%',#{student_name},'%') )
+		<if test="class_id!=null and class_id!=0">
+			and class_id=#{class_id}
+		</if> and
+		NOT EXISTS (
+		SELECT
+		1
+		FROM
+		kt_bas_position_bed b
+		WHERE
+		school_id = #{school_id}
+		AND b.student_id = a.student_id
+		)
+	</select>
+	
+	<select id="getStudentOfMng" parameterType="StudentVO" resultType="StudentVO">
+		select s.student_id,g.enrollment_year as enrollment_year,g.class_num as class_num
+		from kt_bas_student s,kt_bas_classroom g
+		where s.school_id=#{school_id} and s.class_id=g.class_id
+		<if test="student_name!=null and student_name!=''">
+			and (s.student_name like #{student_name} or s.student_code like #{student_name})
+		</if>
+		<if test="class_id!=null and class_id!=0">
+		 and s.class_id=#{class_id}
+		</if>
+		and s.grade_id in (select grade_id from kt_bas_grade where school_id=#{school_id} and is_graduate=0)
+		ORDER BY enrollment_year desc,class_num
+	</select>
+	
+	<update id="updateStudent" parameterType="StudentVO">
+		update kt_bas_student set 
+		<if test="student_name!=null and student_name!=''">
+			student_name=#{student_name},
+		</if>
+		<if test="sex!=null">
+			sex=#{sex},
+		</if>
+		<if test="student_code!=null and student_code!=''">
+			student_code=#{student_code},
+		</if>
+		<if test="grade_id!=null and grade_id!=0">
+			grade_id=#{grade_id},
+		</if>
+		<if test="class_id!=null and class_id!=0">
+			class_id=#{class_id},
+		</if>
+		<if test="all_letter!=null and all_letter!=''">
+			all_letter=#{all_letter},
+		</if>
+		<if test="first_letter!=null and first_letter!=''">
+			first_letter=#{first_letter},
+		</if>
+		update_by=#{update_by},update_date=#{update_date},version=version+1 
+		where student_id=#{student_id}
+	</update>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+		delete from kt_bas_student where class_id=#{class_id}
+	</delete>
+
+	<update id="updateLetter" parameterType="StudentVO">
+		update kt_bas_student set all_letter=#{all_letter},first_letter=#{first_letter} where student_id=#{student_id}
+	</update>
+
+	<select id="getStudentBySearch" parameterType="studentVO" resultType="StudentVO">
+	select student_id ,student_name,student_code,grade_id,class_id
+	from kt_bas_student
+	where school_id=#{school_id}
+	<if test="grade_id!=0 and grade_id!=null">
+		and grade_id=#{grade_id}
+	</if>
+	<if test="class_id!=0 and class_id!=null">
+		and class_id=#{class_id}
+	</if>
+	and student_name like CONCAT('%',#{student_name},'%')
+	</select>
+
+	<select id="getStudentList" parameterType="StudentVO" resultType="StudentVO">
+		select student_id,grade_id,class_id,student_code,student_name from kt_bas_student where
+		school_id=#{school_id}
+		<if test="student_name!=null and student_name!=''">
+			and (student_name like CONCAT ('%',#{student_name},'%') or student_code like CONCAT
+			('%',#{student_name},'%'))
+		</if>
+		<if test="class_id!=null and class_id!=0">
+			and class_id=#{class_id}
+		</if>
+		and grade_id in (select grade_id from kt_bas_grade where school_id=#{school_id} and
+		is_graduate=0)
+	</select>
+
+	<select id="getStudentCount" parameterType="Integer" resultType="Integer">
+		select count(*) as count from kt_bas_student where class_id=#{class_id}
+	</select>
+</mapper>

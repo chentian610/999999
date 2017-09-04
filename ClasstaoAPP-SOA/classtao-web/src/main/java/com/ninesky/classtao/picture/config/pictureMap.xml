@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pictureMap">
+	<!--插入表kt_bus_picture -->
+	<insert id="insertPictureBatch" parameterType="List">insert into
+		kt_bus_picture
+		(
+		school_id,
+		class_id,
+		picture_type,
+		title,
+		picture_url,
+		picture_resize_url,
+		add_date,
+		create_date,
+		create_by,
+		version
+		) VALUES 
+		<foreach collection="list" item="item" index="index"
+		    separator=",">
+		(
+		#{item.school_id},
+		#{item.class_id},
+		#{item.picture_type},
+		#{item.title},
+		#{item.picture_url},
+		#{item.picture_resize_url},
+		#{item.add_date},
+		#{item.create_date},
+		#{item.create_by},
+		0
+		)
+		</foreach>
+	</insert>
+	<!--更新表kt_bus_picture -->
+	<update id="updatePicture" parameterType="PictureVO">update kt_bus_picture
+		set picture_id = #{picture_id},
+		school_id = #{school_id},
+		class_id = #{class_id},
+		picture_type = #{picture_type},
+		title = #{title},
+		picture_url = #{picture_url},
+		picture_resize_url = #{picture_resize_url},
+		add_date = #{add_date},
+		create_date = #{create_date},
+		create_by = #{create_by},
+		update_date = #{update_date},
+		update_by = #{update_by},
+		version = #{version}
+	</update>
+	<!--查询表kt_bus_picture -->
+	<select id="getPictureList" parameterType="PictureVO"
+		resultType="PictureVO">select
+		picture_id as picture_id,
+		school_id as school_id,
+		class_id as class_id,
+		picture_type as picture_type,
+		title as title,
+		picture_url as picture_url,
+		picture_resize_url as picture_resize_url,
+		add_date as add_date,
+		create_date as create_date,
+		create_by as create_by,
+		update_date as update_date,
+		update_by as update_by,
+		version as version
+		from kt_bus_picture
+		where school_id=#{school_id}
+		and picture_type=#{picture_type}
+		<if test="class_id != null and class_id != 0">
+			and class_id=#{class_id}		    
+		</if>
+		<if test="add_date != null and add_date != '' ">
+			and add_date like concat(#{class_id}, '%')		    
+		</if>
+		<if test="app_sql != null and app_sql != '' ">    
+            and picture_id  ${app_sql}  
+   		</if>
+   		<if test="order_sql != null and order_sql != '' ">    
+           	order by picture_id ${order_sql}  
+       	</if> 
+	</select>
+	<!--删除表kt_bus_picture -->
+	<delete id="deletePicture" parameterType="PictureVO">delete from
+		kt_bus_picture
+		where picture_id = #{picture_id}
+	</delete>
+</mapper>
+

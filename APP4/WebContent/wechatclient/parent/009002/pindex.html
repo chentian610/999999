@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html id="html">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1" />
+		<title>相册</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.poppicker.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.dtpicker.css" />
+		<link rel="stylesheet" type="text/css" href="../css/imageviewer.css" />
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <!-- <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title"></h1> -->
+		    <a class="mui-btn mui-btn-link mui-pull-right" id="btnDel">删除</a>
+		</header>
+		<nav class="hxx-nav-bottom" id="nav">
+			<a id="uploadPhoto"><span class="mui-icon mui-icon-plus"><i>上传照片</i></span></a>
+		</nav>
+		<div class="mui-content">
+		    <div class="mui-slider">
+		    	<div class="mui-scroll-wrapper">
+		    	    <div class="mui-scroll">
+		    	    	<ul id="list" class="hxx-photo-content"></ul>
+		    	    </div>
+		    	</div>
+		    </div>
+		</div>
+		<div id="tip" class="hxx-tips"></div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.pullToRefresh.js"></script>
+		<script src="../js/mui.pullToRefresh.material.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.dtpicker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="js/pindex.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

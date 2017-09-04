@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>填写孩子信息</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.poppicker.css" />
+		<link rel="stylesheet" type="text/css" href="css/edit.css" />
+		<style type="text/css">
+			.hxx-input-item-head {
+				margin: 15px 0 0;
+				position: relative;
+			}
+			
+			.hxx-input-item-head input {
+				font-size: 15px;
+				border-radius: 0;
+				border-left: none;
+				border-right: none;
+			}
+			
+			#bt0 {
+				font-weight: bolder;
+			}
+			
+			.mui-navigate-right-down {
+				color: #4a4a4a;
+				font-size: 15px;
+				font-weight: 400;
+			}
+			
+			.mui-navigate-right-down:after {
+				content: '\e581';
+			}
+			
+			.mui-checked {
+				font-family: Muiicons;
+			}
+			
+			.mui-checked:after {
+				content: '\e472';
+				font-size: 40px;
+				color: #007AFF;
+				position: absolute;
+				right: 9px;
+				top: 25px;
+			}
+			
+			.hxx-alert-box {
+				width: 90%;
+				height: 300px;
+				z-index: 999;
+				position: fixed;
+				margin: 30% 5% 0 5%;
+				border-radius: 10px;
+				background-color: #FFFFFF;
+				border: 1px solid #777777;
+				display: none;
+			}
+			
+			.hxx-alert-box .hxx-alert-head {
+				text-align: center;
+				padding: 10px;
+				margin-bottom: 10px;
+				border-bottom: 1px solid #777777;
+			}
+			
+			.hxx-alert-box .hxx-alert-body {
+				overflow: auto;
+				height: 215px;
+			}
+			
+			.hxx-alert-box .hxx-alert-head span {
+				position: relative;
+				top: -12px;
+				left: 5px;
+				font-size: large;
+				font-weight: bolder;
+			}
+			
+			.hxx-alert-box .mui-table-view-cell img {
+				width: 48px;
+				height: 48px;
+				border-radius: 24px;
+				display: inline;
+			}
+			
+			.hxx-alert-box .mui-table-view-cell div {
+				position: absolute;
+				top: 15px;
+				left: 80px;
+			}
+			
+			.hxx-alert-box .hxx-alert-btn {
+				height: 45px;
+				text-align: center;
+				line-height: 45px;
+				position: absolute;
+				bottom: 0;
+				color: #007AFF;
+				font-size: large;
+				font-weight: bolder;
+			}
+			
+			.hxx-alert-box .btn-left {
+				border-top: 1px #929292 solid;
+				border-right: 1px #929292 solid;
+				left: 0;
+				width: 51%;
+			}
+			
+			.hxx-alert-box .btn-right {
+				border-top: 1px #929292 solid;
+				right: 0;
+				width: 50%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<!-- <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">填写孩子信息</h1> -->
+			<a id="qr" href="#" class="mui-btn mui-btn-link mui-pull-right">确认</a>
+		</header>
+		<div id="abox" class="hxx-alert-box">
+			<div class="hxx-alert-head">
+				<b id="pop_title"></b>
+			</div>
+			<div class="hxx-alert-body">
+				<ul id="list" class="mui-table-view">
+				</ul>
+			</div>
+			<div id="abtn1" class="hxx-alert-btn btn-left">
+				取消
+			</div>
+			<div id="abtn2" class="hxx-alert-btn btn-right">
+				确定
+			</div>
+		</div>
+		<div class="mui-content">
+			<div class="hxx-input-item-head">
+				<input id='name' type="text" placeholder="输入孩子信息">
+			</div>
+			<ul class="mui-table-view">
+				<li id="bt0" class="mui-table-view-cell">
+					<a id="sf" class="mui-navigate-right mui-navigate-right-down">选择家长身份</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.picker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var uName = document.getElementById('name');
+				uList = document.getElementById("list");
+			 	uPopTitle = document.getElementById("pop_title");
+			var 	oPicker1 = null;
+			 	oMask = null;
+			 	wvParent = null;
+				wvSelf = null;
+			var oPitem = {};
+				oPdata = {};
+				oPdata.re = Array();
+				oPdata.relation = null;
+				
+			mui.ready(function() {
+				//wvSelf = plus.webview.currentWebview();
+				//wvParent = wvSelf.opener();
+				BindEvent();
+				InitPicker();
+				InitPage();
+			});
+			
+			function InitPage() {
+				//创建遮罩
+				oMask = mui.createMask(function() {
+					document.getElementById('abox').style.display = "none";
+				});
+			};
+
+			function InitPicker() {
+				oPicker1 = new mui.PopPicker({
+					layer: 1
+				});
+				oPicker1.setData(cache.getDict('003015'));
+			};
+
+			function BindEvent() {
+				//绑定家长身份选择事件
+				document.getElementById('bt0').addEventListener('tap', function() {
+					oPicker1.show(function(item) {
+						document.getElementById('sf').innerText = item[0].text;
+						oPdata.relation = item[0].value;
+					});
+				});
+				//点击确认按钮的回调函数
+				document.getElementById('qr').addEventListener('tap', function() {
+					if(!uName.value) {
+						mui.toast('请输入孩子姓名');
+						return;
+					}
+					if(!oPdata.relation) {
+						mui.toast('请先选择家长身份');
+						return;
+					}
+					cache.myajax("classAction/getStudentList", {
+						data: {
+							user_type: "003015",
+							student_name: uName.value
+						},
+						success: function(data) {
+							oPdata.re = data.result.data;
+							if(oPdata.re.length >= 1) {
+								oMask.show();
+								uList.innerHTML = '';
+								uPopTitle.innerText = '学校有' + oPdata.re.length + '个' + uName.value + ',请选择';
+								for(var i = 0; i < oPdata.re.length; i++) {
+									var li = document.createElement('li');
+									li.className = 'mui-table-view-cell';
+									var a = document.createElement("a");
+									a.setAttribute('data-d', JSON.stringify(oPdata.re[i]));
+									a.innerHTML = '<img src="' + oPdata.re[i].head_url + '"/><div><h4>' + oPdata.re[i].student_name + '</h4><span>' + oPdata.re[i].class_name + '</span></div>';
+									a.addEventListener('tap', function() {
+										var l = this;
+										if(l.className == 'mui-active') {
+											l.className = 'mui-active mui-checked';
+										} else {
+											l.className = 'mui-active';
+										}
+									}, false);
+									li.appendChild(a);
+									uList.appendChild(li);
+								}
+								document.getElementById('abox').style.display = "block";
+							} else {
+								mui.toast('本校没有名叫' + uName.value + '的学生');
+							}
+						},
+						error: function() {}
+					});
+				});
+				//弹出对话框 确定 按钮回调
+				document.getElementById('abtn2').addEventListener('tap', function() {
+					var childNodes = document.getElementsByClassName('mui-checked');
+					if(childNodes.length != 1) {
+						mui.toast('请选择一位孩子');
+						return;
+					}
+					try {
+						var item = JSON.parse(childNodes[0].getAttribute('data-d'));
+					} catch(e) {
+						console.log(e);
+						return;
+					}
+					cache.myajax("userAction/addParentChild", {
+						data: {
+							user_type: "003015",
+							class_id: item.class_id,
+							student_id: item.student_id,
+							student_code: item.student_code,
+							student_name: item.student_name,
+							relation: oPdata.relation
+						},
+						success: function(data) {
+							var pre = data.result.data;
+							cache.insertChild(pre);
+							cache.setChild(pre);
+							cache.setChildIndex(0);
+							mui.fire(wvParent, 'InitPage');
+							mui.toast('孩子添加成功');
+							oMask.close();
+							mui.back();
+							//wvSelf.close();
+						},
+						error: function() {
+							oMask.close();
+						}
+					});
+				});
+				//弹出对话框 取消 按钮回调
+				document.getElementById('abtn1').addEventListener('tap', function() {
+					oMask.close();
+				});
+			};
+		</script>
+	</body>
+
+</html>

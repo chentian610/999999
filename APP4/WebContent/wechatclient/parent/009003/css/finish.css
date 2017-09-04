@@ -1,0 +1,440 @@
+.mui-slider {
+	background-color: #fff;
+}
+
+
+/*-------教室端作业开始 完成详情页-------------*/
+
+ul,
+li {
+	list-style: none;
+}
+
+.mui-control-content {
+	/*height:300px;*/
+	/*这里要设置当前高度要等于显示器的高度，在js里面去设置*/
+	height: auto;
+}
+
+.mui-control-content.mui-active {
+	clear: both;
+	overflow: hidden;
+	/*padding-bottom: 20px;*/
+}
+
+.mui-scroll-wrapper,
+.mui-scroll {
+	position: relative;
+}
+
+.mui-segmented-control {
+	box-sizing: border-box;
+	height: 3.92rem;
+}
+
+.mui-segmented-control .mui-control-item {
+	font-size: 1.28rem;
+	font-weight: 600;
+	color: #9b9b9b;
+}
+
+.mui-segmented-control .mui-control-item.mui-active {
+	color: #57cebf!important;
+	background-color: transparent;
+}
+
+.form-title {
+	display: block;
+	line-height: 3.92rem;
+}
+
+.mui-segmented-control {
+	border: none;
+}
+
+.mui-segmented-control .mui-control-item {
+	border: none;
+}
+
+.mui-control-top {
+	border-top: 10px solid #f2f2f2;
+}
+
+/*完成情况列表*/
+
+.t-work-bottom {
+	border-bottom: 0.08rem solid #e9e9e9;
+	height: 4.0rem;
+}
+
+.t-name-title {
+	font-size: 1.28rem;
+	color: #5a5a5a;
+	margin-left: 0.72rem;
+}
+
+.t-acronym,
+.t-name-title {
+	float: left;
+	line-height: 2.72rem;
+}
+
+.t-finish-time {
+	margin-top: 0.16rem;
+	float: right;
+	font-size: 1.12rem;
+	color: #9b9b9b;
+	line-height: 2.72rem;
+}
+
+.t-acronym {
+	border: 1px solid #57cebf;
+	width: 2.72rem;
+	height: 2.72rem;
+	border-radius: 100%;
+	text-align: center;
+	font-size: 1.2rem;
+	color: #57cebf;
+}
+
+
+/*教室端完成详情页结束*/
+
+.hxx-title {
+	margin-bottom: 20px;
+	background-color: #fff;
+}
+
+.mui-content {
+	margin-bottom: 3.92rem;
+	background-color: #F2F2F2;
+}
+
+
+/*底部按钮*/
+
+.hxx-submit-homework {
+	font-family: classtao;
+	position: fixed;
+	width: 100%;
+	height: 3.92rem;
+	z-index: 9;
+	bottom: 0;
+	background: #57cebf;
+	line-height: 3.92rem;
+	text-align: center;
+	font-size: 1.6rem;
+	color: #fff;
+	display: none;
+}
+
+.hxx-submit {
+	font-family: classtao;
+	position: fixed;
+	bottom: 0;
+	z-index: 9;
+	height: 3.92rem;
+	background: #57cebf;
+	line-height: 3.92rem;
+	display: none;
+}
+
+.hxx-submit .hxx-submit-time {
+	float: left;
+	width: 20rem;
+	font-size: 1.12rem;
+	opacity: 0.6;
+	font-size: 14px;
+	color: #fff;
+	text-align: center;
+}
+
+.hxx-submit .hxx-btn-icon-right {
+	float: right;
+	width: 10rem;
+	font-size: 1.28rem;
+	color: #fff;
+	text-align: center;
+}
+
+
+/*作业题目*/
+
+.hxx-title-firstname {
+	display: block;
+	float: left;
+	width: 2.4rem;
+	height: 2.4rem;
+	font-size: 1rem;
+	line-height: 2.4rem;
+	color: #fff;
+	background-color: #57cebf;
+	text-align: center;
+	border-radius: 50%;
+}
+
+.hxx-title-name {
+	display: block;
+	float: right;
+	font-size: 1.44rem;
+	line-height: 1.44rem;
+	color: #5a5a5a;
+	font-weight: 600;
+	width: 24rem;
+	padding-top: 5px;
+}
+
+.hxx-title-number {
+	font-size: 1.28rem;
+	color: #9b9b9b;
+	text-align: left;
+}
+
+.hxx-title-create-time {
+	font-size: 1.28rem;
+	color: #9b9b9b;
+}
+
+.hxx-title-content {
+	font-size: 1.28rem;
+	line-height: 2.0rem;
+	color: #5a5a5a;
+	font-weight: 550;
+}
+
+
+/*附件*/
+
+.mui-row {
+	margin-bottom: 20px;
+}
+
+.BtnAudioPaly {
+	font-family: classtao;
+	height: 8.5rem;
+	border: 1px solid #F2F2F2;
+}
+
+.BtnAudioPaly h2 {
+	font-family: classtao;
+	text-align: center;
+	color: #4a90e2;
+	font-size: 6rem;
+}
+
+.BtnAudioPaly h2:after {
+	content: '';
+	position: absolute;
+	top: 20px;
+	left: 50%;
+	margin-left: -15px;
+	width: 1px;
+	height: 3rem;
+	display: block;
+	border-radius: 50%;
+	background-color: #4a90e2;
+}
+
+.BtnAudioPaly h2.active:after {
+	animation: Audioname 0.9s ease 0 infinite;
+	-o-animation: Audioname 0.9s ease infinite;
+	-ms-animation: Audioname 0.9s ease infinite;
+	-moz-animation: Audioname 0.9s ease infinite;
+	-webkit-animation: Audioname 0.9s ease infinite;
+}
+
+@-webkit-keyframes Audioname {
+	form {
+		width: 0px;
+	}
+	to {
+		width: 30px;
+	}
+}
+
+.BtnAudioPaly h4 {
+	text-align: center;
+	color: #4a90e2;
+	font-size: 18px;
+	letter-spacing: 0px;
+}
+
+.hxx-affix-item {
+	font-family: classtao;
+	height: 8.5rem;
+	border: 1px solid #F2F2F2;
+}
+
+.hxx-affix-item .hxx-affix-downlad {
+	margin: 0;
+	padding: 0;
+	border: 1px solid #57cebf;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	font-size: 1.12rem;
+	color: #57cebf;
+	text-align: center;
+	line-height: 8.5rem;
+	background-color: #fff;
+	z-index: 6;
+}
+
+.BtnImg img {
+	width: 100%;
+	height: 100%;
+}
+
+.hxx-affix-item span {
+	position: absolute;
+	display: block;
+	top: 0;
+	right: 0;
+	width: 20px;
+	height: 18px;
+	padding: 0 !important;
+	margin: 0;
+	line-height: 25px;
+	text-align: left;
+	font-size: 20px;
+	color: #000 !important;
+	border-radius: 50%;
+	background-color: #FFF;
+}
+
+
+/*录音*/
+
+.mui-backdrop .hxx-audio {
+	background: #ffffff;
+	width: 100%;
+	height: 250px;
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+}
+
+.hxx-audio h4 {
+	font-family: classtao;
+	font-size: 18px;
+	color: #42a5f5;
+	margin: 23px 0 29px;
+}
+
+.hxx-audio h5 {
+	position: relative;
+	border: 1px solid #F2F2F2;
+	border-radius: 50%;
+	font-family: classtao;
+	display: inline-block;
+	width: 140px;
+	height: 140px;
+	line-height: 150px;
+	font-size: 90px;
+	text-align: center;
+	color: #4a90e2;
+}
+
+.hxx-audio h5.active {
+	background-color: #F2F2F2;
+	animation: AudioStart 2s linear infinite;
+	-webkit-animation: AudioStart 2s linear infinite;
+}
+
+@-webkit-keyframes AudioStart {
+	form {
+		transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+
+/*弹窗*/
+
+.hxx-pop-content {
+	position: fixed;
+	z-index: 999;
+	width: 80%;
+	background-color: #fff;
+	margin: 0 auto;
+	top: 50%;
+	left: 0;
+	right: 0;
+}
+
+.hxx-atten-pop {
+	height: 120px;
+	margin-top: -60px;
+	border-radius: 10px;
+}
+
+.mui-progressbar {
+	width: 90%;
+	height: 3px;
+	margin: 30px auto 20px;
+}
+
+.hxx-pop-hint {
+	width: 90%;
+	margin: 5px auto;
+	font-size: 12px;
+}
+
+
+/*学生提交作业*/
+
+.hxx-custom-content {
+	display: none;
+	background-color: #fff;
+}
+
+.hxx-textarea {
+	padding: 15px;
+}
+
+textarea {
+	margin: 0;
+}
+
+.hxx-btn-affix-add {
+	font-family: classtao;
+	font-size: 3rem;
+	text-align: center;
+	line-height: 8rem;
+	border: 1px solid #d6d6d6;
+	color: #d6d6d6;
+}
+
+
+/*学生已提交作业内容*/
+
+.hxx-homework-content {
+	font-size: 1.28rem;
+	font-weight: 500;
+	color: #9b9b9b;
+	line-height: 2rem;
+	margin: 15px;
+	padding-top: 15px;
+}
+
+html,
+body {
+	background-color: #F2F2F2;
+}
+
+.hxx-table-content {
+	padding: 0.4rem 1.2rem;
+	position: relative;
+	overflow: hidden;
+	padding-bottom: 1.0rem;
+	border: none;
+}
+
+.hxx-table-content:after {
+	clear: both;
+}

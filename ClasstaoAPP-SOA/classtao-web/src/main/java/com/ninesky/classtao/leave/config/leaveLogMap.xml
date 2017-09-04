@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="leaveLogMap">
+	<!--插入表kt_bus_leave -->
+	<insert id="insertLeaveLog" parameterType="LeaveLogVO">
+	INSERT INTO kt_bus_leave_log 
+	(
+		leave_id,
+		pre_status,
+		current_status,
+		content,
+		create_by,
+		create_date
+	) VALUES (
+		#{leave_id},
+		#{pre_status},
+		#{current_status},
+		#{content},
+		#{create_by},
+		#{create_date}
+	)
+	</insert>
+	<select id="getLeaveLogList" parameterType="Integer" resultType="LeaveLogVO">
+	SELECT
+		leave_id as leave_id,
+		pre_status as pre_status,
+		current_status as current_status,
+		content as content,
+		create_by as oper_id,
+		create_date as create_date
+	FROM kt_bus_leave_log WHERE leave_id = #{leave_id}
+	</select>
+	<!--删除表kt_bus_leave -->
+	<delete id="deleteLeaveLog" parameterType="Integer">
+	delete from kt_bus_leave_log where leave_id = #{leave_id}
+	</delete>
+</mapper>
+

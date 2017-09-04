@@ -1,0 +1,639 @@
+/*总体样式*/
+ul{
+	list-style: none;
+	margin: 0;
+}
+.fl{
+	float: left;
+}
+.clearfix:after{
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+	*zoom: 1;
+}
+/*代理商申请-第一步页面样式*/
+.zjq-agency-page .process_l{
+	margin-top: 52px;
+	height: 80px;
+}
+.zjq-agency-page .process_l ul {
+    position: relative;
+    width: 560px;
+    background: url(../icon/gray.png) repeat-x;
+    height: 5px;
+    margin:0 auto; 
+}
+.zjq-agency-page .process_l ul:after{
+	content: '';
+	display: block;
+	height: 5px;
+	width: 25%;
+	background: url(../icon/green.png) repeat-x;
+	position: absolute;
+	left: 17px;
+	top: 0;
+}
+
+.zjq-agency-page .process_l ul li {
+    position: absolute;
+    z-index: 2;
+    top: -5.5px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #AEAEAE;  
+    text-align: center;   
+}
+.zjq-agency-page .process_l ul li.active {
+    width: 24px;
+    height: 24px;
+    background-color: #1cbb9e;
+    border: 4px solid #d2f1ec;
+    top: -9.5px;
+}
+.zjq-agency-page .process_l ul li span {
+    position: absolute;
+    top: 28px;
+    width: 118px;
+    text-align: center;
+    left: -44px;
+    font-size: 16px;
+	color: #696969;
+}
+.zjq-agency-page .zjq-form-block{
+	width: 83%;
+    margin:0 auto; 
+}
+.zjq-agency-page .zjq-form-block .form-group label{
+	font-size: 14px;
+	color: #515151;
+	font-weight: normal;
+}
+.zjq-agency-page .zjq-form-block .form-group .zjq-star-icon{
+	font-size: 14px;
+	color: #EF4F4F;
+	display: inline-block;
+	margin:10px 0 0 0;
+}
+.zjq-agency-page .zjq-form-block .form-group .zjq-plus-block{
+	width: 105px;
+	height: 105px;
+	border:1px dotted #D1DAE1;
+	text-align: center;
+	display: inline-block;
+}
+.zjq-agency-page .zjq-form-block .form-group .zjq-plus-block img{
+	width: 20px;
+	height: 20px;
+	margin-top: 42px;
+}
+.zjq-agency-page .zjq-form-block .form-group .zjq-form-text{
+	display: inline-block;
+	font-size: 12px;
+	color: #C1C1C1;
+	margin-left: 20px;
+	transform: translateY(30px);
+}
+.zjq-agency-page .zjq-form-block .form-group .zjq-form-text span{
+	display: block;
+	font-size: 12px;
+	color: #C1C1C1;
+	margin: 0;
+	line-height: 21px;
+}
+.zjq-agency-page .zjq-form-block .form-group span.zjq-website-name{
+	font-size: 13px;
+	color: #333333;
+	margin: 0 0 0 -10px;
+	transform: translateY(-4px);
+	display: inline-block;
+}
+.m-b-none {
+    margin-bottom: 0;
+}
+.zjq-agency-page .zjq-form-block .form-group span.help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #C1C1C1;
+}
+.zjq-agency-page .zjq-form-block .form-group .zjq-website-sure{
+	font-size: 13px;
+	color: #333333;
+	line-height: 34px;
+}
+/*代理商申请-第二步样式*/
+.zjq-agency-page.zjq-second-process .process_l ul:after{	
+	width: 75%;	
+}
+.zjq-agency-page .process_l ul li.zjq-done-block{
+	background: #1CBB9E;	
+}
+.zjq-agency-page .process_l ul li.zjq-done-block span{
+	color: #1CBB9E;
+}
+.zjq-agency-page .zjq-self-block{	
+	border-bottom: 1px solid #E7E7E7;
+	position: relative;
+}
+.zjq-agency-page .zjq-self-block .zjq-total-fees{
+	font-size: 14px;
+	height: 14px;
+	color: #1CBB9E;
+	position: absolute;
+	bottom: -24px;
+	right: 41px;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-sel{
+	width: 708px;
+	margin: 0 auto;
+}
+.zjq-agency-page .zjq-self-block h3{
+	font-size: 16px;
+	color: #515151;
+	line-height: 49px;
+	border-bottom: 1px solid #E7E7E7;
+	margin: 0 0 11px 0;
+	font-weight: normal;
+	position: relative;
+}
+.zjq-agency-page .zjq-self-block h3 span{
+	font-size: 14px;
+	line-height: 14px;
+	color: #1CBB9E;
+	position: absolute;
+	right: 0;
+	bottom: 5px;
+}
+
+.zjq-agency-page .zjq-self-block .zjq-template-list{
+	width: 100%;
+	height: 257px;
+	margin: 36px auto;
+	position: relative;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list span{
+	width: 21px;
+	height: 37px;
+	position: absolute;
+	top:calc(50% - 18px);
+	cursor: pointer;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list span:active{
+	transform: scale(1.3);
+	-webkit-transform:scale(1.3);
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list span img{
+	width: 100%;
+	height: 100%;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list span.zjq-arrow-right{
+	right: 0;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list span.zjq-arrow-left{
+	left: 0;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list .zjq-pic-list{
+	width:631px;
+	height: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list .zjq-pic-list .zjq-mobile-model{
+	width: 125px;
+	height: 100%;
+	position: absolute;
+	left: calc(50% - 62px);
+	top: 0;
+	background: url(../images/iphone.png) no-repeat center center;
+	z-index: 2;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list .zjq-pic-list .zjq-mobile-model img{
+	width: 107px;
+	height: 190px;
+	transform: translate(8px,33px);
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list .zjq-pic-list ul{
+	position: absolute;
+	left: -78px;
+	top: calc(50% - 80px);
+	width: 300%;
+	padding: 0;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list .zjq-pic-list ul li{
+	float: left;
+	width: 90px;
+	height: 160px;
+	margin: 0 10px;
+}
+.zjq-agency-page .zjq-self-block .zjq-template-list .zjq-pic-list ul li img{
+	width: 100%;
+	height: 100%;
+}
+.zjq-agency-page .zjq-self-block .zjq-function-module h4{
+	font-size: 14px;
+	height: 14px;
+	line-height: 14px;
+	color: #515151;
+	margin: 0 0 18px 0;
+}
+.zjq-agency-page .zjq-self-block .zjq-function-module h4 span{
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	background: #1CBB9E;
+	border-radius: 100%;
+	margin-right: 6px;
+}
+.zjq-function-block.zjq-must-sel .zjq-mess-block{
+	width: 80px;
+	height: 80px;
+	background: #F3F3F3;
+	border-radius: 2px;
+	text-align: center;
+	position: relative;
+	border: none;
+}
+.zjq-mess-block img {
+	height: 21px;
+}
+.zjq-function-block .zjq-mess-block img{
+	margin-top: 12px;	
+}
+.zjq-function-block .zjq-mess-block span{
+	display: block;
+	font-size: 12px;
+	color: #515151;
+	line-height: 26px;
+}
+.zjq-function-block .active .zjq-mess-block{
+	border-color:#1CBB9E;
+}
+.zjq-function-block .active .zjq-mess-block span{
+	color: #1CBB9E;
+}
+.zjq-function-block .active p{
+	color: #1CBB9E;
+}
+.zjq-function-block .zjq-mess-block i{
+	position: absolute;
+	right: 2px;
+	bottom: 2px;
+}
+.zjq-function-block p{
+	width: 80px;
+	text-align: center;
+	font-size: 12px;
+	color: #515151;
+	line-height: 16px;
+	margin: 5px 0 10px 0;
+	height: 32px;
+	overflow: hidden;
+}
+.zjq-function-block  li{
+	float: left;
+	margin: 0 37px 0 0;
+}
+.zjq-function-block li:nth-child(6n){
+	margin-right: 0;
+}
+.zjq-function-block .zjq-mess-block{
+	width: 78px;
+	height: 78px;
+	border: 1px solid #E7E7E7;
+	border-radius: 2px;
+	text-align: center;
+	position: relative;
+}
+.zjq-function-block .zjq-mess-block .checkbox{
+	position: absolute;
+	right: -8px;
+	bottom: -14px;
+}
+ .radio-info input[type="radio"]:checked + label::after {
+	background-color: #1CBB9E;
+}
+.radio-info input[type="radio"] + label::after {
+    background-color: #1CBB9E;
+}
+.radio-info input[type="radio"]:checked + label::before {
+    border-color: #D7D3CD; 
+}
+.zjq-agency-page .radio.radio-inline{
+	margin: 0;
+	padding: 0;
+	transform: translateX(14px);
+}
+/*自写表格样式*/
+.zjq-template-sel .zjq-table-style {
+	width: 568px;
+	margin: 23px auto 0;
+}
+.zjq-template-sel .zjq-table-style .zjq-row-style{
+	height:30px;	
+	border-top-width: 1px;	
+	border-left-color: #E7E7E7;
+	position: relative;
+}
+.zjq-template-sel .zjq-table-style .zjq-row-style .zjq-acive-border{
+	width: calc(100% - 4px);
+	height: 30px;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	pointer-events: none;
+}
+.zjq-template-sel .zjq-table-style .zjq-row-style.active .zjq-acive-border{
+	border-color: #1CBB9E;
+}
+.zjq-template-sel .zjq-table-style .zjq-row-style .zjq-table-cell{
+	float: left;
+	height:30px;
+	text-align: center;				
+	border: 1px solid #E7E7E7;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	color: #515151;
+	width: 130px;
+}
+.zjq-template-sel .zjq-table-style .zjq-row-style:first-child .zjq-table-cell{
+	border-top-width: 1px;
+	background: #F5F5F6;
+}
+.zjq-template-sel .zjq-table-style .zjq-row-style .zjq-table-cell:first-child{
+	width: 44px;
+	border-left-width: 1px;
+}
+
+.zjq-agency-page  .zjq-function-module .zjq-function-block.zjq-platform .zjq-mess-block img{
+	margin-top: 28px;
+}
+.zjq-buttons{
+	width: 100%;
+	text-align: center;
+	margin-top: 90px;
+}
+.zjq-buttons .btn{
+	width: 274px;
+	height: 35px;
+	background: #B0BAC9;
+	font-size: 15px;
+	color: #FFFFFF;
+}
+.zjq-buttons .btn.zjq-green-btn{
+	background: #1CBB9E;
+	margin-left: 30px;
+}
+/*填写第三步样式*/
+.zjq-agency-page.zjq-third-process .process_l ul:after{	
+	width: 100%;	
+}
+.zjq-agency-page .zjq-manager-block{
+	width: 562px;
+	margin: 15px auto 224px;	
+}
+.zjq-agency-page .zjq-add-block{
+	height: 33px;
+	border: 1px solid #E9E9E9;
+	border-right: none;
+	border-left: none;
+	text-align: center;
+	line-height: 33px;
+	font-size: 16px;
+	color: #1CBB9E;
+	cursor: pointer;	
+}
+.zjq-agency-page .zjq-add-block img{
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 15px;
+}
+.zjq-agency-page .zjq-add-block span{
+	display: inline-block;
+	vertical-align: middle;
+}
+/*第三步表单验证样式*/
+.zjq-form-check{
+	width: 432px;
+	margin: 0 auto;
+	padding: 64px 0 32px;
+}
+.zjq-form-check .zjq-modal-buttons{
+	text-align: right;
+}
+.zjq-modal-buttons .zjq-green-btn{
+	background: #1CBB9E;
+	color: #fff;
+	margin-left: 10px;
+}
+.zjq-form-check .form-group label{
+	font-size: 18px;
+	color: #4A4A4A;
+	font-weight: normal;
+}
+.zjq-form-check .form-group span{
+	display: block;
+	font-size: 12px;
+	color: #A94442;
+	line-height: 24px;
+}
+.zjq-form-check .form-group span i{
+	margin-right: 3px;
+}
+/*代理商申请-第三步-添加完成样式*/
+.zjq-manager-block .zjq-message-table{
+	margin: 0;
+}
+.zjq-manager-block .zjq-message-table td{
+	border-left: none;
+	border-bottom: none;
+}
+.zjq-manager-block .zjq-message-table td:last-child{
+	border-right: none;
+	width: 158px;
+}
+.zjq-manager-block .zjq-message-table td:first-child{
+	width: 153px;
+}
+.zjq-manager-block .zjq-message-table td:nth-child(2){
+	width: 247px;
+}
+/*确认申请弹窗样式*/
+.modal-content.zjq-modal-content{
+	width: 680px;
+	padding: 0 43px 0 21px;
+}
+.zjq-message-sure{
+	height: 432px;
+	overflow-y: auto;
+		padding-bottom: 66px;
+}
+.zjq-message-sure .zjq-scroll-message{
+	border-bottom: 1px solid #E7E7E7;
+	position: relative;	
+}
+.zjq-message-sure .zjq-scroll-message .zjq-total-fees{
+	font-size: 14px;
+	color: #1CBB9E;
+	position: absolute;
+    bottom: -24px;
+    right: 41px;
+}
+.zjq-sure-page h2{
+	font-size: 24px;
+	color: #4A4A4A;
+	line-height: 80px;
+	height: 80px;
+	text-align: center;
+}
+.zjq-sure-page .zjq-message-block h3{
+	font-size: 18px;
+	color: #515151;
+	line-height: 46px;
+	height: 46px;
+	border-bottom: 1px solid #E7E7E7;
+	margin-bottom: 28px;
+}
+.zjq-sure-page .zjq-message-block .zjq-mess-detail{
+	font-size: 14px;
+	color: #4A4A4A;
+	line-height: 17px;
+	margin-bottom: 38px;
+	margin-left: 22px;
+}
+.zjq-sure-page .zjq-message-block .zjq-mess-detail .logo_icon{
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
+	margin-left: 32px;
+}
+.zjq-sure-page .zjq-message-block .zjq-mess-detail .zjq-mobile-block{
+	display:block;
+	width: 125px;
+	height: 257px;
+	background: url(../images/iphone.png) no-repeat center center;
+	transform:translate(117px,-17px);
+	position: relative;
+}
+.zjq-sure-page .zjq-message-block .zjq-mess-detail .zjq-mobile-block img{
+	width: 107px;
+	height: 190px;
+	position: absolute;
+	left: 8px;
+	top: 33px;
+}
+.zjq-sure-page .zjq-message-block .zjq-mess-detail .zjq-fee-block{
+	display: block;
+	font-size: 14px;
+	color: #1CBB9E;
+	height: 17px;
+	margin-top: 10px;
+}
+.zjq-sure-page .zjq-function-block li{
+	margin: 0 20px 0 0;
+}
+.zjq-sure-page .zjq-function-block .zjq-mess-block{
+	border: 1px solid #1CBB9E;
+}
+.zjq-sure-page .zjq-function-block .zjq-mess-block span{
+	color: #1CBB9E;
+}
+.zjq-sure-page .zjq-message-block .zjq-function-block  p{
+	width: 80px;
+	text-align: center;
+	font-size: 12px;
+	line-height: 16px;
+	margin: 5px 0 10px 0;
+	height: 32px;
+	overflow: hidden;
+	color: #1CBB9E;
+}
+
+.zjq-table tr:first-child td{
+	font-size: 16px;
+	background: #F5F5F6;
+}
+.zjq-sure-page .zjq-mess-detail .table{
+	margin-top: 10px;
+}
+.zjq-service-sel td {
+	text-align: center;				
+	border: 1px solid #E7E7E7;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	color: #515151;
+	width: 130px;
+}	
+.zjq-sure-page .zjq-table tr td{
+	width: 131px;
+}
+.zjq-sure-page .zjq-mess-detail .zjq-function-block{
+	margin-top: 23px;
+	padding: 0;
+}
+.zjq-sure-page .zjq-mess-detail .zjq-function-block li:nth-child(6n){
+	margin-right: 0;
+}
+.zjq-message-block .zjq-message-table{
+	width: 423px;
+}
+.zjq-message-block .zjq-message-table td{
+	border-left:0 ;
+}
+.zjq-message-block .zjq-message-table td{
+	width: 152px;
+}
+.zjq-message-block .zjq-message-table td:last-child{
+	border-right: 0;
+	width: 267px;
+}
+.zjq-sure-page .zjq-buttons{
+	margin: 43px auto;
+}
+/*申请成功页面样式*/
+.zjq-success-page {
+	text-align: center;
+}
+.zjq-success-page h3{
+	font-size: 24px;
+	color: #4A4A4A;
+	margin: 61px auto 26px;
+}
+.zjq-success-page img{
+	width: 127px;
+	height: 109px;
+}
+.zjq-success-page h5{
+	font-size: 18px;
+	color: #4A4A4A;
+	margin: 34px auto 10px;
+}
+.zjq-success-page p{
+	display: inline-block;
+	width: 329px;
+	text-align: center;
+	line-height: 24px;
+}
+.zwf-lable-style{
+	font-size: 18px;
+	text-align: initial;
+}
+.zwf-input-style{
+	margin: 15px 0 15px 0;
+}
+.zwf-span-css{
+	display: block;
+	margin-left: 17px;
+	margin-top: -15px;
+	color: #A94442;
+}

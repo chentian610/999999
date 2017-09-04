@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>家长端欢迎页</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.mui-content {
+				background: none;
+			}
+			
+			.mui-person-info {
+				background: #fff;
+				padding-bottom: 20px;
+			}
+			
+			.mui-person-info .mui-btn-link-left {
+				display: block;
+				float: left;
+				margin: 10px;
+				padding-bottom: 50px;
+				color: #4fcb19;
+			}
+			
+			.mui-person-info .mui-btn-link-right {
+				display: block;
+				float: right;
+				margin: 10px;
+				padding-bottom: 50px;
+				color: #4fcb19;
+			}
+			
+			.mui-person-info img {
+				display: block;
+				clear: both;
+				margin: 60px auto 10px;
+				border-radius: 80px;
+				width: 80px;
+				height: 80px;
+				border-radius: 50%;
+			}
+			
+			.mui-person-info h4 {
+				text-align: center;
+				color: #4a4a4a;
+				font-size: 17px;
+				font-weight: 400;
+			}
+			
+			.mui-person-info h4#u_phone {
+				color: #999;
+				font-size: 15px;
+			}
+			
+			.mui-table-view-cell img {
+				position: absolute;
+			}
+			
+			#addsf {
+				margin-left: 20px !important;
+			}
+			
+			.mui-navigate-right img {
+				height: 24px;
+				width: 24px;
+				border-radius: 12px;
+			}
+			
+			.mui-navigate-right span {
+				margin-left: 30px;
+				font-size: 15px;
+			}
+			
+			#add {
+				position: relative;
+			}
+			
+			#add span {
+				color: #4FCB19;
+				position: absolute;
+				top: 10px;
+			}
+			
+			#add a {
+				display: block;
+				margin-left: 18px;
+				font-size: 15px;
+				color: #4a4a4a;
+			}
+			
+			.mui-table-view {
+				margin-top: 15px;
+				font-size: 15px;
+				color: #4a4a4a;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-person-info">
+			<a id="fh" class="mui-btn-link-left">返回</a>
+			<a id="wc" class="mui-btn-link-right">完成</a>
+			<div id="ws">
+				<img id="u_img" src="../images/default_img_user.png" />
+				<h4 id="u_name"></h4>
+				<h4 id="u_phone"></h4>
+			</div>
+		</div>
+		<div class="mui-content">
+			<div class="hxx-input-cell" id="pass">
+				<input type="password" name="pass" id="passwd" placeholder="请设置初始密码" />
+			</div>
+			<ul id="list" class="mui-table-view">
+				<!--<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<img src="http://112.124.100.26/file/APP4/user/img_user_big.jpg">
+						<span id="stxt">王雯琪 - 一年级（1）班 - 150101</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						<img src="http://112.124.100.26/file/APP4/user/img_user_big.jpg">
+						<span id="stxt">高兴 - 三年级（1）班 - 150701</span>
+					</a>
+				</li>-->
+			</ul>
+			<ul class="mui-table-view">
+				<li id="add" class="mui-table-view-cell">
+					<span class="mui-icon mui-icon-plus"></span>
+					<a class="mui-navigate-right">绑定孩子 </a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var uList = document.getElementById("list"),
+				uImg = document.getElementById("u_img"),
+				uName = document.getElementById("u_name"),
+				uPhone = document.getElementById("u_phone"),
+				uPasswd = document.getElementById("passwd"),
+				uPass = document.getElementById("pass");
+			var oPitem = {};
+				oPdata = {};
+				oPdata.childs = null;
+				
+			mui.ready(function() {
+				if (cache.isNull(cache.getUserPass())) {
+					cache.showDom(uPass);
+					oPitem.hasPasswd = false;
+				}else{
+					cache.hideDom(uPass);
+					oPitem.hasPasswd = true;
+				}
+				BindEvent();
+				InitInfo();
+				InitPage();
+			});
+
+			function InitInfo() {
+				uImg.src = cache.getHeadPath();
+				uImg.onerror = function() {
+					uImg.src = '../images/default_img_user.png';
+				}
+				uName.innerText = cache.getUserName();
+				uPhone.innerText = cache.getPhone();
+			};
+
+			function InitPage() {
+				oPdata.childs = cache.getChilds();
+				uList.innerHTML = '';
+				for(var i = 0; i < oPdata.childs.length; i++) {
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell';
+
+					var uA = document.createElement("a");
+					uA.className = 'mui-navigate-right';
+
+					var user_img = document.createElement("img");
+					user_img.src = oPdata.childs[i].head_url;
+					user_img.onerror = function() {
+						this.src = '../images/default_img_user.png';
+					}
+					uA.appendChild(user_img);
+
+					var uSpan = document.createElement("span");
+					uSpan.innerText = oPdata.childs[i].student_name + ' - ' + oPdata.childs[i].class_name + ' - ' + oPdata.childs[i].student_code;
+					uSpan.id = 'stxt';
+					uA.appendChild(uSpan);
+					li.appendChild(uA);
+					uList.appendChild(li);
+				}
+			};
+
+			function BindEvent() {
+				var _back = mui.back;
+				mui.back=function(){
+					cache.setAutoLogin(false);
+					_back();
+				};
+				//检查缓存。刷新页面
+				window.addEventListener('InitInfo', function() {
+					InitInfo();
+				});
+				
+				//检查缓存。刷新页面
+				window.addEventListener('InitPage', function() {
+					InitPage();
+				});
+				
+				document.getElementById("fh").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "../main/wall.html",
+						id: "wall",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				
+				//家长绑定孩子
+				document.getElementById('add').addEventListener('tap', function() {
+					var self = this;
+	        		if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},600);
+					if(CheckInfo()) {
+						mui.openWindow({
+							url: "paddid.html",
+							id: "paddid",
+							createNew: true,
+							show: {
+								aniShow: "pop-in",
+								duration: 300
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				});
+				//完善个人信息
+				document.getElementById('ws').addEventListener('tap', function() {
+					var self = this;
+	        			if(self.disable){
+						return;
+					}
+					self.disable = true;
+					setTimeout(function(){
+						self.disable = false;
+					},600);
+					mui.openWindow({
+						url: "pedit.html",
+						id: "pedit",
+						createNew: true,
+						show: {
+							aniShow: "pop-in",
+							duration: 300
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+				//完成进入主页面
+				document.getElementById('wc').addEventListener('tap', function() {
+					var self = this;
+	        			if(self.disable){
+						return;
+					}
+					self.disable = true;
+					if(!cache.isArray(oPdata.childs) || oPdata.childs.length <= 0) {
+						mui.toast('请最少添加一个孩子');
+						self.disable = false;
+						return;
+					}
+					if (!oPitem.hasPasswd) {
+						if (cache.isNull(uPasswd.value)||uPasswd.value.length<6) {
+							mui.toast('密码最少为六位');
+							self.disable = false;
+							return;
+						}else{
+							cache.setChild(oPdata.childs[0]);
+							cache.setChildIndex(0);
+							cache.myajax('userAction/updatePassword',{
+								data: {
+									phone: cache.getPhone(),
+									pass_word: md5(uPasswd.value)
+								},
+								success: function(data) {
+									cache.setAutoLogin(true);
+									self.disable = false;
+									mui.openWindow({
+										url: "../main/pbar.html",
+										id: "pbar",
+										createNew: true,
+										show: {
+											aniShow: "pop-in",
+											duration: 300
+										},
+										waiting: {
+											autoShow: false
+										}
+									});
+								},
+								error: function(){
+									self.disable = false;
+								}
+							});
+						}
+					}else{
+						cache.setChild(oPdata.childs[0]);
+						cache.setChildIndex(0);
+						cache.setAutoLogin(true);
+						self.disable = false;
+						mui.openWindow({
+							url: "../main/pbar.html",
+							id: "pbar",
+							createNew: true,
+							show: {
+								aniShow: "pop-in",
+								duration: 300
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}
+				});
+			};
+
+			function CheckInfo() {
+				if(cache.isNull(cache.getUserName())) {
+					mui.toast('用户名不能为空');
+					return false;
+				}
+				if(cache.isNull(cache.getUserSex())) {
+					mui.toast('用户性别不能为空');
+					return false;
+				}
+				return true;
+			}
+
+			function CheckPassStrong(str) {
+				if(str.length < 8) {
+					return false;
+				}
+				var containDigit = RegExp(/[\d]+/).test(str);
+				var containLetters = RegExp(/[a-zA-Z]+/).test(str);
+				var containerOtherChars = RegExp(/[!@#$%^&*(),.'{}]+/).test(str);
+				if(containDigit && containLetters && containerOtherChars) {
+					return true;
+				} else {
+					return false;
+				}
+			};
+		</script>
+	</body>
+
+</html>

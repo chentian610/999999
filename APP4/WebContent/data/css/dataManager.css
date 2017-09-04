@@ -1,0 +1,19 @@
+.text-css{text-align: center;}
+.table-css{overflow-x: scroll;overflow-y: scroll;width: 100%;min-height: 200px;margin-top: 15px;}
+td,th{white-space: nowrap;border: 1px solid silver;height: 40px;padding: 0 15px;}
+.display {display: none;}
+.div-css {width:100%;height: 60px;margin-top: 15px;display: flex;}
+.spinner-css{float: right; margin: 15px;border-radius: 25px; height: 23px;}
+tr:hover{background-color: #ffffcc;}
+button{margin-left: 15px;margin-top: 15px;}
+#nav { width:260px; border: 1px solid #ccc; position:absolute;background-color: #fff;box-shadow:0 0 1px #000 inset;padding: 5px 0;}
+#nav button{  border: none; background-color: #fff;width: 100%; display: flex;margin: 0; color: #000; padding-left: 15px; height: 25px;}
+#nav button:hover{background-color:#ccc;color: #000;}
+#nav div{background-color:#ccc;    text-decoration: underline; height: 1px; margin: 5px 0;}
+.Shortcut-key{margin-left: 70%;color: darkgray;position: absolute;}
+.dataDetailCss{margin: 15px 0;display: grid;}
+.div-css div {width: 30%;display: inline-flex;margin-left: 200px;}
+.div-css button{margin: 10px 15px;}
+.div-css input{margin-top: 10px}
+.span-css{    display: inline-block; margin-top: 10px;margin-right: 138px;}
+.checkedAll{ position: initial; margin: 0;}

@@ -1,0 +1,169 @@
+.hxx-content {
+	background-color: #fff;
+	margin: 10px 14px;
+}
+.hxx-atten-hint {
+	margin: 8px 14px;
+}
+
+.hxx-atten-hint p {
+	display: inline-block;
+	width: 70px;
+	height: 14px;
+	font-size: 12px;
+}
+.hxx-atten-hint span{
+	font-family: classtao;
+}
+.hxx-atten-hint .hxx-icon-later{
+	color: #fc3a1c;
+}
+.hxx-atten-hint .hxx-icon-abstenteeism{
+	color: #ff911e;
+}
+.hxx-atten-hint .hxx-icon-leave{
+	color: #62cf11;
+}
+/*考勤内容列表*/
+.hxx-atten .mui-col-sm-4 {
+	font-family: classtao;
+}
+
+.hxx-atten .mui-col-sm-4 h4 {
+	width: 78px;
+	height: 78px;
+	font-size: 36px;
+	text-align: center;
+	border-radius: 50%;
+	line-height: 78px;
+	margin: 16px auto 5px;
+	color: #ddd;
+	border: 1px solid #ddd;
+}
+
+.hxx-atten .mui-col-sm-4 p {
+	font-size: 16px;
+	color: #5a5a5a;
+	height: 24px;
+	text-align: center;
+	overflow: hidden;
+}
+
+.hxx-atten-later h4 {
+	background: #fc3a1c;
+}
+.hxx-atten-later p span{
+	color: #fc3a1c;
+}
+
+.hxx-atten-absenteeism h4 {
+	background: #ff911e;
+}
+
+.hxx-atten-absenteeism p span{
+	color: #ff911e;
+}
+
+.hxx-atten-leave h4 {
+	background: #62cf11;
+}
+
+.hxx-atten-leave p span{
+	color: #62cf11;
+}
+
+/*弹窗*/
+.hxx-pop-content {
+	position: fixed;
+	z-index: 999;
+	width: 80%;
+	min-height: 100px;
+	min-width: 200px;
+	background-color: #fff;
+	margin: 0 auto;
+	top: 50%;
+	left: 0;
+	right: 0;
+}
+
+.hxx-atten-pop {
+	height: 216px;
+	margin-top: -108px;
+	border-radius: 10px;
+}
+
+.hxx-atten-pop .hxx-title-bar {
+	height: 40px;
+	text-align: center;
+	padding: 10px;
+	font-size: 18px;
+	color: #5a5a5a;
+	margin-bottom: 20px;
+}
+
+.hxx-atten-pop .hxx-title-bar-close {
+	font-family: classtao;
+	color: #57cebf;
+	font-size: 16px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	text-align: center;
+	line-height: 40px;
+	width: 40px;
+	height: 40px;
+}
+
+.hxx-select-later,
+.hxx-select-absenteeism,
+.hxx-select-leave {
+	font-family: classtao;
+	text-align: center;
+	height: 87px;
+	color: #DDDDDD;
+}
+
+.hxx-select-later.active h4 {
+	color: #fc3a1c;
+}
+
+.hxx-select-absenteeism.active h4 {
+	color: #ff911e;
+}
+
+.hxx-select-leave.active h4 {
+	color: #62cf11;
+}
+
+.hxx-select-later h4,
+.hxx-select-absenteeism h4,
+.hxx-select-leave h4 {
+	font-size: 60px;
+}
+
+.hxx-select-later p,
+.hxx-select-absenteeism p,
+.hxx-select-leave p {
+	font-size: 16px;
+	color: #9b9b9b;
+	text-align: center;
+}
+
+.hxx-atten-content{
+	height: 140px;
+	overflow-y: auto;
+}
+
+.hxx-btn{
+	font-family: classtao;
+	height: 44px;
+	line-height: 45px;
+	color: #FF0000;
+	border-radius: 10px;
+	text-align: center;
+	border: 1px solid #FF0000;
+	margin: 14px;
+	background-color: #fff;
+	font-size: 15px;
+	display: none;
+}

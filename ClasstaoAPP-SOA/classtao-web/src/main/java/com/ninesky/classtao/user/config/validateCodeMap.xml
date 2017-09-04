@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="validateCodeMap">
+	<!--插入表kt_bas_validate_code -->
+	<insert id="insertValidateCode" parameterType="ValidateCodeVO">insert into
+		kt_bas_validate_code
+		(
+		phone,
+		validate_code,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version
+		) VALUES (
+		#{phone},
+		#{validate_code},
+		#{create_by},
+		#{create_date},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bas_validate_code -->
+	<update id="updateValidateCode" parameterType="ValidateCodeVO">
+	update	kt_bas_validate_code
+		set
+		<if test="validate_code != null" >
+		validate_code = #{validate_code},
+		</if>
+		update_date = #{update_date},
+		is_use = #{is_use}
+		Where phone = #{phone}
+	</update>
+	<!--查询表kt_bas_validate_code -->
+	<select id="checkValidateCode" parameterType="Map"	resultType="ValidateCodeVO">
+	select
+		phone,
+		validate_code,
+		is_use,
+		create_by,
+		create_date,
+		update_by,
+		update_date,
+		version
+	from kt_bas_validate_code
+		where phone = #{phone}
+	</select>
+</mapper>
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="templateModuleMap">
+	<!--插入表kt_sys_template_module -->
+	<insert id="insertTemplateModule" parameterType="ModuleVO">insert into
+		kt_sys_template_module
+		(
+		template_id,
+		module_code
+		) VALUES (
+		#{template_id},
+		#{module_code}
+		)
+	</insert>
+	<!--更新表kt_sys_template_module -->
+	<update id="updateTemplateModule" parameterType="ModuleVO">update
+		kt_sys_template_module
+		set id = #{id},
+		template_id = #{template_id},
+		module_code = #{module_code}
+	</update>
+	<!--查询表kt_sys_template_module -->
+	<select id="getTemplateModuleList" parameterType="Integer" resultType="ModuleVO">
+		select
+			t.id as id,
+			t.template_id as template_id,
+			t.module_code as module_code,
+			t.is_must as is_must,
+			m.is_must as module_is_must
+		from kt_sys_template_module t,kt_sys_module m
+		where t.template_id=#{template_id} and t.module_code=m.module_code
+	</select>
+
+	<!--查询表kt_sys_template_module -->
+	<select id="getTemplateList" parameterType="Integer" resultType="ModuleVO">
+		select
+		id as id,
+		template_id as template_id,
+		module_code as module_code,
+		is_must as is_must
+		from kt_sys_template_module
+		where template_id=#{template_id}
+	</select>
+
+	<!--删除表kt_sys_template_module -->
+	<delete id="deleteTemplateModule" parameterType="Integer">delete from
+		kt_sys_template_module
+		where id = #{id}
+	</delete>
+</mapper>
+

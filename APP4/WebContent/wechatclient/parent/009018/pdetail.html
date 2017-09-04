@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title></title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+		<style type="text/css">
+			html,body,.mui-content,.qbb-news-content{
+				background-color: #FFFFFF;
+			}
+			img{
+				width: 100%;
+			}
+			.qbb-news-content{
+				margin: 1.2rem 1.6rem;
+			}
+			.qbb-content-title{
+				font-size: 1.84rem;
+			}
+			.qbb-content-text{
+				margin-top: 1.76rem;
+				font-size: 1.28rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div id="news-detail" class="qbb-news-content">
+				<h4 id="con-title" class="qbb-content-title"></h4>		
+				<span id="con-date" style="margin-top: 0.56rem;font-size: 1.2rem;"></span>
+				<span id="con-writer" style="margin-top: 0.56rem;color:#607fa6;font-size: 1.2rem;"></span>
+				<div id="con-content" class="qbb-content-text"></div>
+			</div>
+		</div>
+		<div id="tap1" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png" />
+			<h4>网络请求失败<br />点击重新加载</h4>
+		</div>
+		<div id="tap2" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png" />
+			<h4>数据为空</h4>
+		</div>
+		<div id="tap3" class="hxx-middle-center">
+			<a>
+				<span class="mui-spinner"></span>
+			</a>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/detail.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

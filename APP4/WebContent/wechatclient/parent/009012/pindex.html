@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>教师推荐</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+		<style type="text/css">
+			.mui-scroll-wrapper{
+				top: 10px;
+			}
+			.mui-table-view:before{
+				height: 0;
+			}
+			.mui-table-view:after{
+				height: 0;
+			}
+			.mui-table-view-cell{
+				width: 90%;
+			    margin: 0 auto;
+			    background: #fff;
+			    border:1px solid #D4D4D5;
+			    border-radius: 5px;
+			    margin-bottom: 14px;
+			}
+			.mui-table-view{
+				background: transparent;
+			}
+			.mui-table-view-cell .hxx-cell-item{
+				margin-left: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- <header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">教师推荐</h1>
+			<a class="mui-btn mui-btn-link mui-pull-right" id="videos">视频库</a>
+		</header> -->
+		<div class="mui-content">
+			<div class="mui-slider">
+				<div class="mui-scroll-wrapper">
+				    <div class="mui-scroll">
+				        <ul class="mui-table-view" id="list">
+					        <!--<li class="mui-table-view-cell">
+					           	<div class="hxx-cell-head">
+					           		<img class="hxx-head-page" src="../images/bg_schoolhome_img.jpg"/>
+					           	</div>
+					           	<div class="hxx-cell-item">
+					           		<h4 class="hxx-item-page-name">上学的日子</h4>
+					           		<div class="hxx-item-receive-time">
+					           			收到时间：2016-6-16
+					           		</div>
+					           		<div class="hxx-item-send">张老师：收到请看三遍视频</div>
+					           	</div>
+					        </li>-->
+					   </ul>
+				    </div>
+				</div>
+			</div>
+		</div>
+		<div id="tap_center1" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png"/>
+			<h4>网络请求失败<br />点击重新加载</h4>
+		</div>
+		<div id="tap_center2" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png"/>
+			<h4>数据为空</h4>
+		</div>
+		<div id="tap_center3" class="hxx-middle-center">
+			<a>
+				<span class="mui-spinner"></span>
+			</a>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.pullToRefresh.js"></script>
+		<script src="../js/mui.pullToRefresh.material.js"></script>
+		<script src="js/pindex.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wxNewsItemMap">
+	<!--插入表kt_bus_wx_news_item -->
+	<insert id="insertNewsItem" parameterType="WxNewsItemVO">
+	insert into kt_bus_wx_news_item
+		(
+		item_id,
+		platform_item_id,
+		title,
+		author,
+		image_path,
+		content,
+		description,
+		orders,
+		news_template_id,
+		platform_news_template_id,
+		url,
+		original_link,
+		display_cover_flag,
+		create_date,
+		version
+		) VALUES (
+		#{item_id},
+		#{platform_item_id},
+		#{title},
+		#{author},
+		#{image_path},
+		#{content},
+		#{description},
+		#{orders},
+		#{news_template_id},
+		#{platform_news_template_id},
+		#{url},
+		#{original_link},
+		#{display_cover_flag},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bus_wx_news_item -->
+	<update id="updateNewsItemById" parameterType="WxNewsItemVO">update kt_bus_wx_news_item
+		set 
+		<if test="platform_item_id !=null and platform_item_id != '' ">
+			platform_item_id = #{platform_item_id},
+		</if>
+		<if test="title !=null and title != '' ">
+			title = #{title},
+		</if>
+		<if test="author !=null">
+			author = #{author},
+		</if>
+		<if test="image_path !=null and image_path != '' ">
+			image_path = #{image_path},
+		</if>
+		<if test="content !=null">
+			content = #{content},
+		</if>
+		<if test="description != null">
+			description = #{description},
+		</if>
+		<if test="orders !=null and orders != '' ">
+			orders = #{orders},
+		</if>
+		<if test="news_template_id !=null">
+			news_template_id = #{news_template_id},
+		</if>
+		<if test="platform_news_template_id !=null">
+			platform_news_template_id = #{platform_news_template_id},
+		</if>
+		<if test="url !=null">
+			url = #{url},
+		</if>
+		<if test="original_link !=null">
+			original_link = #{original_link},
+		</if>
+		<if test="display_cover_flag !=null and display_cover_flag != '' ">
+			display_cover_flag = #{display_cover_flag},
+		</if>
+		<if test="update_date !=null">
+			update_date = #{update_date},
+		</if>
+		version = version + 1
+		where item_id=#{item_id}
+	</update>
+	<!--查询表kt_bus_wx_news_item -->
+	<select id="getNewsItemByTemplate" parameterType="Integer" resultType="WxNewsItemVO">
+		select * from kt_bus_wx_news_item where news_template_id = #{templateId} order by orders
+	</select>
+	<select id="getNewsItemById" parameterType="Integer" resultType="WxNewsItemVO">
+		select * from kt_bus_wx_news_item where item_id = #{itemId} order by orders
+	</select>
+	<select id="getTemplateShowPic" parameterType="Integer" resultType="string">
+		select image_path from kt_bus_wx_news_item where news_template_id = #{templateId} order by orders limit 1
+	</select>
+	<!--删除kt_bus_wx_news_item -->
+	<delete id="deleteById" parameterType="Integer">
+		delete from kt_bus_wx_news_item where item_id = #{itemId}
+	</delete>
+	<delete id="deleteByTemplate" parameterType="Integer">
+		delete from kt_bus_wx_news_item where news_template_id = #{templateId}
+	</delete>
+</mapper>
+

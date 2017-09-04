@@ -1,0 +1,27 @@
+/*弹窗*/
+.hxx-pop-content {
+	position: fixed;
+	z-index: 999;
+	width: 80%;
+	background-color: #fff;
+	margin: 0 auto;
+	top: 50%;
+	left: 0;
+	right: 0;
+}
+
+.hxx-atten-pop {
+	height: 120px;
+	margin-top: -60px;
+	border-radius: 10px;
+}
+.mui-progressbar{
+	width: 90%;
+	height: 3px;
+	margin: 30px auto 20px;
+}
+.hxx-pop-hint{
+	width: 90%;
+	margin: 5px auto;
+	font-size: 12px;
+}

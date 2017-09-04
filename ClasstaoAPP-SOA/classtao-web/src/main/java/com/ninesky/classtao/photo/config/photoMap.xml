@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="photoMap">
+	<!--插入表kt_bus_photo -->
+	<insert id="insertPhoto" parameterType="PhotoVO">insert kt_bus_photo
+		(
+		school_id,
+		class_id,
+		student_id,
+		photo_type,
+		team_type,
+		photo_url,
+		photo_resize_url,
+		add_date,
+		create_date,
+		create_by,
+		version
+		) VALUES (
+		#{school_id},
+		#{class_id},
+		#{student_id},
+		#{photo_type},
+		#{team_type},
+		#{photo_url},
+		#{photo_resize_url},
+		#{add_date},
+		#{create_date},
+		#{create_by},
+		0
+		)
+	</insert>
+	
+	<!--查询表kt_bus_photo -->
+	<select id="getPhotoList" parameterType="PhotoVO" resultType="PhotoVO">
+		select
+		photo_id as photo_id,
+		school_id as school_id,
+		class_id as class_id,
+		photo_type as photo_type,
+		team_type as team_type,
+		photo_url as photo_url,
+		photo_resize_url as photo_resize_url,
+		add_date as add_date,
+		create_date as create_date,
+		create_by as create_by,
+		update_date as update_date,
+		update_by as update_by,
+		version as version
+		from kt_bus_photo 
+		where school_id = #{school_id}
+		<if test="class_id!=null and class_id!=0">
+		and class_id = #{class_id}
+		</if>
+		<if test="photo_type != null and photo_type !='' ">
+			and photo_type = #{photo_type}
+		</if>
+		<if test="team_type != null and team_type !='' ">
+			and team_type = #{team_type}
+		</if>
+		<if test="add_date != null and add_date !='' ">
+			and add_date like CONCAT(#{add_date}, '%')
+		</if>
+		<if test="app_sql != null and app_sql != '' ">    
+            and photo_id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+            order by photo_id ${order_sql}  
+        </if>
+	</select>
+	<!--获取指定照片-->
+	<select id="getPhotoById" parameterType="PhotoVO" resultType="PhotoVO">
+		select
+		photo_id as photo_id,
+		school_id as school_id,
+		class_id as class_id,
+		photo_type as photo_type,
+		team_type as team_type,
+		photo_url as photo_url,
+		photo_resize_url as photo_resize_url,
+		add_date as add_date,
+		create_date as create_date,
+		create_by as create_by,
+		update_date as update_date,
+		update_by as update_by,
+		version as version
+		from kt_bus_photo 
+		where photo_id = #{photo_id}
+	</select>
+	<!--删除指定照片-->
+	<select id="deletePhotoById" parameterType="PhotoVO" resultType="PhotoVO">
+		delete from kt_bus_photo 
+		where photo_id = #{photo_id}
+	</select>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+	delete from kt_bus_photo where class_id=#{class_id}
+	</delete>
+</mapper>
+

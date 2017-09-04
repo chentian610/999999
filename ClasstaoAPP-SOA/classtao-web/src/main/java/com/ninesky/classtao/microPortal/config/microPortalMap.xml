@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="microPortalMap">
+    <insert id="insertMicroPortalBatch" parameterType="List">
+        INSERT INTO kt_bas_micro_portal (
+        school_id,
+        column_name,
+        column_content,
+        create_by,
+        create_date,
+        version
+        ) VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.school_id},
+            #{item.column_name},
+            #{item.column_content},
+            #{item.create_by},
+            #{item.create_date},
+            0
+            )</foreach>
+    </insert>
+    <insert id="insertMicroPortal" parameterType="MicroPortalVO">
+        INSERT INTO kt_bas_micro_portal (
+        school_id,
+        column_name,
+        column_content,
+        create_by,
+        create_date,
+        version
+        ) VALUES(
+        #{school_id},
+        #{column_name},
+        #{column_content},
+        #{create_by},
+        #{create_date},
+        0)
+    </insert>
+    <select id="getMicroPortalByID" parameterType="Integer"
+            resultType="MicroPortalVO">
+        SELECT
+        column_id as column_id,
+        school_id as school_id,
+        column_name as column_name,
+        column_content as column_content,
+        create_by AS create_by,
+        create_date AS create_date,
+        update_by AS update_by,
+        update_date AS update_date,
+        version AS version
+        FROM kt_bas_micro_portal
+        where school_id = #{school_id}
+    </select>
+    <update id="updateMicroPortalByID" parameterType="MicroPortalVO">
+        UPDATE kt_bas_micro_portal SET
+        <if test="column_name != null and column_name != ''">
+            column_name = #{column_name},
+        </if>
+        <if test="column_content != null and column_content != ''">
+            column_content = #{column_content},
+        </if>
+        update_by = #{update_by},
+        update_date = #{update_date},
+        version = version+1
+        WHERE column_id = #{column_id}
+    </update>
+    <delete id="deleteMicroPortalByID" parameterType="Integer">
+        DELETE FROM kt_bas_micro_portal WHERE column_id = #{column_id}
+    </delete>
+
+    <delete id="deleteMicroPortal" parameterType="Integer">
+        DELETE FROM kt_bas_micro_portal WHERE school_id = #{school_id}
+    </delete>
+</mapper>
+

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN" id="index">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<title>孩子头像</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css"/>
+		<style>
+			#clipArea {
+				margin: 20px;
+				height: 300px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		   <!--  <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">孩子头像</h1> -->
+		    <button class="mui-btn mui-btn-link mui-pull-right" id="clipBtn">上传</button>
+		</header>
+		<div class="mui-content">
+		    <div id="clipArea"></div>
+		</div>
+		<div id="file" class="hxx-nav-bottom">
+			<a><span class="mui-icon mui-icon-plus"><i>更改图片</i></span></a>
+		</div>
+		<div id="tip" class="hxx-tips">已完成: 00%</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-3.0.0.min.js"></script>
+		<script src="js/iscroll-zoom.js"></script>
+		<script src="js/hammer.js"></script>
+		<script src="js/lrz.all.bundle.js"></script>
+		<script src="js/jquery.photoClip.js"></script>
+		<script>
+			var uImg = document.getElementById("img");
+			var uTip = document.getElementById("tip");
+			var wvParent = null;
+			var wvSelf = null;
+			var file_upload_action = localStorage.getItem('file_upload_action'));
+			mui.ready(function(){
+				wvSelf = plus.webview.currentWebview();
+				wvParent = wvSelf.opener();
+				oPdata.child = wvSelf.item;
+				var cHeadURL = "../images/default-img.png";
+				var clipArea = new bjj.PhotoClip("#clipArea", {
+					file: "#file",
+					source: cHeadURL,
+					ok: "#clipBtn",
+					loadComplete: function() {
+					},
+					clipFinish: function(URL) {
+						mui.later(function(){
+							cache.showDom(uTip);
+							cache.uploadFile(file_upload_action, {
+								data: {
+									filePath: [URL],
+									module: '009'
+								},
+								success: function(aRe) {
+									uTip.innerText = '同步数据中';
+									cache.myajax('userAction/updateChildInfo', {
+										data: {
+											student_code: oPdata.child.student_code,
+											head_url: aRe[0].file_resize_url
+										},
+										success: function(data){
+											cache.insertChild(data.result.data);
+											cache.hideDom(uTip);
+											mui.fire(wvParent,'InitPage');
+											mui.back();
+										},
+										error: function(err){
+											cache.hideDom(uTip);
+										}
+									});
+								},
+								upload: function(e) {
+									var d = Math.floor(e.uploadedSize / e.totalSize *100) ;
+									if (e.totalSize == 0) {
+										return;
+									}
+									uTip.innerText = '已完成: ' + d + '%';
+								},
+								error: function(e) {
+									cache.hideDom(uTip);
+									mui.toast('上传失败');
+								}
+							});
+						});
+					}
+				});
+				//PlusReady End
+			});
+		</script>
+	</body>
+</html>

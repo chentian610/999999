@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userSnsMap">
+	<!--插入表kt_sys_user_sns -->
+	<insert id="insertUserSns" parameterType="UserSnsVO">insert into
+		kt_sys_user_sns
+		(
+		sns_id,
+		user_id,
+		sns_type,
+		account,
+		is_inactive,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{sns_id},
+		#{user_id},
+		#{sns_type},
+		#{account},
+		0,
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+
+	<!--查询表kt_sys_user_sns -->
+	<select id="getUserSnsList" parameterType="UserSnsVO"
+		resultType="UserSnsVO">
+		select
+		sns_id as sns_id,
+		user_id as user_id,
+		sns_type as sns_type,
+		account as account,
+		is_inactive as is_inactive
+		from kt_sys_user_sns
+		where 1=1
+		<if test="user_id != null and user_id !='' ">
+			and user_id=#{user_id}
+		</if>
+		<if test="sns_type!=null and sns_type!='' ">
+			and sns_type=#{sns_type}
+		</if>
+		<if test="account!=null and account!='' ">
+			and account=#{account}
+		</if>
+		<if test="is_inactive!=null and is_inactive!='' ">
+			and is_inactive=#{is_inactive}
+		</if>
+	</select>
+	
+	<!--查询表kt_sys_user_sns -->
+	<select id="getParentSnsAccount" parameterType="map"
+		resultType="UserSnsVO">
+		select *
+		from kt_sys_user_sns
+		where sns_type = #{snsType} and
+		user_id in (select user_id from kt_bas_parent where student_id=#{studentId})
+	</select>
+</mapper>
+

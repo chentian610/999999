@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="tableMap">
+	<!--插入表kt_bas_table -->
+	<insert id="insertTable" parameterType="TableHeadVO">
+	insert into kt_bas_table
+		(
+		id,
+		school_id,
+		team_type,
+		score_type,
+		field,
+		field_name,
+		sort,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{id},
+		#{school_id},
+		#{team_type},
+		#{score_type},
+		#{field},
+		#{field_name},
+		#{sort},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bas_table -->
+	<update id="updateTable" parameterType="TableHeadVO">update kt_bas_table
+		set 
+		field_name = #{field_name},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1 
+		where school_id=#{school_id} and field=#{field}
+	</update>
+	<!--查询表kt_bas_table -->
+	<select id="getTableList" parameterType="TableHeadVO" resultType="TableHeadVO">
+	select
+		id as id,
+		school_id as school_id,
+		team_type as team_type,
+		score_type as score_type,
+		attend_item as attend_item,
+		field as field,
+		field_name as field_name,
+		field_func as field_func,
+		field_func_sum as field_func_sum,
+		func_type as func_type,
+		sort as sort,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_table
+		where school_id=#{school_id}
+		and team_type = #{team_type}
+		and score_type = #{score_type}
+		and count_type = #{count_type}
+		order by sort
+	</select>
+	
+	<!--删除表kt_bas_table -->
+	<delete id="deleteTable" parameterType="TableHeadVO">delete from kt_bas_table
+		where id = #{id}
+	</delete>
+	
+	<!--查询表kt_bas_table -->
+	<select id="getStudentListByClassID" parameterType="Integer" resultType="HashMap">
+		select
+			s.student_id as student_id,
+			s.student_code as student_code,
+			s.student_name as student_name
+		from kt_bas_student s
+		where s.class_id=#{class_id}
+		order by s.student_code
+	</select>
+	
+		<!--查询表kt_bas_table -->
+	<select id="getStudentListByContactID" parameterType="Integer" resultType="HashMap">
+		select
+			s.student_id as student_id,
+			s.student_code as student_code,
+			s.student_name as student_name
+		from kt_bas_student s
+		where EXISTS (SELECT 1 FROM kt_bas_contact_list c WHERE contact_id = #{contact_id} AND s.student_id=c.student_id)
+		order by s.student_code
+	</select>
+	
+	<!--查询表kt_bas_table -->
+	<select id="getStudentListByBedID" parameterType="Integer" resultType="HashMap">
+		select
+			s.bed_code as bed_code,
+			s.student_id as student_id,
+			s.student_code as student_code,
+			s.student_name as student_name
+		from kt_bas_position_bed s
+		where s.bedroom_id=#{bedroom_id}
+		order by s.bed_code
+	</select>
+	
+		<!--查询表kt_bas_table -->
+	<select id="getClassListBySchoolID" parameterType="TableVO" resultType="HashMap">
+		select
+			c.enrollment_year as enrollment_year,
+			c.grade_id as group_id,
+			c.class_num as class_num,
+			c.class_id as team_id,
+			count(1) as team_count
+		from kt_bas_classroom c,kt_bas_student t
+		where c.school_id = #{school_id}
+		and c.class_id = t.class_id and c.is_graduate=0
+		<if test="group_id!=null and group_id!=0">
+			and c.grade_id=#{group_id}
+		</if>
+		group by c.class_id
+		order by c.enrollment_year desc,c.class_num
+	</select>
+	
+			<!--查询表kt_bas_table -->
+	<select id="getBedListBySchoolID" parameterType="Integer" resultType="HashMap">
+		select
+			c.bedroom_name as team_name,
+			0 as group_id,
+			c.bedroom_id as team_id,
+			count(1) as team_count
+		from kt_bas_bedroom c,kt_bas_position_bed t
+		where c.school_id=#{school_id}
+		and c.bedroom_id = t.bedroom_id
+		group by c.bedroom_id
+		order by c.bedroom_name
+	</select>
+	
+	<insert id="initTableHeadScoreCode" parameterType="TableHeadVO">
+	INSERT INTO kt_bas_table (
+		school_id,
+		team_type,
+		score_type,
+		count_type,
+		field,
+		field_name,
+		sort,
+		create_by,
+		create_date,
+		func_type
+	) SELECT
+		#{school_id},
+		team_type,
+		score_type,
+		#{count_type},
+		score_code,
+		score_reason,
+		5,
+		0,
+		#{create_date},
+		#{func_type}
+	FROM kt_sys_score_reason
+	WHERE school_id = #{school_id} and is_active=1
+	</insert>
+	
+	<insert id="initTableHead" parameterType="TableHeadVO">
+	INSERT INTO kt_bas_table (
+		school_id,
+		team_type,
+		score_type,
+		count_type,
+		field,
+		field_name,
+		sort,
+		create_by,
+		create_date,
+		func_type
+	) SELECT
+		#{school_id},
+		team_type,
+		score_type,
+		#{count_type},
+		#{field},
+		#{field_name},
+		#{sort},
+		0,
+		#{create_date},
+		#{func_type}
+	FROM kt_sys_score_reason
+	WHERE school_id = #{school_id} and team_type=#{team_type} GROUP BY school_id,team_type,score_type
+	</insert>
+	
+	<insert id="initHead" parameterType="TableHeadVO">
+	INSERT INTO kt_bas_table (
+		school_id,
+		team_type,
+		score_type,
+		count_type,
+		field,
+		field_name,
+		sort,
+		field_func,
+		create_by,
+		create_date,
+		func_type,
+		field_func_sum
+	) values (
+		#{school_id},
+		#{team_type},
+		#{score_type},
+		#{count_type},
+		#{field},
+		#{field_name},
+		#{sort},
+		#{field_func},
+		0,
+		#{create_date},
+		#{func_type},
+		#{field_func_sum}
+	)
+	</insert>
+	
+	<update id="updateFieldFunc" parameterType="TableHeadVO">
+	update kt_bas_table
+		set 
+		field_func = #{field_func},
+		field_func_sum=#{field_func_sum},
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1 
+		where school_id=#{school_id} 
+		<if test="team_type!=null and team_type!=''">
+		and team_type=#{team_type}
+		</if>
+		<if test="count_type!=null and count_type!=''">
+		and count_type=#{count_type}
+		</if>
+		and score_type=#{score_type} and field=#{field}
+	</update>
+	
+	<delete id="deleteTableHead" parameterType="TableHeadVO">
+	delete from kt_bas_table where school_id=#{school_id} and field=#{field} 
+	</delete>
+	
+	<delete id="deleteTableHeadBySchoolID" parameterType="TableHeadVO">
+		delete from kt_bas_table where school_id=#{school_id} and score_type!=#{score_type}
+	</delete>
+	<delete id="deleteTableHeadByID" parameterType="Integer">
+		delete from kt_bas_table where school_id=#{school_id}
+	</delete>
+</mapper>
+

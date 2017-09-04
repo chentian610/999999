@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wxMenuMap">
+	<!--插入表kt_bus_wx_menu -->
+	<insert id="insertWxMenu" parameterType="WxMenuVO">
+	insert into kt_bus_wx_menu
+		(
+		menu_id,
+		parent_id,
+		account_id,
+		school_id,
+		platform_account_id,
+		platform_menu_id,
+		name,
+		type,
+		url,
+		msg_type,
+		template_id,
+		orders,
+		create_date,
+		version
+		) VALUES (
+		#{menu_id},
+		#{parent_id},
+		#{account_id},
+		#{school_id},
+		#{platform_account_id},
+		#{platform_menu_id},
+		#{name},
+		#{type},
+		#{url},
+		#{msg_type},
+		#{template_id},
+		#{orders},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bus_wx_menu -->
+	<update id="updateWxMenuById" parameterType="WxMenuVO">update kt_bus_wx_menu
+		set 
+		<if test="parent_id !=null">
+			parent_id = #{parent_id},
+		</if>
+		<if test="account_id !=null">
+			account_id = #{account_id},
+		</if>
+		<if test="school_id !=null">
+			account_id = #{account_id},
+		</if>
+		<if test="platform_account_id !=null and platform_account_id != '' ">
+			platform_account_id = #{platform_account_id},
+		</if>
+		<if test="platform_menu_id !=null and platform_menu_id != '' ">
+			platform_menu_id = #{platform_menu_id},
+		</if>
+		<if test="name !=null and name != '' ">
+			name = #{name},
+		</if>
+		<if test="type !=null and type != '' ">
+			type = #{type},
+		</if>
+		<if test="url !=null and url != '' ">
+			url = #{url},
+		</if>
+		<if test="msg_type !=null and msg_type != '' ">
+			msg_type = #{msg_type},
+		</if>
+		<if test="template_id !=null and template_id != '' ">
+			template_id = #{template_id},
+		</if>
+		<if test="orders != null and orders != '' ">
+			orders = #{orders},
+		</if>
+		<if test="update_date !=null">
+			update_date = #{update_date},
+		</if>
+		version = version + 1
+		where menu_id=#{menu_id}
+	</update>
+	<!--查询表kt_bus_wx_menu -->
+	<select id="getWxTopMenuByAccount" parameterType="Integer" resultType="WxMenuVO">
+		select * from kt_bus_wx_menu where account_id = #{accountId} AND parent_id = 0 ORDER BY orders
+	</select>
+	<select id="getWxMenuByAccount" parameterType="Integer" resultType="WxMenuVO">
+		select * from kt_bus_wx_menu where account_id = #{accountId} ORDER BY orders
+	</select>
+	<select id="getWxMenuByParentId" parameterType="Integer" resultType="WxMenuVO">
+		select * from kt_bus_wx_menu where parent_id = #{parentId} ORDER BY orders
+	</select>
+	<select id="getWxMenuById" parameterType="Integer" resultType="WxMenuVO">
+		select * from kt_bus_wx_menu where menu_id = #{menuId} ORDER BY orders
+	</select>
+	
+	<!--删除kt_bus_wx_menu -->
+	<delete id="deleteById" parameterType="Integer">
+		delete from kt_bus_wx_menu where menu_id = #{menuId}
+	</delete>
+	<delete id="deleteByParentId" parameterType="Integer">
+		delete from kt_bus_wx_menu where parent_id = #{parentId}
+	</delete>
+</mapper>
+

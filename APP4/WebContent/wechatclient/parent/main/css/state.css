@@ -1,0 +1,99 @@
+.hxx-pull-top-tips {
+	top: -2px;
+}
+
+.hxx-info .hxx-info-date {
+	height: 3.52rem;
+	line-height: 3.52rem;
+	color: #A9AAB4;
+	padding-left: 1.2rem;
+	background-color: #EFEFF4;
+}
+
+.hxx-info .hxx-info-cell {
+	margin-left: 4rem;
+}
+
+.hxx-info .hxx-info-logo {
+	float: left;
+	height: 2.2rem;
+	width: 2.2rem;
+	margin: 1rem 5px 0 -3.2rem;
+}
+
+.hxx-info .hxx-info-name {
+	display: inline-block;
+	height: 3.2rem;
+	line-height: 3.52rem;
+	font-size: 1.2rem;
+}
+
+.hxx-info .hxx-info-time {
+	display: inline-block;
+	float: right;
+	margin: 1.2rem 0.8rem 0 0;
+	font-size: 1rem;
+}
+
+.hxx-info .hxx-info-title {
+	border-top: 1px #e9e9e9 solid;
+	font-size: 1.28rem;
+	color: #4a4a4a;
+	font-weight: 400;
+	height: 2.44rem;
+	line-height: 2.44rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.hxx-info .hxx-info-content {
+	border-bottom: 1px #e9e9e9 solid;
+	font-size: 1rem;
+	color: #999;
+	font-weight: 400;
+	margin-bottom: 0;
+	padding-bottom: 5px;
+	height: 2rem;
+	line-height: 2rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.hxx-info .hxx-info-progress {
+	width: 24rem;
+	height: 0.8rem;
+	background-color: #0062CC;
+	margin: 0.5rem;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.hxx-info .hxx-info-progress-bar {
+	display: block;
+	height: 10px;
+	background-color: #008000;
+	width: 0;
+}
+
+.hxx-info .hxx-info-images {
+	border-bottom: 1px #e9e9e9 solid;
+	margin-bottom: 0;
+	padding-bottom: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.hxx-info .hxx-info-image {
+	width: 4.7rem;
+	height: 4.7rem;
+	margin-right: 2px;
+}
+
+.hxx-info .hxx-info-image1 {
+	width: 3.8rem;
+	height: 3.8rem;
+	margin-right: 2px;
+}

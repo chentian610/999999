@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="microPortalFileMap">
+    <insert id="insertMicroPortalFileBatch" parameterType="List">
+        INSERT INTO kt_bas_micro_portal_file (
+        school_id,
+        file_type,
+        file_name,
+        file_url,
+        file_resize_url,
+        create_by,
+        create_date,
+        version
+        ) VALUES
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (
+            #{item.school_id},
+            #{item.file_type},
+            #{item.file_name},
+            #{item.file_url},
+            #{item.file_resize_url},
+            #{item.create_by},
+            #{item.create_date},
+            0
+            )</foreach>
+    </insert>
+    <insert id="insertMicroPortalFile" parameterType="MicroPortalFileVO">
+        INSERT INTO kt_bas_micro_portal_file (
+        school_id,
+        file_type,
+        file_name,
+        file_url,
+        file_resize_url,
+        create_by,
+        create_date,
+        version
+        ) VALUES(
+         #{school_id},
+         #{file_type},
+         #{file_name},
+         #{file_url},
+         #{file_resize_url},
+         #{create_by},
+         #{create_date},
+         0)
+    </insert>
+    <select id="getMicroPortalFileByID" parameterType="Integer"
+            resultType="MicroPortalFileVO">
+        SELECT
+            file_id as file_id,
+            school_id as school_id,
+            file_type AS file_type,
+            file_name AS file_name,
+            file_url AS file_url,
+            file_resize_url AS file_resize_url,
+            create_by AS create_by,
+            create_date AS create_date,
+            update_by AS update_by,
+            update_date AS update_date,
+            version AS version
+        FROM kt_bas_micro_portal_file
+        where school_id = #{school_id}
+    </select>
+    <update id="updateMicroPortalFileByID" parameterType="MicroPortalFileVO">
+        UPDATE kt_bas_micro_portal_file SET
+            file_type = #{file_type},
+            file_name = #{file_name},
+            file_url = #{file_url},
+            file_resize_url = #{file_resize_url},
+            update_by = #{update_by},
+            update_date = #{update_date},
+            version = version+1
+        WHERE file_id = #{file_id}
+    </update>
+    <delete id="deleteMicroPortalFileByID" parameterType="Integer">
+        DELETE FROM kt_bas_micro_portal_file WHERE file_id = #{file_id}
+    </delete>
+
+    <delete id="deleteMicroPortalFile" parameterType="Integer">
+        DELETE FROM kt_bas_micro_portal_file WHERE school_id = #{school_id}
+    </delete>
+</mapper>
+

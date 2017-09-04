@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>绑定手机</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			header{
+				box-shadow: none!important;
+			}
+			.mui-scroll-wrapper{
+				margin-top: 2rem;
+			}
+			a.mui-action-back{
+				color:#7acc5b;
+			}
+			.mui-control-item{
+				padding: 0!important;
+			}
+			.mui-control-item.mui-active{
+				color:#57CEBF!important;
+				border-bottom: 2px solid #57CEBF!important;
+			}
+			.qbb-back-white{
+				background-color: #FFFFFF;
+			}
+			.hxx-input input{
+				border: hidden;
+				margin:0 auto;
+				height: 4.08rem!important;
+				font-size: 1.28rem;
+				text-align: center;
+				color: #000;
+			}
+			.hxx-input::-webkit-input-placeholder{
+				color: #BDBDBD;
+			}
+			.hxx-input{
+				position: relative;
+				font-size: 1.28rem;
+				padding: 0;
+			}
+			.hxx-input.hxx-input-user:before{
+				font-family: classtao !important;
+				content: '\e658';
+				position: absolute;
+				top: 1.5rem;
+				left: 1rem;
+				color: #57CEBF;
+				font-size: 2rem;
+			}
+			.hxx-input.hxx-input-passwd:before{
+				font-family: classtao !important;
+				content: '\e659';
+				position: absolute;
+				top: 1.5rem;
+				left: 1rem;
+				color: #57CEBF;
+				font-size: 2rem;
+			}
+			.hxx-input.hxx-input-validate:before{
+				font-family: classtao !important;
+				content: '\e657';
+				position: absolute;
+				top: 1.5rem;
+				left: 1rem;
+				color: #57CEBF;
+				font-size: 2rem;
+			}
+			.hxx-input-validate label{
+				position: absolute;
+				top: 0;
+				right: 1.2rem;
+				color: #A9AAB4;
+				height: 4rem;
+				line-height: 4rem;
+			}
+			.hxx-btn.hxx-btn-block{
+				width: 27.6rem;
+				height: 3.52rem;
+				border-radius: 5px;
+				text-align: center;
+				line-height: 3.52rem;
+			}
+			.hxx-btn.hxx-btn-login{
+				color:#FFFFFF;
+				background-color: #57CEBF;
+				margin: 1.6rem 1.2rem;
+			}
+			.qbb-forget{
+				float: right;
+				color: #A9AAB4;
+				font-size: 16px;
+				text-decoration: underline;
+				margin-right: 1.2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div class="mui-slider-group">
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<ul class="mui-table-view">
+								<li class="mui-table-view-cell mui-input-row hxx-input-user hxx-input">
+									<input type="number" class="mui-input-clear" placeholder="请输入手机号" id="phone1">
+								</li>
+								<li class="mui-table-view-cell hxx-input hxx-input-validate">
+									<input type="number" name="validate" placeholder="请输入验证码" id="vcode1"/>
+									<label for="validate" id="validate1">获取验证码</label>
+								</li>
+							</ul>
+							<div class="hxx-btn hxx-btn-block hxx-btn-login" id="submit1">
+								绑定
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var uPhone1 = document.getElementById("phone1"),
+				uVCode1 = document.getElementById("vcode1"),
+				uValidate1 = document.getElementById("validate1"),
+				uSubmit1 = document.getElementById("submit1");
+			var uPages = [];
+			var oPitem = {};
+				oPitem.timer = null;
+				
+			mui.ready(function(){
+				//初始化学校信息
+				initSchool();
+				BindEvent();
+			});
+			
+			function BindEvent(){
+				//监控用户输入手机号码是否正确
+				uPhone1.addEventListener('input',function(){
+					if (cache.checkPhoneNum(this.value)){
+						uValidate1.style.color = '#57CEBF';
+					}else{
+						uValidate1.style.color = '#A9AAB4';
+					}
+				});
+				//获取验证码
+				uValidate1.addEventListener('tap',function(){
+					var self = this;
+					if (self.disable) {
+						mui.toast('验证码已发送，请稍候');
+						return;
+					}
+					if (!cache.checkPhoneNum(uPhone1.value)) {
+						mui.toast('手机号码无效');
+						return;
+					}
+					self.disable = true;
+					self.innerText = '获取验证码中';
+					self.style.color = '#A9AAB4';
+					cache.myajax("userAction/getValidateCode", {
+						data: {
+							"phone": uPhone1.value
+						},
+						success: function(data) {
+							self.innerText = '（120）';
+							var r = data.result.data;
+							cache.setValidateCode(cache.theValue(r.validate_code));
+							var t  = 120;
+							oPitem.timer = setInterval(function(){
+								t--;
+								self.innerText = '（'+t+'）';
+								if (t<=0) {
+									self.disable = false;
+									self.innerText = '重新发送';
+									clearInterval(oPitem.timer);
+									oPitem.timer = null;
+									if (cache.checkPhoneNum(uPhone1.value)){
+										self.style.color = '#57CEBF';
+									}else{
+										self.style.color = '#A9AAB4';
+									}
+								}
+							},1000);
+						},
+						error: function(data) {
+							self.innerText = '重新发送';
+							if (oPitem.timer!==null) {
+								clearInterval(oPitem.timer);
+							}
+							oPitem.timer = null;
+							if (cache.checkPhoneNum(uPhone1.value)){
+								self.style.color = '#57CEBF';
+							}else{
+								self.style.color = '#A9AAB4';
+							}
+							self.disable = false;
+							mui.toast('获取验证码失败，请检查网络');
+						}
+					});
+				});
+				
+				//绑定操作
+				uSubmit1.addEventListener('tap',function(){
+					if (!cache.checkPhoneNum(uPhone1.value)) {
+						mui.toast('手机号码无效');
+						return;
+					}
+				    if (uVCode1.value != cache.getValidateCode()) {
+						mui.toast('验证码无效');
+						return;
+					} 
+					if (this.disable) {
+						mui.toast('请求已发送，请稍候');
+						return;
+					}
+					self.disable = true;
+					
+					cache.myajax("wechatAuthAction/bind", {
+						data: {
+							phone: uPhone1.value,
+							validate_code: uVCode1.value
+						},
+						success: function(data) {
+							mui.openWindow({
+								'url': 'load.html?schoolId=' + cache.getSchoolId(),
+								'id': 'pload',
+								createNew: true,
+								show: {
+									aniShow: "fade-in",
+									duration: 300
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+							self.disable = false;
+							return;
+						},
+						error: function(err) {
+							self.disable = false;
+							uValidate1.innerText = '重新发送';
+							if (oPitem.timer!=null) {
+								clearInterval(oPitem.timer);
+							}
+						}
+					}, true);
+				});
+				//BindEvent end
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="studentEnrollMap">
+
+    <select id="getStudentList" parameterType="Integer" resultType="StudentEnrollVO">
+        select id
+        from kt_bus_student_enroll
+        where recruit_id=#{recruit_id}
+    </select>
+
+    <insert id="addStudent" parameterType="StudentEnrollVO">
+        insert into kt_bus_student_enroll (
+        id,
+        recruit_id,
+        school_id,
+        student_name,
+        sex,
+        id_number,
+        head_url,
+        middle_school,
+        register_school,
+        color_blindness,
+        person_specialty,
+        award_situation,
+        parent_name,
+        relationship,
+        parent_company,
+        phone,
+        is_accommodate,
+        enroll_status,
+        create_date,
+        version
+        ) VALUES (
+        #{id},
+        #{recruit_id},
+        #{school_id},
+        #{student_name},
+        #{sex},
+        #{id_number},
+        #{head_url},
+        #{middle_school},
+        #{register_school},
+        #{color_blindness},
+        #{person_specialty},
+        #{award_situation},
+        #{parent_name},
+        #{relationship},
+        #{parent_company},
+        #{phone},
+        #{is_accommodate},
+        #{enroll_status},
+        #{create_date},
+        1
+        )
+    </insert>
+
+    <select id="getStudent" parameterType="StudentEnrollVO" resultType="StudentEnrollVO">
+        select id
+        from kt_bus_student_enroll
+        where recruit_id=#{recruit_id} and id_number=#{id_number}
+    </select>
+
+    <select id="getStudentListBySome" parameterType="StudentEnrollVO" resultType="StudentEnrollVO">
+        select id,head_url,student_name,enroll_status,phone
+        from kt_bus_student_enroll
+        where recruit_id=#{recruit_id}
+        <if test="enroll_status!=null and enroll_status!=''">
+        and enroll_status=#{enroll_status}
+        </if>
+        <if test="sex!=null">
+            and sex=#{sex}
+        </if>
+    </select>
+
+    <update id="admission" parameterType="StudentEnrollVO">
+        update kt_bus_student_enroll set
+        enroll_status=#{enroll_status},
+        update_date=#{update_date},
+        version=version+1
+        where id=#{id}
+    </update>
+
+    <select id="getStudentByID" parameterType="Integer" resultType="StudentEnrollVO">
+      select id,
+        recruit_id,
+        school_id,
+        student_name,
+        sex,
+        id_number,
+        head_url,
+        middle_school,
+        register_school,
+        color_blindness,
+        person_specialty,
+        award_situation,
+        parent_name,
+        relationship,
+        parent_company,
+        phone,
+        is_accommodate,
+        enroll_status
+        from kt_bus_student_enroll
+        where id=#{id}
+    </select>
+</mapper>

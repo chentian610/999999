@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wxVoteMap">
+	<!--插入表kt_bus_wx_vote -->
+	<insert id="insertVote" parameterType="VoteVO">
+	insert into kt_bus_wx_vote
+		(
+		vote_id,
+		account_id,
+		platform_main_id,
+		title,
+		description,
+		statement,
+		begin_date,
+		valid_date,
+		create_date,
+		version
+		) VALUES (
+		#{vote_id},
+		#{account_id},
+		#{platform_main_id},
+		#{title},
+		#{description},
+		#{statement},
+		#{begin_date},
+		#{valid_date},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bus_wx_vote -->
+	<update id="updateVoteById" parameterType="VoteVO">update kt_bus_wx_vote
+		set 
+		<if test="account_id !=null">
+			account_id = #{account_id},
+		</if>
+		<if test="platform_main_id !=null and platform_main_id != '' ">
+			platform_main_id = #{platform_main_id},
+		</if>
+		<if test="title !=null and title != '' ">
+			title = #{title},
+		</if>
+		<if test="description !=null">
+			description = #{description},
+		</if>
+		<if test="statement !=null and statement != '' ">
+			statement = #{statement},
+		</if>
+		<if test="begin_date !=null">
+			begin_date = #{begin_date},
+		</if>
+		<if test="valid_date !=null">
+			valid_date = #{valid_date},
+		</if>
+		<if test="update_date !=null">
+			update_date = #{update_date},
+		</if>
+		version = version + 1
+		where vote_id=#{vote_id}
+	</update>
+	<!--查询表kt_bus_wx_vote -->
+	<select id="getVoteByAccount" parameterType="Integer" resultType="VoteVO">
+		select * from kt_bus_wx_vote where account_id = #{accountId} order by create_date desc
+	</select>
+	<select id="getPublishVoteByAccount" parameterType="Integer" resultType="VoteVO">
+		select * from kt_bus_wx_vote where account_id = #{accountId} and statement = '2' order by create_date desc
+	</select>
+	<select id="getVoteById" parameterType="Integer" resultType="VoteVO">
+		select * from kt_bus_wx_vote where vote_id = #{voteId}
+	</select>
+	<!--删除kt_bus_wx_vote -->
+	<delete id="deleteById" parameterType="Integer">
+		delete from kt_bus_wx_vote where vote_id = #{voteId}
+	</delete>
+</mapper>
+

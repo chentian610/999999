@@ -1,0 +1,47 @@
+.mui-content{
+	height: 100%;
+}
+.hxx-photo{
+	border: 1px solid #F2F2F2;
+	overflow: hidden;
+	width: 7.5rem;
+	height: 7.5rem;
+}
+.hxx-btn-photo{
+	border: 1px solid #F2F2F2;
+	overflow: hidden;
+	width: 7.5rem;
+	height: 7.5rem;
+	font-family: classtao;
+	line-height: 7.6rem;
+	text-align: center;
+	color: #008000;
+	font-size: 2rem;
+}
+/*弹窗*/
+.hxx-pop-content {
+	position: fixed;
+	z-index: 999;
+	width: 80%;
+	background-color: #fff;
+	margin: 0 auto;
+	top: 50%;
+	left: 0;
+	right: 0;
+}
+
+.hxx-atten-pop {
+	height: 120px;
+	margin-top: -60px;
+	border-radius: 10px;
+}
+.mui-progressbar{
+	width: 90%;
+	height: 3px;
+	margin: 30px auto 20px;
+}
+.hxx-pop-hint{
+	width: 90%;
+	margin: 5px auto;
+	font-size: 12px;
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="orderMap">
+	<sql id="sql_select_proudct">
+		SELECT
+		PRODUCT_ID,
+		SHOP_ID,
+		PRODUCT_NAME,
+		PRICE
+		FROM
+		ORD_PRODUCT
+	</sql>
+
+	<select id="findById" resultMap="result">
+		<include refid="sql_select"/>
+		WHERE PRODUCT_ID = #{productId,javaType=java.lang.Long,jdbcType=BIGINT}
+	</select>
+
+	<select id="findByShopId" resultMap="Product">
+		<include refid="sql_select_proudct"/>
+		WHERE SHOP_ID = #{shopId,javaType=java.lang.Long,jdbcType=BIGINT}
+	</select>
+</mapper>
+

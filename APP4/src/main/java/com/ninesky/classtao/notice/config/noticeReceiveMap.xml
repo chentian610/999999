@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="noticeReceiveMap">
+	<!--插入表kt_bus_notice_receive -->
+	<insert id="insertNoticeReceive" parameterType="NoticeReceiveVO">insert into
+		kt_bus_notice_receive
+		(
+		notice_id,
+		school_id,
+		grade_id,
+		class_id,
+		user_id,
+		student_id,
+		user_type,
+		receive_name,
+		head_url,
+		sender_id,
+		sender_name,
+		send_time,
+		module_code,
+		notice_title,
+		notice_content,
+		create_by,
+		create_date,
+		version,
+		send_type,
+		notice_status,
+		is_read
+		) VALUES (
+		#{notice_id},
+		#{school_id},
+		#{grade_id},
+		#{class_id},
+		#{user_id},
+		#{student_id},
+		#{user_type},
+		#{receive_name},
+		#{head_url},
+		#{sender_id},
+		#{sender_name},
+		#{send_time},
+		#{module_code},
+		#{notice_title},
+		#{notice_content},
+		#{create_by},
+		#{create_date},
+		0,
+		#{send_type},
+		#{notice_status},
+		0
+		)
+	</insert>
+
+	<!-- 添加一组数据 -->
+	<insert id="insertNoticeReceiveList" parameterType="List">
+		insert into kt_bus_notice_receive
+		(
+		notice_id,
+		school_id,
+		grade_id,
+		class_id,
+		user_id,
+		student_id,
+		user_type,
+		receive_name,
+		head_url,
+		sender_id,
+		sender_name,
+		send_time,
+		module_code,
+		notice_title,
+		notice_content,
+		create_by,
+		create_date,
+		version,
+		send_type,
+		notice_status,
+		is_read) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.notice_id},#{item.school_id},#{item.grade_id},#{item.class_id},#{item.user_id},#{item.student_id},
+			#{item.user_type},#{item.receive_name},#{item.head_url},#{item.sender_id},#{item.sender_name},
+			#{item.send_time},#{item.module_code},#{item.notice_title},#{item.notice_content},#{item.create_by},#{item.create_date},0,
+			#{item.send_type},#{item.notice_status},0)
+		</foreach>
+	</insert>
+
+	<!--更新表kt_bus_notice_receive -->
+	<update id="updateNoticeReceive" parameterType="NoticeReceiveVO">update
+		kt_bus_notice_receive
+		set is_read=1,
+		notice_status="008015" <where >
+		 receive_id=#{receive_id}
+		</where>
+	</update>
+
+	<!--查询表kt_bus_notice_receive -->
+	<select id="getNoticeReceiveList" parameterType="NoticeReceiveVO"
+		resultType="NoticeReceiveVO">
+		select
+			receive_id as receive_id,
+			notice_id as notice_id,
+			school_id as school_id,
+			grade_id as grade_id,
+			class_id as class_id,
+			user_id as user_id,
+			student_id as student_id,
+			user_type as user_type,
+			receive_name as receive_name,
+			head_url as head_url,
+			sender_id as sender_id,
+			sender_name as sender_name,
+			send_time as send_time,
+			notice_title as notice_title,
+			notice_content as notice_content,
+			version as version,
+			send_type as send_type,
+			notice_status as notice_status,
+			is_read as is_read
+		from kt_bus_notice_receive
+		<where >
+		<if test="user_id!=null and user_id!=0">
+		user_id=#{user_id}</if>
+		 and user_type=#{user_type} and school_id=#{school_id}
+		<if test="notice_id!=null and notice_id!=0">
+			and notice_id=#{notice_id}
+		</if>
+		<if test="send_type!=null and send_type!='' ">
+			and send_type=#{send_type}
+		</if>
+		<if test="student_id!=null and student_id!=0">
+		 and student_id=#{student_id}
+		</if>
+		<if test="module_code!=null and module_code!=''">
+		and module_code=#{module_code}
+		</if>
+		<if test="app_sql != null and app_sql != '' ">    
+               and receive_id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+           order by receive_id ${order_sql}  
+        </if> 
+        </where>
+	</select>
+
+	<!--删除表kt_bus_notice_receive -->
+	<delete id="deleteNoticeReceive" parameterType="NoticeReceiveVO">delete from
+		kt_bus_notice_receive
+		where id = #{id}
+	</delete>
+
+	<!--查询表kt_bus_notice_receive相关条件的条数 -->
+	<select id="selectCount" parameterType="NoticeReceiveVO"
+		resultType="NoticeCountVO">
+		select notice_id,notice_status ,count(*) as count from kt_bus_notice_receive
+		where notice_id=#{notice_id} and send_type=#{send_type} group by notice_status
+	</select>
+
+	<!--更新表kt_bus_notice_receive -->
+	<update id="updateStatus" parameterType="NoticeReceiveVO">update
+		kt_bus_notice_receive
+		set
+		notice_status="008020" where notice_id=#{notice_id} and receive_id=#{receive_id}
+	</update>
+
+	<!-- 查询表kt_bus_notice_receive的未读情况 -->
+	<select id="getUnread" parameterType="NoticeReceiveVO" resultType="Integer">
+		select count(*) from kt_bus_notice_receive where is_read=0 
+		<if test="user_id!=null and user_id!=0">
+		and user_id=#{user_id} 
+		</if>
+		and user_type=#{user_type} and school_id=#{school_id} 
+		<if test="student_id!=null ">
+		and student_id=#{student_id}
+		</if>
+	</select>
+	
+	<!-- 查询表kt_bus_notice_receive（某条通知的未读用户列表） -->
+	<select id="getUserListOfUnread" parameterType="NoticeReceiveVO" resultType="NoticeReceiveVO">
+		select user_id,student_id,receive_name,head_url  from kt_bus_notice_receive where notice_id=#{notice_id} and 
+		is_read=0 and send_type="010010"
+	</select>
+	
+	<!-- 修改kt_bus_notice_receive的receive_name -->
+	<update id="updateReceiveName"  parameterType="NoticeReceiveVO">
+		update kt_bus_notice_receive set receive_name=#{receive_name},update_by=#{update_by},
+		update_date=#{update_date},version=version+1 where user_id=#{user_id}
+	</update>
+	
+	<!-- 修改kt_bus_notice_receive的sender_name -->
+	<update id="updateSenderName" parameterType="NoticeReceiveVO">
+		update kt_bus_notice_receive set sender_name=#{sender_name},update_by=#{update_by},
+		update_date=#{update_date},version=version+1 where sender_id=#{sender_id}
+	</update>
+	
+	<!-- 通过receive_id查kt_bus_notice_receive -->
+	<select id="getReceiveInfo" parameterType="Integer" resultType="NoticeReceiveVO">
+		select class_id,user_id,school_id,grade_id from kt_bus_notice_receive where receive_id=#{receive_id}
+	</select>
+	
+	<update id="updateUnread" parameterType="NoticeReceiveVO">
+		update kt_bus_notice_receive set is_read=0,update_by=#{update_by},update_date=#{update_date} 
+		where notice_id=#{notice_id} and send_type=#{send_type}
+	</update>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+	delete from kt_bus_notice_receive where class_id=#{class_id}
+	</delete>
+</mapper>
+

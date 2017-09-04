@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wxVoteQuestionMap">
+	<!--插入表kt_bus_wx_vote_question -->
+	<insert id="insertVoteQuestion" parameterType="VoteQuestionVO">
+	insert into kt_bus_wx_vote_question
+		(
+		question_id,
+		platform_survey_id,
+		vote_id,
+		platform_main_id,
+		title,
+		description,
+		type,
+		seq,
+		create_date,
+		version
+		) VALUES (
+		#{question_id},
+		#{platform_survey_id},
+		#{vote_id},
+		#{platform_main_id},
+		#{title},
+		#{description},
+		#{type},
+		#{seq},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!--更新表kt_bus_wx_vote_question -->
+	<update id="updateVoteQuestionById" parameterType="VoteQuestionVO">update kt_bus_wx_vote_question
+		set 
+		<if test="platform_survey_id !=null and platform_survey_id != '' ">
+			platform_survey_id = #{platform_survey_id},
+		</if>
+		<if test="vote_id !=null">
+			vote_id = #{vote_id},
+		</if>
+		<if test="platform_main_id !=null and platform_main_id != '' ">
+			platform_main_id = #{platform_main_id},
+		</if>
+		<if test="title !=null and title != '' ">
+			title = #{title},
+		</if>
+		<if test="description !=null and description != '' ">
+			description = #{description},
+		</if>
+		<if test="type !=null and type != '' ">
+			type = #{type},
+		</if>
+		<if test="seq !=null and seq != '' ">
+			seq = #{seq},
+		</if>
+		<if test="update_date !=null">
+			update_date = #{update_date},
+		</if>
+		version = version + 1
+		where question_id=#{question_id}
+	</update>
+	<!--查询表kt_bus_wx_vote_question -->
+	<select id="getVoteQuestionByVote" parameterType="Integer" resultType="VoteQuestionVO">
+		select * from kt_bus_wx_vote_question where vote_id = #{voteId} order by seq
+	</select>	
+	<select id="getVoteQuestionById" parameterType="Integer" resultType="VoteQuestionVO">
+		select * from kt_bus_wx_vote_question where question_id = #{questionId}
+	</select>
+	<!--删除kt_bus_wx_vote_question -->
+	<delete id="deleteById" parameterType="Integer">
+		delete from kt_bus_wx_vote_question where question_id = #{questionId}
+	</delete>
+</mapper>
+

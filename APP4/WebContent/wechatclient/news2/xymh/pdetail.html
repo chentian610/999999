@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>校园门户</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="css/pdetail.css"/>
+	</head>
+
+	<body>
+		<div id="app" v-cloak>
+			<div class="hxx-page">
+				<header class="mui-bar mui-bar-nav">
+				    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				    <h1 class="mui-title">{{title}}</h1>
+				</header>
+				<div class="mui-content">
+					<!--校长致辞-->
+				    <div v-if='data.template_type == "035030"' class="hxx-content hxx-headmaster">
+				    	<div class="hxx-headmaster-head" :style="{backgroundImage:'url('+data.main_pic_url+')'}"></div>
+				    	<div class="hxx-headmaster-content">
+				    		<h1>校长致辞</h1>
+				    		<strong>亲爱的同学们：</strong>
+				    		<p>{{data.content_text}}</p>
+				    		<span>{{data.dept_name}}</span>
+				    	</div>
+				    </div>
+					<!--新闻不带图-->
+				    <div v-if='data.template_type == "035010"' class="hxx-content">
+				    	<h1 class="hxx-common-head">{{data.title}}</h1>
+				    	<h4 class="hxx-common-sender">发布人：<span>{{data.dept_name}}</span></h4>
+				    	<img class="hxx-common-top" src="../images/018_common_top.png"/>
+				    	<div class="hxx-common-content" v-html='data.content'></div>
+				    	<img class="hxx-common-bottom" src="../images/018_common_bottom.png"/>
+				    </div>
+				    <!--人物介绍-->
+				    <div v-if='data.template_type == "035035"' class="hxx-content">
+				    	<div class="hxx-student-head" :style="{backgroundImage:'url('+data.main_pic_url+')'}"></div>
+				    	<div class="hxx-student-content" v-html='data.content'></div>
+				    </div>
+				    <!--新闻带图片-->
+				     <div v-if='data.template_type == "035005"' class="hxx-content">
+				     	<h1 class="hxx-common-head">{{data.title}}</h1>
+				    	<h4 class="hxx-common-sender">发布人：<span>{{data.dept_name}}</span></h4>
+				    	<img class="hxx-common-top" src="../images/018_common_top.png"/>
+				    	<img class="hxx-common-img" :src='data.main_pic_url'/>
+				    	<div class="hxx-common-content" v-html='data.content'></div>
+				    	<img class="hxx-common-bottom" src="../images/018_common_bottom.png"/>
+				    </div>
+				     <!--自定义-->
+				     <div v-if='data.template_type == "035025"' class="hxx-content">
+				     	<h1 class="hxx-common-head">{{data.title}}</h1>
+				    	<h4 class="hxx-common-sender">发布人：<span>{{data.dept_name}}</span></h4>
+				    	<img class="hxx-common-top" src="../images/018_common_top.png"/>
+				    	<img class="hxx-common-img" :src='data.main_pic_url'/>
+				    	<div class="hxx-common-content" v-html='data.content'></div>
+				    	<img class="hxx-common-bottom" src="../images/018_common_bottom.png"/>
+				    </div>
+				    <!--红头文件-->
+				    <div v-if='data.template_type == "035015"' class="hxx-content">
+				     	<h1 class="hxx-paper-head">浙江大学文件</h1>
+				    	<h4 class="hxx-paper-sender">发布人：<span>{{data.dept_name}}</span></h4>
+				    	<img class="hxx-paper-top" src="../images/018_paper_top.png"/>
+				    	<h3 class="hxx-paper-title">{{data.title}}</h3>
+				    	<div class="hxx-paper-content" v-html='data.content'></div>
+				    </div>
+				    <!--活泼带图-->
+				     <div v-if='data.template_type == "035020"' class="hxx-content">
+				     	<h1 class="hxx-vivacious-title">{{data.title}}</h1>
+				     	<img class="hxx-vivacious-title-bk" src="../images/018_vivacious_title_bk.png"/>
+				    	<h4 class="hxx-vivacious-sender hxx-icon icon-bianji1"><span>{{data.dept_name}}</span></h4>
+				    	<img class="hxx-vivacious-img" :src='data.main_pic_url'/>
+				    	<div class="hxx-vivacious-content" v-html='data.content'></div>
+				    </div>
+				    <div v-if='state == 3' @tap='InitPage' class="hxx-tip-unconnection">
+						<img src="../images/tip_unconnection.png">
+						<div>请求失败，请检查网络后点击刷新</div>
+		    	    </div>
+					<div v-if='state == 2' class="hxx-tip-empty">
+						<img src="../images/tip_empty.png">
+					</div>
+					<div v-if='state == 0' class="hxx-tip-loading">
+						<img src="../images/tip_load.gif">
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/pdetail.js" type="text/javascript" charset="utf-8"></script>
+</html>

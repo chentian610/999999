@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userRoleMap">
+	<!--插入表kt_bas_user_role -->
+	<insert id="insertUserRole" parameterType="UserRoleVO">insert into
+		kt_bas_user_role
+		(
+		id,
+		school_id,
+		phone,
+		user_type,
+		create_date,
+		create_by,
+		update_by,
+		update_date,
+		version
+		) VALUES (
+		#{id},
+		#{school_id},
+		#{phone},
+		#{user_type},
+		#{create_date},
+		#{create_by},
+		#{update_by},
+		#{update_date},
+		#{version}
+		)
+	</insert>
+
+	<!--查询表kt_bas_user_role -->
+	<select id="getUserRoleList" parameterType="UserRoleVO"
+		resultType="UserRoleVO">select
+		id as id,
+		school_id as school_id,
+		phone as phone,
+		user_type as user_type,
+		create_date as create_date,
+		create_by as
+		create_by,
+		update_by as update_by,
+		update_date as update_date,
+		version as
+		version
+		from kt_bas_user_role
+		where school_id = #{school_id}
+		<if test="user_type != null and user_type != ''">
+			and user_type = #{user_type}
+		</if>
+		<if test=" phone != null and phone != '' ">
+			and phone = #{phone}
+		</if>
+	</select>
+
+	<!--查询表kt_bas_user_role -->
+	<select id="getUserRoleByPhone" parameterType="UserRoleVO"
+			resultType="UserRoleVO">select
+		id as id,
+		school_id as school_id,
+		phone as phone,
+		user_type as user_type,
+		create_date as create_date,
+		create_by as
+		create_by,
+		update_by as update_by,
+		update_date as update_date,
+		version as
+		version
+		from kt_bas_user_role
+		where phone = #{phone}
+		<if test="user_type != '' and user_type != null">
+			and user_type = #{user_type}
+		</if>
+	</select>
+
+	<delete id="deleteUserRole" parameterType="UserRoleVO">
+		DELETE FROM kt_bas_user_role WHERE school_id = #{school_id}
+		<if test="user_type != '' and user_type != null">
+			and user_type = #{user_type}
+		</if>
+		<if test="phone != '' and phone != null">
+			and phone = #{phone}
+		</if>
+	</delete>
+</mapper>
+

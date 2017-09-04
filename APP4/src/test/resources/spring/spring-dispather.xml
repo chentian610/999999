@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 查找最新的schemaLocation 访问 http://www.springframework.org/schema/ -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop   
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd   
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd   
+        http://www.springframework.org/schema/mvc   
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd   
+        ">
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <mvc:annotation-driven />
+	<context:component-scan base-package="com.ninesky.classtao">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
+
+	<!-- 当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
+	<mvc:view-controller path="/" view-name="forward:/login" />
+
+	<!-- 配置静态资源，直接映射到对应的文件夹，不被拦截器处理 --> 
+	<mvc:resources mapping="/**" location="/" />
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/**"/> 
+			<mvc:exclude-mapping path="/images/**"/> 
+			<mvc:exclude-mapping path="/**/*.js"/>
+			<mvc:exclude-mapping path="/**/*.html"/>
+			<mvc:exclude-mapping path="/**/*.css"/>  
+			<mvc:exclude-mapping path="/**/images/**"/> 
+			<mvc:exclude-mapping path="/**/img/**"/> 
+			<mvc:exclude-mapping path="/zju/**"/>  
+			<bean class="com.ninesky.framework.DataInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/schoolStyleActionAction/getSchoolStyleList"/> 
+			<bean class="com.ninesky.framework.BootstrapTableInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/*Action/**"/> 
+			<mvc:exclude-mapping path="/schoolApplyAction/**"/>
+		 	<mvc:exclude-mapping path="/templateAction/**"/>
+			<mvc:exclude-mapping path="/loginAction/regist"/> 
+			<mvc:exclude-mapping path="/loginAction/login"/> 
+			<mvc:exclude-mapping path="/loginAction/Login"/> 
+			<mvc:exclude-mapping path="/loginAction/admlogin"/> 
+			<mvc:exclude-mapping path="/loginAction/LezhiWebLogin"/>
+			<mvc:exclude-mapping path="/loginAction/changePassWord"/> 
+			<mvc:exclude-mapping path="/loginAction/checkAppVerson"/> 
+			<mvc:exclude-mapping path="/userAction/completeUserInfo"/> 
+			<mvc:exclude-mapping path="/userAction/regist"/> 
+			<mvc:exclude-mapping path="/userAction/getValidateCode"/> 
+			<mvc:exclude-mapping path="/userAction/getValidateCodePhone"/> 
+			<mvc:exclude-mapping path="/userAction/checkValidateCode"/> 
+			<mvc:exclude-mapping path="/userAction/resetPassword"/> 
+			<mvc:exclude-mapping path="/userAction/forgetPassword"/>
+			<mvc:exclude-mapping path="/schoolAction/getSchoolModuleList"/> 
+			<mvc:exclude-mapping path="/schoolAction/completeInformation"/> 
+			<mvc:exclude-mapping path="/schoolAction/getSchoolById"/>
+			<mvc:exclude-mapping path="/newsAction/getMainPageNewsList"/>
+			<mvc:exclude-mapping path="/newsAction/getNewsListForAPP"/>
+			<mvc:exclude-mapping path="/newsAction/getNews"/>
+			<mvc:exclude-mapping path="/fileAction/uploadFile"/> 
+			<mvc:exclude-mapping path="/photoAction/uploadPhoto"/> 
+			<mvc:exclude-mapping path="/newsAction/getMainPageNewsList"/>
+			<mvc:exclude-mapping path="/systemAction/getLastVersion"/>
+			<mvc:exclude-mapping path="/schoolAction/redirect/**"/>
+			<mvc:exclude-mapping path="/photoAction/uploadPhotoTemplate"/> 
+			<mvc:exclude-mapping path="/moduleAction/getModuleList"/>
+			<mvc:exclude-mapping path="/systemAction/getMainView"/> 
+			<mvc:exclude-mapping path="/schoolStyleAction/loadSchoolStyle"/> 
+			<mvc:exclude-mapping path="/schoolStyleAction/getSchoolStyleList"/> 
+			<mvc:exclude-mapping path="/schoolAction/getSchoolApplyList"/>
+			<mvc:exclude-mapping path="/schoolAction/updateSchoolApply"/>
+			<mvc:exclude-mapping path="/dictAction/getDictionary"/>
+			<mvc:exclude-mapping path="/fameAction/getFameList"/>
+			<mvc:exclude-mapping path="/fameAction/getFameListForWeb"/> 
+			<mvc:exclude-mapping path="/gradeAction/getGradeAndClass"/>
+			<mvc:exclude-mapping path="/systemAction/getDictionary"/>
+			<mvc:exclude-mapping path="/bedroomAction/getBedroomList"/>
+			<mvc:exclude-mapping path="/appAction/addSuggest"/>
+			<bean class="com.ninesky.framework.RequestInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+</beans>

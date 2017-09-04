@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="leaveChangeMap">
+	<!--插入表kt_bus_leave -->
+	<insert id="insertLeaveChange" parameterType="LeaveChangeVO">
+	INSERT INTO kt_bus_leave_change
+	(
+		leave_id,
+		school_id,
+		user_id,
+		is_agree,
+		create_by,
+		create_date,
+		version
+	)VALUES(
+		#{leave_id},
+		#{school_id},
+		#{user_id},
+		#{is_agree},
+		#{create_by},
+		#{create_date},
+		0
+	)
+	</insert>
+	<select id="getLeaveChangeList" parameterType="LeaveVO" resultType="LeaveChangeVO">
+	SELECT
+		change_id as change_id,
+		leave_id as leave_id,
+		school_id as school_id,
+		user_id as user_id,
+		is_agree as is_agree,
+		content as content,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+	FROM kt_bus_leave_change
+	WHERE school_id = #{school_id}
+	<if test="leave_id != null and leave_id != '' ">
+		AND leave_id = #{leave_id}
+	</if>
+	<if test="change_id != null and change_id != '' ">
+		AND change_id = #{change_id}
+	</if>
+	<if test="app_sql != null and app_sql != '' ">
+            and id  ${app_sql}
+    </if>
+    <if test="order_sql != null and order_sql != '' ">
+            order by id ${order_sql}
+     </if>
+	</select>
+	<select id="getReceive" parameterType="LeaveChangeVO" resultType="ReceiveVO">
+		SELECT
+		school_id as school_id,
+		user_id as user_id,
+        '003005' as user_type
+		FROM kt_bus_leave_change
+		<where>
+			<if test="school_id != null and school_id != '' ">
+				AND school_id = #{school_id}
+			</if>
+			<if test="leave_id != null and leave_id != '' ">
+				AND leave_id = #{leave_id}
+			</if>
+			<if test="change_id != null and change_id != '' ">
+				AND change_id = #{change_id}
+			</if>
+		</where>
+	</select>
+	<select id="getLeaveChangeByID" parameterType="Integer" resultType="LeaveChangeVO">
+		SELECT
+			change_id as change_id,
+			leave_id as leave_id,
+			school_id as school_id,
+			user_id as user_id,
+			is_agree as is_agree,
+			content as content,
+			create_by as create_by,
+			create_date as create_date,
+			update_by as update_by,
+			update_date as update_date,
+			version as version
+		FROM kt_bus_leave_change
+		where leave_id = #{leave_id}
+	</select>
+	<select id="getLeaveChange" parameterType="LeaveChangeVO" resultType="Integer">
+		SELECT
+		is_agree as is_agree
+		FROM kt_bus_leave_change
+		where school_id = #{school_id} AND leave_id = #{leave_id}
+		 AND user_id =#{user_id}
+	</select>
+	<update id="updateLeaveChange" parameterType="LeaveChangeVO">
+	UPDATE kt_bus_leave_change
+	SET is_agree = #{is_agree},content=#{content},update_by=#{update_by},
+		update_date=#{update_date},version=version+1
+	WHERE school_id = #{school_id} AND leave_id = #{leave_id}
+		AND user_id =#{user_id}
+	</update>
+	<update id="updateLeaveChangeByID" parameterType="LeaveChangeVO">
+		UPDATE kt_bus_leave_change
+		SET user_id = #{user_id}, is_agree = 0,content=null,update_by=#{update_by},
+		update_date=#{update_date},version=version+1
+		WHERE change_id = #{change_id} AND leave_id = #{leave_id}
+		 AND school_id = #{school_id} AND version = #{version}
+	</update>
+	<!--删除表kt_bus_leave -->
+    <delete id="deleteLeaveChange" parameterType="Integer">
+        delete from kt_bus_leave_change where leave_id = #{leave_id}
+    </delete>
+    <!--删除表kt_bus_leave -->
+    <delete id="removeLeaveChange" parameterType="LeaveVO">
+        delete from kt_bus_leave_change where leave_id = #{leave_id}  AND school_id = #{school_id}
+    </delete>
+</mapper>
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="balanceLogMap">
+	<!--插入表kt_bas_balance_log -->
+	<insert id="insertBalanceLog" parameterType="BalanceLogVO">insert into kt_bas_balance_log
+		(
+		agent_id,
+		pre_balance,
+  		current_balance,
+   		money,
+   		content,
+   		ip_address,
+   		recharge_type,
+   		trade_no,
+   		out_trade_no,
+   		trade_status,
+		create_by,
+		create_date
+		) VALUES (
+		#{agent_id},
+		#{pre_balance},
+		#{current_balance},
+		#{money},
+		#{content},
+		#{ip_address},
+		#{recharge_type},
+		#{trade_no},
+   		#{out_trade_no},
+   		#{trade_status},
+		#{create_by},
+		#{create_date}
+		)
+	</insert>
+	<select id="getBalanceByID" parameterType="BalanceVO" resultType="BalanceLogVO">
+	SELECT
+		agent_id AS agent_id,
+		pre_balance AS pre_balance,
+  		current_balance AS current_balance,
+		money  AS money,
+   		content AS content,
+		ip_address AS ip_address,
+		recharge_type AS recharge_type,
+		trade_no AS trade_no,
+		out_trade_no AS out_trade_no,
+		trade_status AS trade_status,
+		create_by AS create_by,
+		create_date AS create_date
+	FROM kt_bas_balance_log
+	WHERE agent_id = #{agent_id}
+	<if test="create_date != null and create_date != ''">
+		AND DATE_FORMAT(create_date,'%Y-%m') = DATE_FORMAT(#{create_date},'%Y-%m')
+	</if>
+	</select>
+</mapper>
+

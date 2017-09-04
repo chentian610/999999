@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="moduleMap">
+	<!--插入表kt_sys_module -->
+	<insert id="insertModule" parameterType="ModuleVO">insert into
+		kt_sys_module
+		(
+		module_id,
+		module_name,
+		icon_url,
+		is_inactive,
+		partner_code,
+		sort,
+		is_news,
+		create_by,
+		create_date
+		) VALUES (
+		#{module_id},
+		#{module_name},
+		#{icon_url},
+		#{is_inactive},
+		#{partner_code},
+		#{is_news},
+		#{sort},
+		#{create_by},
+		#{create_date}
+		)
+	</insert>
+	<!--更新表kt_sys_module -->
+	<update id="updateModule" parameterType="ModuleVO">update kt_sys_module
+		set module_id = #{module_id},
+		module_name = #{module_name},
+		icon_url = #{icon_url},
+		is_inactive = #{is_inactive},
+		sort = #{sort},
+		create_by = #{create_by},
+		is_news = #{is_news},
+		create_date = #{create_date}
+	</update>
+	<!--查询表kt_sys_module -->
+	<select id="getModuleList" parameterType="ModuleVO" resultType="ModuleVO">
+	select
+		module_id as module_id,
+		module_code as module_code,
+		parent_code as parent_code,
+		module_name as module_name,
+		user_type as user_type,
+		icon_url as icon_url,
+		is_must as is_must,
+		is_inactive as is_inactive,
+		sort as sort,
+		is_news as is_news,
+		create_by as create_by,
+		create_date as create_date
+		from kt_sys_module
+		<where>
+			<if test="is_inactive != null">
+				and is_inactive = #{is_inactive}
+			</if>
+			<if test="partner_code != '' and partner_code != null">
+				AND partner_code like  CONCAT('%',#{partner_code},'%')
+			</if>
+			<if test="parent_code != '' and parent_code != null">
+				AND parent_code = #{parent_code}
+			</if>
+		</where>
+	</select>
+	<!--查询表kt_sys_module -->
+	<select id="getModuleBasicsList" parameterType="ModuleVO" resultType="ModuleVO">
+			select
+		m.module_id as module_id,
+		m.module_code as module_code,
+		m.parent_code as parent_code,
+		m.module_name as module_name,
+		m.introduce as introduce,
+		m.user_type as user_type,
+		m.icon_url as icon_url,
+		m.is_must as is_must,
+		m.is_inactive as is_inactive,
+		m.sort as sort,
+		m.is_news as is_news,
+		m.create_by as create_by,
+		m.create_date as create_date,
+		p.module_price as module_price
+		from kt_sys_module m,kt_sys_module_price p
+		WHERE m.module_code = p.module_code AND m.user_type = p.user_type AND m.is_inactive = #{is_inactive}
+			<if test="partner_code != '' and partner_code != null">
+				AND m.partner_code like  CONCAT('%',#{partner_code},'%')
+			</if>
+			<if test="parent_code == '' and parent_code == null">
+				AND m.parent_code != '009'
+			</if>
+			<if test="parent_code != '' and parent_code != null">
+				AND m.parent_code == #{parent_code}
+			</if>
+			<if test="school_type != '' and school_type != null">
+				AND p.school_type = #{school_type}
+			</if>
+	</select>
+	<!--查询表kt_sys_module -->
+	<select id="getModuleById" parameterType="Integer" resultType="ModuleVO">
+	select
+		module_id as module_id,
+		module_code as module_code,
+		module_name as module_name,
+		parent_code as parent_code,
+		partner_code as partner_code,
+		user_type as user_type,
+		icon_url as icon_url,
+		is_inactive as is_inactive,
+		sort as sort,
+		is_news as is_news,
+		create_by as create_by,
+		create_date as create_date
+		from kt_sys_module
+		where module_id=#{module_id}
+	</select>
+	<select id="getModuleByCode" parameterType="String" resultType="ModuleVO">
+	select
+		module_id as module_id,
+		module_code as module_code,
+		parent_code as parent_code,
+		user_type as user_type,
+		module_name as module_name,
+		icon_url as icon_url,
+		is_news as is_news,
+		is_inactive as is_inactive,
+		module_url as module_url,
+		sort as sort,
+		create_by as create_by,
+		create_date as create_date
+		from kt_sys_module
+		where module_code=#{module_code}
+	</select>
+	
+	<!--删除表kt_sys_module -->
+	<delete id="deleteModule" parameterType="ModuleVO">delete from
+		kt_sys_module
+		where id = #{id}
+	</delete>
+	
+		<!--查询表kt_sys_module -->
+	<select id="getModuleListBySchoolID" parameterType="Integer" resultType="ModuleVO">
+	select
+		t.module_id as module_id,
+		t.module_code as module_code,
+		t.module_name as module_name,
+		t.icon_url as icon_url,
+		t.is_news as is_news,
+		t.is_inactive as is_inactive,
+		t.sort as sort
+	from kt_sys_module t,kt_bas_school_module s
+		where t.module_code = s.module_code
+		and t.is_inactive = 0
+		and s.school_id = #{school_id}
+	</select>
+</mapper>
+

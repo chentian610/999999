@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>发现</title>
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.css" />
+		<style type="text/css">
+			.hxx-module-item {
+				display: inline-block;
+				vertical-align: top;
+				width: 33.33%;
+				height: 120px;
+				padding-top: 25px;
+				text-align: center;
+				background-color: white;
+				border: 1px #DDDDDD solid;
+			}
+			
+			.hxx-module-item h5{
+				font-size: 1rem;
+				font-weight: normal;
+			}
+			
+			.hxx-module-item img {
+				width: 3.0rem;
+				display: block;
+				margin: 0 auto;
+				margin-bottom: 1.25rem;
+			}
+			
+			.hxx-module-item span {
+				color: #fff;
+				font-size: 1.28rem;
+			}
+			
+			.qbb-module-list {
+				margin-bottom: 10px;
+			}
+			
+			.hxx-school-list {
+				background-color: #FFF;
+				margin-top: -10px;
+				margin-bottom: 10px;
+			}
+			
+			.hxx-school-list-title {
+				font-size: 1.44rem;
+				padding: 1rem;
+				border-top: 10px solid #eee;
+				font-weight: normal;
+			}
+			
+			.hxx-school-list-title i {
+				font-size: 1.44rem;
+			}
+			
+			.hxx-school-cell {
+				margin-bottom: 1rem;
+			}
+			
+			.hxx-school-cell li {
+				overflow: hidden;
+				padding: 1rem;
+				border-bottom: 1px solid #eee;
+			}
+			
+			.hxx-school-cell .hxx-school-cell-photo {
+				float: left;
+				width: 7.7rem;
+				height: 7.7rem;
+			}
+			
+			.hxx-school-contnet1 {
+				width: calc(100% - 1rem);
+				float: left;
+				margin-left: 0.5rem;
+			}
+			
+			.hxx-school-contnet h4 {
+				font-weight: normal;
+				color: #4A4A4A;
+				font-size: 1.44rem;
+			}
+			
+			.hxx-school-cell-content {
+				font-size: 1.28rem;
+				display: -webkit-box;
+				width: 100%;
+				color: #9B9B9B;
+				line-height: 2rem;
+				text-align: justify;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+			}
+			
+			.hxx-school-banner {
+				width: 100%;
+			}
+			
+			.hxx-school-banner img {
+				width: 100%;
+				display: block;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="List" class="mui-content">
+			<div id="ModuleList" class="qbb-module-list">
+			</div>
+			<ul id="NewsModuleList" class="hxx-school-list" style="display:none">
+			</ul>
+			<img id="#Recruit" class="hxx-school-banner" src="../resource/bk_home_footer.jpg" style="display: none;" />
+		</div>
+		<div id="Tap1" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png" />
+			<h4>网络请求失败<br />点击重新加载</h4>
+		</div>
+		<div id="Tap2" class="hxx-middle-center">
+			<img src="../images/default_img_empty@2x.png" />
+			<h4>数据为空</h4>
+		</div>
+		<div id="Tap3" class="hxx-middle-center">
+			<a>
+				<span class="mui-spinner"></span>
+			</a>
+		</div>
+		<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var uList = document.getElementById('List');
+			var uRecruit = document.getElementById("Recruit");
+			var uModuleList = document.getElementById('ModuleList');
+			var uNewsModuleList = document.getElementById("NewsModuleList");
+			
+			oPdata.child = {};
+			parent.ChangeHightLineTab("pfind");
+			mui.ready(function() {
+				oPdata.child = cache.getChild();
+				InitPage();
+				GetShowList();
+			});
+
+			function InitPage() {
+				var arr = cache.getModule('003015');
+				uModuleList.innerHTML = '';
+				if(!cache.isArray(arr) || arr.length <= 0) {
+					return;
+				}
+				for(var i = 0; i < arr.length; i++) {
+					var d = arr[i];
+					if(d.is_news == 1) {
+						continue;
+					}
+					var img = document.createElement('div');
+					img.className = 'hxx-module-item';
+					img.affixData = d;
+					img.innerHTML = '<img src="' + d.icon_url + '"/><h5>' + d.module_name + '</h5>';
+					img.addEventListener('tap', function() {
+						var self = this;
+						if(self.disable) {
+							return;
+						}
+						self.disable = true;
+						setTimeout(function() {
+							self.disable = false;
+						}, 600);
+						var p = self.affixData.module_code;
+						mui.openWindow({
+							url: '../' + p + '/pindex.html',
+							id: p,
+							createNew: true,
+							show: {
+								aniShow: "pop-in",
+								duration: 300
+							},
+							waiting: {
+								autoShow: false,
+							}
+						});
+					});
+					uModuleList.appendChild(img);
+				}
+			};
+
+			//获取校园建设
+			function GetShowList() {
+				cache.myajax("newsAction/getAPPNewsList", {
+					data: {},
+					success: function(data) {
+						var aRe = data.result.data;
+						CreateElementXYFC(aRe);
+						CreateElementDYJS(aRe);
+						CreateElementXYXW(aRe);
+						CreateElementXYZC(aRe);
+						CreateElementZSZP(aRe);
+					},
+					error: function() {
+					}
+				});
+			}
+
+			//创建标题名
+			function CreateGrp(v) {
+				var index = v.dict_group
+				if(v.dict_group == '022005') {
+					index = 1;
+				} else if(v.dict_group == '022015') {
+					index = 2;
+				} else if(v.dict_group == '022010') {
+					index = 3;
+				} else if(v.dict_group == '022020') {
+					index = 4;
+				}
+				var li1 = document.createElement('li');
+				li1.affixData = v;
+				li1.innerHTML = '<h3 class="hxx-school-list-title iconfont-color' + index + '">' + cache.theValue(v.dict_name) + '\
+								<i class="hxx-icon iconfont-color' + index + ' mui-pull-right">&#xe643;</i></h3>';
+				li1.addEventListener('tap', function() {
+					var self = this;
+					if(self.disable) {
+						return;
+					}
+					self.disable = true;
+					setTimeout(function() {
+						self.disable = false;
+					}, 1000);
+					var oPmodule = self.affixData;
+					mui.openWindow({
+						url: '../xymh/index.html',
+						id: 'index',
+						extras: {
+							item: oPmodule
+						}
+					});
+				});
+				uNewsModuleList.appendChild(li1);
+			}
+
+			//创建首页新闻
+			function CreateEle1(v) {
+				if(cache.isNull(v.main_pic_url)){
+					uNewsModuleList.appendChild(CreateEleNoImg(v));
+				}else {
+					uNewsModuleList.appendChild(CreateEleImg(v));
+				}
+			}
+			
+			function CreateEleImg(v){
+				var div = document.createElement('div');
+				div.className = 'hxx-school-cell-div';
+				div.dataAffix = v;
+				div.innerHTML = '<img src="' + cache.theValue(v.main_pic_url) + '" onerror = "imgLoadError()" class="hxx-school-cell-photo"/>\
+								<div class="hxx-school-contnet">\
+									<h4>' + cache.theValue(v.title) + '</h4>\
+									<div class="hxx-school-cell-content">' + cache.theValue(v.content_text) + '</div>\
+							    </div>';
+				div.addEventListener('tap', function() {
+					var self = this;
+					if(self.disable) {
+						return;
+					}
+					self.disable = true;
+					setTimeout(function() {
+						self.disable = false;
+						oPdata = self.dataAffix;
+						oPdata.id = oPdata.news_id;
+						mui.openWindow({
+							url: '../009018/detail.html',
+							id: 'detail',
+							extras: {
+								item: oPdata
+							}
+						});
+					}, 300);
+					
+				});
+				return div;
+			}
+			
+			function CreateEleNoImg(v){
+				var div = document.createElement('div');
+				div.className = 'hxx-school-cell-div';
+				div.dataAffix = v;
+				div.innerHTML = '<div class="hxx-school-contnet1">\
+									<h4>' + cache.theValue(v.title) + '</h4>\
+									<div class="hxx-school-cell-content">' + cache.theValue(v.content_text) + '</div>\
+							    </div>';
+				div.addEventListener('tap', function() {
+					var self = this;
+					if(self.disable) {
+						return;
+					}
+					self.disable = true;
+					setTimeout(function() {
+						self.disable = false;
+						oPdata = self.dataAffix;
+						oPdata.id = oPdata.news_id;
+						mui.openWindow({
+							url: '../009018/detail.html',
+							id: 'detail',
+							extras: {
+								item: oPdata
+							}
+						});
+					}, 300);
+				});
+				return div;
+			}
+
+			function imgLoadError() {
+				var img = event.srcElement;
+				img.src = '../images/default-img.png';
+				img.onerror = null;
+			};
+
+			function CreateElementXYFC(e) {
+				var Index = 0;
+				for(var i = 0; i < e.length; i++) {
+					if(e[i].dict_group == '022005') {
+						e[i].dict_name = cache.dictCode2Value(e[i].dict_group);
+						if(Index == 0) {
+							Index++;
+							CreateGrp(e[i]);
+							CreateEle1(e[i]);
+						} else {
+							CreateEle1(e[i]);
+						}
+					}
+				}
+			};
+
+			function CreateElementDYJS(e) {
+				var Index = 0;
+				for(var i = 0; i < e.length; i++) {
+					if(e[i].dict_group == '022010') {
+						e[i].dict_name = cache.dictCode2Value(e[i].dict_group);
+						if(Index == 0) {
+							Index++;
+							CreateGrp(e[i]);
+							CreateEle1(e[i]);
+						} else {
+							CreateEle1(e[i]);
+						}
+					}
+				}
+			};
+
+			function CreateElementXYXW(e) {
+				var Index = 0;
+				for(var i = 0; i < e.length; i++) {
+					if(e[i].dict_group == '022015') {
+						e[i].dict_name = cache.dictCode2Value(e[i].dict_group);
+						if(Index == 0) {
+							Index++;
+							CreateGrp(e[i]);
+							CreateEle1(e[i]);
+						} else {
+							CreateEle1(e[i]);
+						}
+					}
+				}
+			};
+
+			function CreateElementXYZC(e) {
+				var Index = 0;
+				for(var i = 0; i < e.length; i++) {
+					if(e[i].dict_group == '022020') {
+						e[i].dict_name = cache.dictCode2Value(e[i].dict_group);
+						if(Index == 0) {
+							Index++;
+							CreateGrp(e[i]);
+							CreateEle1(e[i]);
+						} else {
+							CreateEle1(e[i]);
+						}
+					}
+				}
+			};
+
+			function CreateElementZSZP(e) {
+				var Index = 0;
+				for(var i = 0; i < e.length; i++) {
+					if(e[i].dict_group == '022025') {
+						e[i].dict_name = cache.dictCode2Value(e[i].dict_group);
+						if(Index == 0) {
+							Index++;
+							cache.showDom(uRecruit);
+							uRecruit.affixData = e[i];
+							uRecruit.addEventListener('tap', function() {
+								var self = this;
+								if(self.disable) {
+									return;
+								}
+								self.disable = true;
+								setTimeout(function() {
+									self.disable = false;
+								}, 600);
+								var oPmodule = self.affixData;
+								oPmodule.dict_name = cache.dictCode2Value(oPmodule.dict_group);
+								mui.openWindow({
+									url: '../xymh/index.html',
+									id: 'index',
+									extras: {
+										item: oPmodule
+									}
+								});
+							});
+						}
+					}
+				}
+			};
+		</script>
+	</body>
+
+</html>

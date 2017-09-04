@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="homeworkFileMap">
+	<!--插入表kt_bus_homework_item-->
+	<insert id="insertHomeworkFlie" parameterType="HomeworkFileVO">
+	insert into kt_bus_homework_file
+		(
+		homework_id,
+		item_id,
+		file_type,
+		file_name,
+		file_url,
+		file_resize_url,
+		play_time,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{homework_id},
+		#{item_id},
+		#{file_type},
+		#{file_name},
+		#{file_url},
+		#{file_resize_url},
+		#{play_time},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<!-- 获取附件列表 -->
+	<select id="getHomeworkFileList" parameterType="HomeworkFileVO" resultType="HomeworkFileVO">
+	select 
+			id as id,
+			homework_id as homework_id,
+			item_id as item_id,
+			file_type as file_type,
+			file_name as file_name,
+			file_url as file_url,
+			file_resize_url as file_resize_url,
+			play_time as play_time,
+			create_by as create_by,
+			create_date as create_date,
+			update_by as update_by,
+			update_date as update_date,
+			version as version
+	from kt_bus_homework_file
+	where homework_id=#{homework_id}
+			<if test="item_id != null and item_id != 0 ">
+			    and item_id = #{item_id}
+			</if>
+	</select>
+	<!-- 获取附件列表用来转化json -->
+	<select id="getFileListToJson" parameterType="Integer" resultType="HomeworkFileVO">
+	select
+		file_type as file_type,
+		file_name as file_name,
+		file_url as file_url,
+		file_resize_url as file_resize_url
+	from kt_bus_homework_file
+	where homework_id=#{homework_id}
+		and item_id=#{item_id}
+	</select>
+</mapper>
+

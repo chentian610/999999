@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="attendCodeMap">
+	<!--插入表kt_sys_attend_code -->
+	<insert id="insertAttendCode" parameterType="AttendCodeVO">
+	insert into
+		kt_sys_attend_code
+		(
+		school_id,
+		attend_code,
+		attend_name,
+		description,
+		sort,
+		is_active,
+		create_by,
+		create_date,
+		version
+		) SELECT 
+		#{school_id},
+		#{attend_code},
+		#{attend_name},
+		#{description},
+		MAX(sort)+1,
+		1,
+		#{create_by},
+		#{create_date},
+		0
+		FROM kt_sys_attend_code WHERE school_id=#{school_id}
+		
+	</insert>
+	
+	<!--更新表kt_sys_attend_code -->
+	<update id="updateAttendCode" parameterType="AttendCodeVO">update
+		kt_sys_attend_code
+		set 
+		<if test="attend_name!=null and attend_name!=''">
+		attend_name = #{attend_name},
+		</if>
+		<if test="sort!=null and sort!=0">
+		sort=#{sort},
+		</if>
+		update_by = #{update_by},
+		update_date = #{update_date},
+		version = version+1
+		where school_id=#{school_id} and attend_code=#{attend_code}
+	</update>
+	
+	<!--查询表kt_sys_attend_code -->
+	<select id="getAttendCodeList" parameterType="AttendCodeVO" resultType="AttendCodeVO">
+	select
+		school_id as school_id,
+		attend_code as attend_code,
+		attend_name as attend_name,
+		description as description,
+		sort as sort
+		from kt_sys_attend_code
+		where school_id=#{school_id} 
+		<if test="is_active!=null">
+		and is_active=#{is_active}
+		</if>
+		order by sort
+	</select>
+	
+	<!--删除表kt_sys_attend_code -->
+	<delete id="deleteAttendCode" parameterType="AttendCodeVO">delete from
+		kt_sys_attend_code
+		where school_id = #{school_id} and attend_code=#{attend_code}
+	</delete>
+	
+	<select id="getAttendCodeMax" parameterType="Integer" resultType="String">
+	select max(attend_code) as attend_code from kt_sys_attend_code where school_id=#{school_id}
+	</select>
+	
+	<delete id="deleteAttendCodeBySchoolID" parameterType="Integer">
+	delete from kt_sys_attend_code where school_id = #{school_id}
+	</delete>
+	
+	<insert id="initAttendCode" parameterType="DictVO">
+	insert into
+		kt_sys_attend_code
+		(
+		school_id,
+		attend_code,
+		attend_name,
+		description,
+		sort,
+		is_active,
+		version
+		) SELECT 
+		#{school_id},
+		dict_code,
+		dict_value,
+		description,
+		sort,
+		1,
+		0
+		FROM kt_sys_dict WHERE dict_group=#{dict_group}
+	</insert>
+	
+	<select id="getAttendCode" parameterType="AttendCodeVO" resultType="AttendCodeVO">
+	select 
+		attend_name
+	from 
+		kt_sys_attend_code
+	where 
+		school_id=#{school_id}
+		and attend_code=#{attend_code}
+	</select>
+	
+	<select id="getAttendCodeCount" parameterType="Integer" resultType="Integer">
+	select
+		count(*) as count
+	from 
+		kt_sys_attend_code
+	where 
+		school_id=#{school_id}
+		and is_active=1
+	</select>
+	
+	<update id="updateCodeStatus" parameterType="AttendCodeVO">
+	update 
+		kt_sys_attend_code 
+	set 
+		is_active=0 , update_date=#{update_date}
+	where 
+		school_id=#{school_id} 
+		and attend_code=#{attend_code}
+	</update>
+</mapper>
+

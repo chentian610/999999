@@ -1,0 +1,364 @@
+.td-left {
+	display: inline; 
+	float:left;
+}
+
+.td-right{
+	display: inline;
+	float:right;
+}
+
+.index-folder {
+    color: #06c;
+    text-decoration: none;
+    outline: 0;
+    cursor: pointer;
+}
+
+.separator-gt {
+    padding: 0 5px;
+}
+
+.folder-line {
+    cursor: pointer;
+}
+
+.fileicon {
+    cursor: default;
+    display: block;
+    float:left;
+    height: 16px;
+    line-height:16px;
+    width: 16px;
+    padding-left: 20px;
+}
+
+
+.default-small {
+	width: 16px;
+	height: 16px;
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/disk-system-cdn/widget/pageModule/list/img/listIcon_ca26f6a.png)
+		no-repeat
+}
+
+.dir-small {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/disk-system-cdn/widget/pageModule/list/img/listIcon_ca26f6a.png)
+		0 -30px no-repeat
+}
+
+.dir-app-small,.dir-apps-small {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/disk-system-cdn/widget/pageModule/list/img/listIcon_ca26f6a.png)
+		-60px -30px no-repeat
+}
+
+
+.fileicon-sys-s-ai,.fileicon-sys-s-apk,.fileicon-sys-s-exe,.fileicon-sys-s-ipa,.fileicon-sys-s-key,.fileicon-sys-s-psd,.fileicon-sys-s-vsd
+	{
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/disk-system-cdn/widget/pageModule/list/img/listIcon_ca26f6a.png)
+}
+
+
+.fileicon-sys-s-exe {
+	background-position: 0 -60px
+}
+
+.fileicon-sys-s-apk {
+	background-position: -60px -60px
+}
+
+.fileicon-sys-s-psd {
+	background-position: -180px -60px
+}
+
+.fileicon-sys-s-key {
+	background-position: -90px -60px
+}
+
+.fileicon-sys-s-ai {
+	background-position: -150px -60px
+}
+
+.fileicon-sys-s-ipa {
+	background-position: -30px -60px
+}
+
+.fileicon-sys-s-vsd {
+	background-position: -120px -60px
+}
+
+.fileicon-sys-l-ai,.fileicon-sys-l-apk,.fileicon-sys-l-dmg,.fileicon-sys-l-exe,.fileicon-sys-l-ipa,.fileicon-sys-l-key,.fileicon-sys-l-psd
+	{
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/disk-system-cdn/widget/pageModule/list/img/gridIcon_7165cae.png)
+}
+
+.fileicon-sys-l-exe {
+	background-position: 20px -183px
+}
+
+.fileicon-sys-l-dmg {
+	background-position: -180px -183px
+}
+
+.fileicon-sys-l-apk {
+	background-position: -280px -183px
+}
+
+.fileicon-sys-l-psd {
+	background-position: -580px -183px
+}
+
+.fileicon-sys-l-key {
+	background-position: -480px -183px
+}
+
+.fileicon-sys-l-ai {
+	background-position: -380px -183px
+}
+
+.fileicon-sys-l-ipa {
+	background-position: -80px -183px
+}
+
+.fileicon-small-bt {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png);
+	background-position: -270px 0
+}
+
+.fileicon-small-dws {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png);
+	background-position: -300px 0
+}
+
+
+.fileicon-small-doc,.fileicon-small-docx,.fileicon-small-pdf,.fileicon-small-ppt,.fileicon-small-pptx,.fileicon-small-txt,.fileicon-small-xls,.fileicon-small-xlsx
+	{
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png)
+}
+
+.fileicon-small-txt {
+	background-position: -120px 0
+}
+
+.fileicon-small-pdf {
+	background-position: -30px 0
+}
+
+.fileicon-small-doc,.fileicon-small-docx {
+	background-position: -60px 0
+}
+
+.fileicon-small-ppt,.fileicon-small-ppt {
+	background-position: -150px 0
+}
+
+.fileicon-small-xls,.fileicon-small-xlsx {
+	background-position: -90px 0
+}
+
+
+.fileicon-small-pic {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png);
+	background-position: 0 0
+}
+
+.fileicon-small-mm,.fileicon-small-mmap,.fileicon-small-xmind {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png)
+}
+
+.fileicon-small-mmap {
+	background-position: -330px 0
+}
+
+.fileicon-small-xmind {
+	background-position: -360px 0
+}
+
+.fileicon-small-mm {
+	background-position: -390px 0
+}
+
+.fileicon-small-mp3 {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png);
+	background-position: -180px 0
+}
+
+.icon-play-music {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/plugin-icon_b34adee.png)
+		0 -30px no-repeat
+}
+
+.g-button:hover .icon-play-music {
+	background-position: -30px -30px
+}
+
+
+.icon-edit {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/plugin-icon_b34adee.png)
+		-60px -30px no-repeat
+}
+
+.g-button:hover .icon-edit {
+	background-position: -90px -30px
+}
+
+.fileicon-small-video {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png);
+	background-position: -210px 0
+}
+
+.fileicon-large-video {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/gridIcon_2a39f1a.png);
+	background-position: -880px 17px
+}
+
+.fileicon-middle-video {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/middleListIcon_5c028ef.png);
+	background-position: -240px -1px
+}
+
+.fileicon-small-zip,.fileicon-small-rar {
+	background-image:
+		url(http://s1.pan.bdstatic.com/box-static/file-widget-1-cdn/common/listIcon_cb54a24.png);
+	background-position: -240px 0
+}
+
+.icon-device-tool {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		-60px 0 no-repeat
+}
+
+.g-button:hover .icon-device-tool,.icon-device-tool:hover {
+	background-position: -90px 0
+}
+
+.icon-device-listtool {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		-120px 0 no-repeat
+}
+
+.g-button:hover .icon-device-listtool {
+	background-position: -150px 0
+}
+
+.icon-online {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/device/img/device-online_6f31fc0.png)
+		no-repeat
+}
+
+.icon-faceSearch-gray {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		-120px -30px no-repeat
+}
+
+.g-button:hover .icon-faceSearch-gray {
+	background-position: -150px -30px
+}
+
+.icon-history-gray {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		0 -60px no-repeat
+}
+
+.g-button:hover .icon-history-gray {
+	background-position: -30px -60px
+}
+
+.icon-aside-share {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/navigator_8461603.png)
+}
+
+a:hover .icon-aside-share {
+	background-position: -23px 0
+}
+
+.icon-offline-download {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		no-repeat
+}
+
+.g-button:hover .icon-offline-download,.icon-offline-download:hover {
+	background-position: -30px 0
+}
+
+.icon-print-gray {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		-180px -30px no-repeat
+}
+
+.g-button:hover .icon-print-gray {
+	background-position: -210px -30px
+}
+
+.icon-beautify-gray {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		-60px -60px no-repeat
+}
+
+.g-button:hover .icon-beautify-gray {
+	background-position: -90px -60px
+}
+
+.icon-puzzle-gray {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		-120px -60px no-repeat
+}
+
+.g-button:hover .icon-puzzle-gray {
+	background-position: -150px -60px
+}
+
+.icon-aside-recyclebin {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/navigator_8461603.png)
+		0 -22px
+}
+
+a:hover .icon-aside-recyclebin {
+	background-position: -23px -22px
+}
+
+.icon-share-gray {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		-180px 0 no-repeat
+}
+
+.g-button:hover .icon-share-gray {
+	background-position: -240px 0
+}
+
+.icon-share-blue {
+	background:
+		url(http://s1.pan.bdstatic.com/box-static/function-widget-1-cdn/common/plugin-icon_7318e47.png)
+		-210px 0 no-repeat
+}
+
+.icon-share-blue:hover {
+	background-position: -240px 0
+}

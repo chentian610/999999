@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sourceMap">
+	<!--插入表kt_bus_teach_source-->
+	<insert id="insertSource" parameterType="SourceVO">insert into
+		kt_bus_teach_source
+		(
+		source_id,
+		school_id,
+		sender_id,
+		source_data,
+		source_type,
+		source_name,
+		remark,
+		create_date,
+		create_by,
+		version
+		) VALUES (
+		#{source_id},
+		#{school_id},
+		#{sender_id},
+		#{source_data},
+		#{source_type},
+		#{source_name},
+		#{remark},
+		#{create_date},
+		#{create_by},
+		0
+		)</insert>
+	
+	<!-- 获取发送者资源列表 -->
+	<select id="getSourceListBySenderId" parameterType="Map" resultType="SourceVO">
+		select
+		id as id,
+		school_id as school_id,
+		sender_id as sender_id,
+		source_id as source_id,
+		source_data as source_data,
+		remark as remark,
+		create_date as create_date,
+		create_by as create_by,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bus_teach_source
+		where sender_id=#{user_id}
+		<if test="school_id != null and school_id != 0 ">    
+            and school_id=#{school_id} 
+        </if>
+		<if test="app_sql != null and app_sql != '' ">    
+            and id  ${app_sql}  
+        </if>
+        <if test="order_sql != null and order_sql != '' ">    
+            order by id ${order_sql}  
+        </if> 
+	</select>
+	
+	<!-- 获取发送者资源列表 -->
+	<select id="getSourceByID" parameterType="Integer" resultType="SourceVO">
+		select
+		id as id,
+		school_id as school_id,
+		sender_id as sender_id,
+		source_id as source_id,
+		source_data as source_data,
+		remark as remark,
+		create_date as create_date,
+		create_by as create_by,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bus_teach_source
+		where id=#{id}
+	</select>
+</mapper>
+

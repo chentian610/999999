@@ -1,0 +1,261 @@
+/*总体样式*/
+ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.fl{
+	float: left;
+}
+.clearfix:after{
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+	*zoom: 1;
+}
+/*菜谱首页样式*/
+.zjq-menu-page{
+	width: 100%;
+	height: 680px;
+	padding: 68px 20px 0;
+	position: relative;
+}
+.zjq-menu-page .zjq-arrow-left,.zjq-menu-page .zjq-arrow-right{
+	width: 20px;
+	height: 35px;
+	position: absolute;
+	top:calc(50% + 12px);
+	cursor: pointer;
+}
+.zjq-menu-page span img{
+	width: 100%;
+	height: 100%;
+}
+.zjq-menu-page .zjq-arrow-right{
+	right: 0;
+}
+.zjq-menu-page .zjq-arrow-left{
+	left: 0;
+}
+.zjq-menu-page .zjq-menu-list{
+	width: 640px;
+	height: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+}
+.zjq-menu-page .zjq-menu-list ul{
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 30px;
+}
+.zjq-menu-page .zjq-menu-list ul li{
+	float: left;
+	margin-right: 60px;
+}
+.zjq-menu-page .zjq-menu-list ul li .zjq-menu-scroll{
+	height: 550px;
+	width: 290px;
+	overflow-y: auto;
+	border: 1px solid #D1DAE1;
+	border-radius: 4px;
+	background: #F8FAFB;
+}
+.zjq-menu-page .zjq-menu-list ul li .zjq-menu-scroll::-webkit-scrollbar {
+    display: none;
+}
+.zjq-menu-page .zjq-menu-list ul li time{
+	font-size: 14px;
+	color: #4A4A4A;
+	line-height: 30px;
+	margin-left: 20px;
+}
+.zjq-menu-page .zjq-menu-list ul li .zjq-menu-manage{
+	width: 290px;
+	background: #F8FAFB;
+	margin-bottom: 30px;
+}
+.zjq-menu-page .zjq-menu-list .zjq-menu-manage dt{
+	padding:0 20px;
+	font-size: 18px;
+	color: #4A4A4A;
+	font-weight: normal;
+	line-height: 58px;
+	height: 58px;
+	border-bottom: 1px solid #D1DAE1;
+}
+.zjq-menu-page .zjq-menu-list .zjq-menu-manage dd{
+	font-size: 18px;
+	color: #4A4A4A;
+	line-height: 18px;
+	padding: 0 20px;
+	margin-top: 30px;
+	position: relative;
+}
+.zjq-menu-page .zjq-menu-list .zjq-menu-manage dd span{
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	position: absolute;
+	right: 20px;
+	top: 0;
+	cursor: pointer;
+}
+/*弹窗样式*/
+.modal-dialog{
+	width: 504px;
+}
+.zjq-form-menu {
+    width: 394px;
+    margin: 0 50px 0 60px;
+    padding: 40px 0;
+}
+.zjq-form-menu h3{
+	font-size: 18px;
+	color: #4A4A4A;
+	line-height: 18px;
+	margin: 0 0 26px 0;
+}
+.form-horizontal .control-label{
+	text-align: left;
+	font-size: 16px;
+	color: #4A4A4A;
+	line-height: 18px;
+	font-weight: normal;
+}
+.zjq-form-menu input{
+	width: 312px;
+	display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+	min-height: 30px;
+}
+.zjq-menu-pic .zjq-food-title{
+	padding-left: 0;
+	font-size: 16px;
+	color: #4A4A4A;
+	line-height: 18px;
+}
+.zjq-menu-pic ul{
+	width: 312px;
+	float: right;
+}
+.zjq-menu-pic ul li{
+	float: left;
+	border-radius: 4px;
+	width: 100px;
+	height: 100px;
+	margin: 0 6px 6px 0;
+	position: relative;
+}
+.zjq-menu-pic ul li:nth-child(3n){
+	margin-right: 0;
+}
+.zjq-menu-pic ul li span{
+	display: block;
+	border-radius: 4px;
+	width: 100px;
+	height: 100px;
+	background: rgba(56,56,56,.38) url(../icon/del_circle.png) no-repeat 30px 30px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	text-align: center;
+	display: none;	
+}
+.zjq-menu-pic ul li:hover span{
+	display: block;
+}
+.zjq-menu-pic ul li.zjq-upload-img{
+	border: 1px dashed #D1DAE1;
+	text-align: center;
+	cursor: pointer;
+}
+.zjq-menu-pic ul li.zjq-upload-img img{
+	width: 30px;
+	height: 24px;
+	margin-top: 39px;
+}
+.zjq-form-text input{
+	width: 312px;
+	margin-right: -5px;
+}
+.zjq-form-text label{
+	font-size: 16px;
+	color: #4A4A4A;
+	font-weight: normal;
+}
+.zjq-menu-buttons{
+	width:330px;
+	margin: 30px auto 0;
+}
+.zjq-menu-buttons .btn{
+	color: #fff;
+	font-size: 18px;
+	height: 40px;
+	font-weight: normal;
+}
+.zjq-menu-buttons .btn.btn-white{
+	width: 100px;
+	margin-right: 20px;
+}
+.zjq-menu-buttons .btn.zjq-green-btn{
+	width: 200px;
+	background: #1CBB9E;
+}
+/*菜谱编辑完成样式*/
+.zjq-menu-manage .zjq-menu-detail{
+	width: 100%;
+	background: #FFFFFF;
+	border: 1px solid #D1DAE1;
+	border-radius: 4px;
+	padding: 8px 11px 8px 9px;
+	margin-top: 12px;
+	position: relative;
+}
+.zjq-menu-manage .zjq-menu-detail h4{
+	font-size: 14px;
+	color: #4A4A4A;
+	line-height: 24px;
+}
+.zjq-menu-manage .zjq-menu-detail .zjq-menu-edit{
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background: rgba(56,56,56,.38);
+	position: absolute;
+	left: 0;
+	top: 0;
+	vertical-align: middle;
+	display: none;
+}
+.zjq-menu-manage .zjq-menu-detail:hover .zjq-menu-edit{
+	display: block;
+}
+.zjq-menu-manage .zjq-menu-detail .zjq-menu-edit .zjq-edit-pic{
+	position: absolute;
+	top: 50%;
+	left: 65px;
+	width: 36px;
+	height: 36px;
+	margin-top: -18px;
+	cursor: pointer;
+}
+.zjq-menu-manage .zjq-menu-detail .zjq-menu-edit .zjq-del-pic{
+	position: absolute;
+	top: 50%;
+	left: 145px;
+	width: 40px;
+	height: 40px;
+	margin-top: -20px;
+	cursor: pointer;
+}
+.zjq-menu-manage .zjq-menu-detail .zjq-pic-list .zjq-pic-item{
+	float: left;
+	margin: 0 6px 6px 0;
+	width: 60px;
+	height: 60px;
+	border-radius: 4px;
+}

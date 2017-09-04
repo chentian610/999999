@@ -1,0 +1,39 @@
+package com.ninesky.classtao.info.vo;
+
+import java.util.List;
+import com.ninesky.classtao.info.vo.InfoReceiveVO;
+import com.ninesky.classtao.info.vo.InfoVO;
+import com.ninesky.common.util.BeanUtil;
+import com.ninesky.common.util.StringUtil;
+import com.tencent.xinge.MessageIOS;
+import com.tencent.xinge.XingeApp;
+
+public class XingePushIOS implements Runnable {
+	private XingeApp xgApp;
+	private MessageIOS msg = new MessageIOS();
+	private String account;
+	private List<String> accountList;
+	
+	public XingePushIOS(XingeApp xgApp,InfoReceiveVO vo){
+		this.xgApp = xgApp;
+		this.msg.setCustom(BeanUtil.JsontoHashMap(vo.getInit_data()));
+		this.msg.setAlert(vo.getInfo_title());
+		this.msg.setBadge(1);
+		this.msg.setSound("beep.wav");
+		this.account = String.valueOf(vo.getUser_id());
+	}
+	
+	public XingePushIOS(XingeApp xgApp,InfoVO vo,List<String> accountList){
+		this.xgApp = xgApp;
+		this.msg.setCustom(BeanUtil.JsontoHashMap(vo.getInit_data()));
+		this.msg.setAlert(vo.getInfo_title());
+		this.msg.setBadge(1);
+		this.msg.setSound("beep.wav");
+		this.accountList=accountList;
+	}
+	
+	public void run(){
+		if (!StringUtil.isEmpty(account)) xgApp.pushSingleAccount(0, account, msg,XingeApp.IOSENV_DEV);
+		else xgApp.pushAccountList(0, accountList, msg ,XingeApp.IOSENV_DEV);
+	}
+}

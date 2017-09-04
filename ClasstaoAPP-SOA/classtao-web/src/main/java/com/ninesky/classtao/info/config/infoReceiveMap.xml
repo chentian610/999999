@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="infoReceiveMap">
+	<!--插入表kt_bus_info_receive-->
+	<insert id="insertInfoReceiveBatch" parameterType="List">
+		insert into kt_bus_info_receive
+		(
+		info_id,
+		school_id,
+		grade_id,
+		class_id,
+		user_id,
+		sender_id,
+		student_id,
+		module_code,
+		module_pkid,
+		user_type,
+		receive_name,
+		info_date,
+		info_type,
+		info_url,
+		info_title,
+		info_content,
+		show_type,
+		init_data,
+		photo_list,
+		count_info,
+		is_read,
+		create_date,
+		create_by,
+		version
+		) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.info_id},
+			#{item.school_id},
+			#{item.grade_id},
+			#{item.class_id},
+			#{item.user_id},
+			#{item.sender_id},
+			#{item.student_id},
+			#{item.module_code},
+			#{item.module_pkid},
+			#{item.user_type},
+			#{item.receive_name},
+			#{item.info_date},
+			#{item.info_type},
+			#{item.info_url},
+			#{item.info_title},
+			#{item.info_content},
+			#{item.show_type},
+			#{item.init_data},
+			#{item.photo_list},
+			#{item.count_info},
+			0,
+			#{item.create_date},
+			#{item.create_by},
+			0
+			)
+		</foreach>
+	</insert>
+	
+	<!--更新表kt_bus_info_receive-->
+	<update id="updateInformation" parameterType="InfoReceiveVO">update
+		kt_bus_info_receive
+		set
+		info_date = #{info_date},
+		info_title = #{info_title},
+		info_content = #{info_content},
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version = version+1 where info_id=#{info_id}</update>
+		
+	<!--查询表kt_bus_info_receive-->
+	<select id="getInfoReceiveList" parameterType="InfoReceiveVO"
+		resultType="InfoReceiveVO">
+		select
+		id as id,
+		info_id as info_id,
+		school_id as school_id,
+		grade_id as grade_id,
+		class_id as class_id,
+		user_id as user_id,
+		student_id as student_id,
+		module_code as module_code,
+		module_pkid as module_pkid,
+		user_type as user_type,
+		receive_name as receive_name,
+		info_date as info_date,
+		info_type as info_type,
+		info_url as info_url,
+		info_title as info_title,
+		info_content as info_content,
+		show_type as show_type,
+		init_data as init_data,
+		photo_list as photo_list,
+		count_info as count_info,
+		is_read as is_read,
+		create_date as create_date,
+		create_by as create_by,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bus_info_receive
+		<where>
+			<if test="user_type == '003005' ">
+				user_id = #{user_id} and user_type = #{user_type}
+			</if>
+			<if test="user_type == '003010' or user_type == '003015' ">
+				student_id = #{student_id}
+			</if>
+			<if test="school_id != null and school_id != 0">
+				and school_id=#{school_id}
+			</if>
+			<if test="is_read != null">
+				and is_read=#{is_read}
+			</if>
+			<if test="info_date != null">
+				and info_date=#{info_date}
+			</if>
+			<if test="module_code != null">
+				and module_code=#{module_code}
+			</if>
+			<if test="show_type != null and show_type != '' ">
+				and #{show_type} like CONCAT(show_type,'%')
+			</if>
+			<if test="info_id !=null and info_id!=0">
+				and info_id=#{info_id}
+			</if>
+			<if test="app_sql != null and app_sql != '' ">    
+               and id  ${app_sql}  
+            </if>
+            <if test="order_sql != null and order_sql != '' ">    
+               order by id ${order_sql}  
+            </if> 
+		</where>
+	</select>
+	<!-- 设置动态已读 （和获取列表的条件保持一致）-->
+	<update id="updateInfoReceiveIsRead" parameterType="InfoReceiveVO">
+		update kt_bus_info_receive 
+		set is_read=1,
+		version=version+1
+		<where>
+		    <if test="user_type == '003005' ">
+				user_id = #{user_id} and user_type = #{user_type}
+			</if>
+			<if test="user_type == '003010' or user_type == '003015' ">
+				student_id = #{student_id} and info_id=#{info_id}
+			</if>
+			<if test="school_id != null and school_id != 0 ">    
+            	and school_id=#{school_id} 
+        	</if>
+        	and is_read=0
+        	<if test="info_date != null">
+				and info_date=#{info_date}
+			</if>
+			<if test="module_code != null">
+				and module_code=#{module_code}
+			</if>
+			<if test="show_type != null and show_type != '' ">
+				and #{show_type} like CONCAT(show_type,'%')
+			</if> 
+		</where>
+	</update>
+	<!--删除表kt_bus_info_receive-->
+	<delete id="deleteInfoReceive" parameterType="InfoReceiveVO">delete from
+		kt_bus_info_receive
+		where student_id=#{student_id} and module_pkid=#{module_pkid}</delete>
+	<!-- 获取未读消息数量 -->
+	<select id="getUnreadCount" parameterType="Map" resultType="Integer">
+		select count(id) from kt_bus_info_receive 
+		where is_read=0
+		<if test="user_type == '003005' ">
+			and user_id = #{user_id} and user_type = #{user_type} and create_by!=#{user_id}
+		</if>
+		<if test="user_type == '003010' or user_type == '003015' ">
+			and student_id = #{student_id}
+		</if>
+		<if test="school_id != null and school_id != 0 ">    
+           	and school_id=#{school_id} 
+       	</if> 
+	</select>
+	<!-- 根据模块更新动态消息 -->
+	<update id="updateInfoByModule" parameterType="InfoReceiveVO">
+		update kt_bus_info_receive
+		set
+		<if test="info_type != null and info_type != '' ">
+			info_type=#{info_type},
+		</if>
+	    <if test="info_title != null and info_title != '' ">
+			info_title=#{info_title},
+		</if>
+		<if test="info_content != null and info_content != '' ">
+			info_content=#{info_content},
+		</if>
+		<if test="info_url != null and info_url != '' ">
+			info_url=#{info_url},
+		</if>
+		<if test="count_info != null and count_info != '' ">
+			count_info=#{count_info},
+		</if>
+		<if test="photo_list != null and photo_list != '' ">
+			photo_list=#{photo_list},
+		</if>
+		update_by=#{update_by},
+		update_date=#{update_date},		
+		version=version+1
+		where 
+		module_code=#{module_code}
+		and module_pkid=#{module_pkid}
+		and school_id=#{school_id}
+		<if test="class_id!=null ">
+		and class_id=#{class_id}
+		</if>
+		<if test="user_type == '003005' ">
+			and user_id = #{send_id} and user_type = #{user_type}
+		</if>
+		<if test="user_type == '003010' or user_type == '003015' ">
+			and student_id = #{student_id}
+		</if>
+		<if test="module_code=='009001'">
+			and sender_id !=0
+		</if>
+	</update>
+
+	<!-- 根据班级，模块code，模块pkid获取消息：相册模块使用-->
+	<select id="getReceiveInfoByModule" parameterType="InfoReceiveVO" 
+	    resultType="InfoReceiveVO">
+		select
+		info_id as info_id,
+		info_title as info_title,
+		info_date as info_date,
+		school_id as school_id,
+		class_id as class_id,
+		module_code as module_code,
+		module_pkid as module_pkid,
+		photo_list as photo_list
+		from kt_bus_info_receive
+		where school_id=#{school_id}
+		and class_id=#{class_id}
+		and module_code=#{module_code}
+		and module_pkid=#{module_pkid}
+		group by class_id
+	</select>
+	<!-- 根据info_id获取接收列表 -->
+	<select id="getReceiveInfoByInfoId" parameterType="InfoReceiveVO" 
+	    resultType="InfoReceiveVO">
+		select
+		info_id as info_id,
+		info_type as info_type,
+		info_title as info_title,
+		info_content as info_content,
+		school_id as school_id,
+		class_id as class_id,
+		grade_id as grade_id,
+		user_type as user_type,
+		user_id as user_id,
+		student_id as student_id
+		from kt_bus_info_receive
+		where info_id=#{info_id}
+	</select>
+	<!-- 查询表 -->
+	<select id="getInfo" parameterType="InfoReceiveVO" resultType="Integer">
+		select module_pkid from kt_bus_info_receive where class_id=#{class_id} and 
+		module_code=#{module_code} and  info_date=#{info_date} and 
+		info_type=#{info_type}
+		<if test="user_type == '003005' ">
+			and user_id = #{user_id} and user_type = #{user_type}
+		</if>
+		<if test="user_type == '003010' or user_type == '003015' ">
+			and student_id = #{student_id}
+		</if>
+		<if test="school_id != null and school_id != 0 ">    
+           	and school_id=#{school_id} 
+       	</if>
+	</select>
+	
+	<!-- 更新通知动态接收者的count_info -->
+	<update id="updateNoticeCountInfo" parameterType="InfoReceiveVO">
+		update kt_bus_info_receive set count_info=#{count_info},update_by=#{update_by},
+		update_date=#{update_date},version=version+1
+		where 
+		module_code=#{module_code} and module_pkid=#{module_pkid} 
+		<if test="user_type == '003005' ">
+			and user_id = #{user_id} and user_type = #{user_type}
+		</if>
+		<if test="user_type == '003010' or user_type == '003015' ">
+			and student_id = #{student_id}
+		</if>
+		<if test="school_id != null and school_id != 0 ">    
+           	and school_id=#{school_id} 
+       	</if>
+	</update>
+	
+	<insert id="insertInfoReceive" parameterType="InfoReceiveVO">
+		insert into kt_bus_info_receive
+		(
+		info_id,
+		school_id,
+		grade_id,
+		class_id,
+		user_id,
+		student_id,
+		module_code,
+		module_pkid,
+		user_type,
+		receive_name,
+		info_date,
+		info_type,
+		info_url,
+		info_title,
+		info_content,
+		show_type,
+		init_data,
+		photo_list,
+		count_info,
+		is_read,
+		create_date,
+		create_by,
+		version
+		) VALUES(
+			#{info_id},
+			#{school_id},
+			#{grade_id},
+			#{class_id},
+			#{user_id},
+			#{student_id},
+			#{module_code},
+			#{module_pkid},
+			#{user_type},
+			#{receive_name},
+			#{info_date},
+			#{info_type},
+			#{info_url},
+			#{info_title},
+			#{info_content},
+			#{show_type},
+			#{init_data},
+			#{photo_list},
+			#{count_info},
+			0,
+			#{create_date},
+			#{create_by},
+			0
+			)
+	</insert>
+	
+	<update id="updateStudentInfo" parameterType="InfoReceiveVO">
+	update kt_bus_info_receive set 
+	<if test="class_id!=null and class_id!=0">
+	grade_id=#{grade_id},
+	class_id=#{class_id},
+	</if>
+	receive_name=#{receive_name},update_by=#{update_by},
+	update_date=#{update_date},version=version+1 where student_id=#{student_id} and school_id=#{school_id}
+	</update>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+	delete from kt_bus_info_receive where class_id=#{class_id}
+	</delete>
+</mapper>
+

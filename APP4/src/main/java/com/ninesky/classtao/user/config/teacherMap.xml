@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="teacherMap">
+	<!--插入表kt_bas_teacher -->
+	<insert id="insertTeacher" parameterType="TeacherVO">
+	insert into	kt_bas_teacher
+		(
+		teacher_id,
+		user_id,
+		school_id,
+		team_type,
+		grade_id,
+		class_id,
+		class_name,
+		teacher_name,
+		<if test="all_letter!=null and all_letter!=''">
+		all_letter,
+		first_letter,
+		</if>
+		sex,
+		phone,
+		head_url,
+		is_confirm,
+		course,
+		duty,
+		is_graduate,
+		is_charge,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{teacher_id},
+		#{user_id},
+		#{school_id},
+		#{team_type},
+		#{grade_id},
+		#{class_id},
+		#{class_name},
+		#{teacher_name},
+		<if test="all_letter!=null and all_letter!=''">
+		#{all_letter},
+		#{first_letter},
+		</if>
+		#{sex},
+		#{phone},
+		#{head_url},
+		#{is_confirm},
+		#{course},
+		#{duty},
+		0,
+		#{is_charge},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<!--更新表kt_bas_teacher -->
+	<update id="updateTeacher" parameterType="TeacherVO">
+	update kt_bas_teacher
+		set 
+		<if test="teacher_name != null and teacher_name != '' ">
+			teacher_name = #{teacher_name},
+		</if>
+		<if test="head_url != null and head_url != '' ">
+			head_url = #{head_url}, 
+		</if>
+		<if test="sex!=null">
+			sex = #{sex},
+		</if>
+		<if test="phone!=null and phone!=''">
+		phone=#{phone},
+		</if>
+		<if test="all_letter!=null and all_letter!=''">
+			all_letter=#{all_letter},
+		</if>
+		<if test="first_letter!=null and first_letter!=''">
+			first_letter=#{first_letter},
+		</if>
+		update_by=#{update_by},update_date=#{update_date},
+		version = version+1 
+	where user_id=#{user_id}
+	</update>
+	
+	<!--查询表kt_bas_teacher -->
+	<select id="getTeacherListById" parameterType="TeacherVO"	resultType="TeacherVO">
+	select
+		teacher_id as teacher_id,
+		teacher_name as teacher_name,
+		user_id as user_id,
+		school_id as school_id,
+		team_type as team_type,
+		grade_id as grade_id,
+		class_id as class_id,
+		contact_id as contact_id,
+		is_confirm as is_confirm,
+		class_name as class_name,
+		teacher_name as teacher_name,
+		first_letter as first_letter,
+		all_letter as all_letter,
+		is_graduate as is_graduate,
+		is_charge as is_charge,
+		phone as phone,
+		head_url as head_url,
+		course as course,
+		duty as duty,
+		version as version
+	from kt_bas_teacher
+	where school_id=#{school_id} and user_id=#{user_id} 
+	order by grade_id,class_id
+	</select>
+	
+	<!--根据年级、班级获取教师user列表 -->
+	<select id="getTeaUserList" parameterType="TeacherVO" resultType="TeacherVO">
+	select
+		teacher_id as teacher_id,
+		teacher_name as teacher_name,
+		user_id as user_id,
+		school_id as school_id,
+		team_type as team_type,
+		grade_id as grade_id,
+		class_id as class_id,
+		class_name as class_name,
+		teacher_name as teacher_name,
+		first_letter as first_letter,
+		all_letter as all_letter,
+		is_charge as is_charge,
+		phone as phone,
+		head_url as head_url,
+		course as course,
+		duty as duty,
+		version as version
+	from kt_bas_teacher
+	<where>
+		<if test="school_id !=null and school_id != 0">
+		  school_id=#{school_id}
+		</if>
+		<if test="grade_id!=null">
+		and grade_id=#{grade_id}
+		</if>
+		<if test="class_id!=null">
+		 and class_id=#{class_id}
+		 </if>
+		<if test="teacher_name !=null and teacher_name != '' ">
+		 and (teacher_name like CONCAT('%',#{teacher_name},'%') 
+		 		or first_letter like CONCAT(#{teacher_name},'%')
+		 		or all_letter like CONCAT(#{teacher_name},'%'))
+		</if>
+		<if test="phone !=null and phone != '' ">
+		 and phone like CONCAT(#{phone}, '%')
+		</if> order by first_letter
+    </where>
+	</select>
+	
+	<!--获取教师列表 -->
+	<select id="getTeacherList" parameterType="TeacherVO" resultType="TeacherVO">
+	select
+		teacher_name as user_name,
+		teacher_id as teacher_id,
+		is_confirm as is_confirm,
+		user_id as user_id,
+		school_id as school_id,
+		grade_id as grade_id,
+		team_type as team_type,
+		all_letter as all_letter,
+		first_letter as first_letter,
+		class_id as class_id,
+		class_name as class_name,
+		teacher_name as teacher_name,
+		is_graduate as is_graduate,
+		sex as sex,
+		phone as phone,
+		head_url as head_url,
+		course as course,
+		duty as duty,
+		is_charge as is_charge,
+		version as version
+	from kt_bas_teacher
+	<where>
+		school_id=#{school_id}
+		<if test="grade_id!=null and grade_id!=0">
+		 and grade_id=#{grade_id}
+		</if>
+		<if test="class_id!=null and class_id!=0">
+		 and class_id=#{class_id}
+		 </if>
+		 <if test="is_charge!=null and is_charge != ''">
+		  and is_charge=#{is_charge}
+		 </if>
+		 <if test="course!=null and course!='' ">
+		 and course=#{course}
+		 </if>
+		 <if test="team_type != null and team_type != '' ">
+		 and team_type=#{team_type}
+		 </if> 
+		 <if test="duty!=null and duty!='' ">
+		 and duty=#{duty}
+		 </if>
+		<if test="is_filtered==1">
+			AND (user_id is not NULL OR user_id != '')
+		</if>
+		<if test="is_graduate==0">
+			AND (is_graduate = 0 or is_graduate IS NULL or is_graduate = '')
+		</if>
+	</where>
+	</select>
+	
+	<!--获取教师列表 -->
+	<select id="getTeacherOfDuty" parameterType="TeacherVO" resultType="TeacherVO">
+	select
+		teacher_id as teacher_id,
+		user_id as user_id,
+		school_id as school_id,
+		grade_id as grade_id,
+		class_id as class_id,
+		class_name as class_name,
+		teacher_name as teacher_name,
+		is_charge as is_charge,
+		sex as sex,
+		phone as phone,
+		course as course,
+		duty as duty,
+		version as version
+	from kt_bas_teacher
+	<where>
+		school_id=#{school_id}
+		 <if test="duty!=null and duty != '' ">
+		 and duty=#{duty}
+		 </if>
+	</where>
+	</select>
+	
+	<select id="getTeacherOfCharge" parameterType="TeacherVO" resultType="TeacherVO">
+	select
+		teacher_id as teacher_id,
+		user_id as user_id,
+		school_id as school_id,
+		grade_id as grade_id,
+		class_id as class_id,
+		class_name as class_name,
+		teacher_name as teacher_name,
+		sex as sex,
+		phone as phone,
+		course as course,
+		duty as duty,
+		version as version
+	from kt_bas_teacher
+	<where>
+		school_id=#{school_id}
+		 and is_charge=#{is_charge}
+	</where>
+	</select>
+	
+	<!--删除表kt_bas_teacher -->
+	<delete id="deleteTeacher" parameterType="TeacherVO">delete from
+		kt_bas_teacher
+		where teacher_id = #{teacher_id}
+	</delete>
+	
+	<!-- 更新表kt_bas_teacher -->
+	<update id="updateClassname" parameterType="ClassVO" >
+		update kt_bas_teacher set 
+		<if test="class_name!=null and class_name!=''">
+		class_name=#{class_name},
+		</if>
+		update_by=#{update_by},
+		update_date=#{update_date},version=version+1 where class_id=#{class_id}
+	</update>
+	
+	<select id="getTeacherClass" parameterType="TeacherVO"	resultType="TeacherVO">
+	select
+		teacher_id as teacher_id,
+		user_id as user_id,
+		school_id as school_id,
+		grade_id as grade_id,
+		class_id as class_id,
+		class_name as class_name,
+		teacher_name as teacher_name,
+		course as course,
+		duty as duty,
+		version as version
+	from kt_bas_teacher
+	where grade_id=#{grade_id} and user_id=#{user_id} order by class_id
+	</select>
+	
+	<insert id="addTeacher" parameterType="TeacherVO">
+	insert into	kt_bas_teacher
+		(
+		teacher_id,
+		<if test="user_id!=null and user_id!=0">
+		user_id,
+		</if>
+		school_id,
+		team_type,
+		grade_id,
+		class_id,
+		contact_id,
+		class_name,
+		teacher_name,
+		first_letter,
+		all_letter,
+		sex,
+		<if test="course!=null and course!=''">
+		course,
+		</if>
+		<if test="duty!=null and duty!=''">
+		duty,
+		</if>
+		<if test="is_charge!=null">
+		is_charge,
+		</if>
+		phone,
+		is_graduate,
+		is_confirm,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{teacher_id},
+		<if test="user_id!=null and user_id!=0">
+		#{user_id},
+		</if>
+		#{school_id},
+		#{team_type},
+		#{grade_id},
+		#{class_id},
+		#{contact_id},
+		#{class_name},
+		#{teacher_name},
+		#{first_letter},
+		#{all_letter},
+		#{sex},
+		<if test="course!=null and course!=''">
+		#{course},
+		</if>
+		<if test="duty!=null and duty!=''">
+		#{duty},
+		</if>
+		<if test="is_charge!=null">
+		#{is_charge},
+		</if>
+		#{phone},
+		0,
+		#{is_confirm},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<insert id="addInterestTeacher" parameterType="TeacherVO">
+	insert into	kt_bas_teacher
+		(
+		teacher_id,
+		<if test="user_id!=null and user_id!=0">
+		user_id,
+		</if>
+		school_id,
+		team_type,
+		contact_id,
+		class_name,
+		teacher_name,
+		first_letter,
+		all_letter,
+		sex,
+		<if test="course!=null and course!=''">
+		course,
+		</if>
+		<if test="duty!=null and duty!=''">
+		duty,
+		</if>
+		<if test="is_charge!=null">
+		is_charge,
+		</if>
+		phone,
+		head_url,
+		is_graduate,
+		is_confirm,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{teacher_id},
+		<if test="user_id!=null and user_id!=0">
+		#{user_id},
+		</if>
+		#{school_id},
+		#{team_type},
+		#{contact_id},
+		#{class_name},
+		#{teacher_name},
+		#{first_letter},
+		#{all_letter},
+		#{sex},
+		<if test="course!=null and course!=''">
+		#{course},
+		</if>
+		<if test="duty!=null and duty!=''">
+		#{duty},
+		</if>
+		<if test="is_charge!=null">
+		#{is_charge},
+		</if>
+		#{phone},
+		#{head_url},
+		0,
+		#{is_confirm},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	
+	<update id="updateUserID" parameterType="UserVO">
+		update kt_bas_teacher set user_id=#{user_id},head_url=#{head_url} where phone=#{phone} and (user_id=0 or user_id is null)
+	</update>
+	
+	<select id="getNewTeacher" parameterType="TeacherVO" resultType="TeacherVO">
+		select teacher_id from kt_bas_teacher where school_id=#{school_id} and user_id=#{user_id} and (duty is null or duty='')
+	</select>
+	
+	<select id="getNewTeachermana" parameterType="TeacherVO" resultType="TeacherVO">
+		select teacher_id from kt_bas_teacher where school_id=#{school_id} and phone=#{phone} and (duty is null or duty='')
+	</select>
+
+	<update id="addDuty" parameterType="TeacherVO">
+	update kt_bas_teacher set
+	team_type=#{team_type},grade_id=#{grade_id},class_id=#{class_id},class_name=#{class_name},course=#{course},
+	duty=#{duty},is_confirm=#{is_confirm},is_charge=#{is_charge},update_by=#{update_by},
+	update_date=#{update_date},version=version+1,contact_id=#{contact_id}
+	where teacher_id=#{teacher_id}
+	</update>
+	
+	<update id="addInterestDuty" parameterType="TeacherVO">
+	update kt_bas_teacher set
+		team_type=#{team_type},class_name=#{class_name},course=#{course},
+		duty=#{duty},is_confirm=#{is_confirm},is_charge=#{is_charge},update_by=#{update_by},
+		update_date=#{update_date},version=version+1,contact_id=#{contact_id}
+	where teacher_id=#{teacher_id}
+	</update>
+	
+	<!-- 修改手机号 -->
+	<update id="updateTeacherPhone" parameterType="UserVO">
+		update kt_bas_teacher set phone=#{phone},update_by=#{update_by},update_date=#{update_date},
+		version=version+1 where user_id=#{user_id}
+	</update>
+	
+	<!-- 教师确认身份 -->
+	<update id="isconfirmTeacher" parameterType="Integer">
+		update kt_bas_teacher set is_confirm=1 where teacher_id=#{teacher_id}
+	</update>
+	
+	<!-- 教师修改身份信息（已完善后发现有错，而进行修改） -->
+	<update id="updateTeacherDuty" parameterType="TeacherVO">
+	update kt_bas_teacher set 
+		<if test="grade_id!=null">
+		 grade_id=#{grade_id},
+		</if>
+		<if test="class_id!=null">
+		 class_id=#{class_id},
+		</if>
+		class_name=#{class_name},
+		course=#{course},
+		<if test="duty!=null and duty!=''">
+		 duty=#{duty},
+		</if>
+		is_charge=#{is_charge},contact_id=#{contact_id},team_type=#{team_type},
+		update_by=#{update_by},update_date=#{update_date},version=version+1
+	where teacher_id=#{teacher_id}
+	</update>
+	
+	<update id="updateInterestTeacherDuty" parameterType="TeacherVO">
+	update kt_bas_teacher set 
+		 grade_id=#{grade_id},
+		 class_id=#{class_id},
+		class_name=#{class_name},
+		course=#{course},
+		<if test="duty!=null and duty!=''">
+		 duty=#{duty},
+		</if>
+		is_charge=#{is_charge},contact_id=#{contact_id},team_type=#{team_type},
+		update_by=#{update_by},update_date=#{update_date},version=version+1
+	where teacher_id=#{teacher_id}
+	</update>
+	
+	<select id="getTeacherListOfManager" parameterType="Integer" resultType="String">
+		select distinct phone from kt_bas_teacher where school_id=#{school_id}
+	</select>
+	
+	<select id="getTeacherListByPhone" parameterType="TeacherVO" resultType="TeacherVO">
+		select user_id,grade_id,class_id,contact_id,teacher_id,team_type,class_name,course,duty,is_charge,teacher_name,
+		sex,is_graduate,is_confirm,create_by,phone from 
+		kt_bas_teacher where school_id=#{school_id} and phone=#{phone}
+		ORDER  BY grade_id
+	</select>
+	
+	<select id="getTeacherListByUserID" parameterType="TeacherVO" resultType="TeacherVO">
+		select user_id,grade_id,class_id,contact_id,teacher_id,team_type,class_name,course,duty,is_charge,teacher_name,sex,is_graduate,is_confirm,create_by from 
+		kt_bas_teacher where school_id=#{school_id} AND user_id = #{user_id}
+	</select>
+	
+ 	<select id="getTeaUserListOfManager" parameterType="TeacherVO" resultType="String">
+ 	select distinct t.phone from (select teacher_id,phone from kt_bas_teacher
+		<where>school_id=#{school_id} and (teacher_name like #{teacher_name} or phone like #{teacher_name})
+		</where> ORDER BY teacher_id DESC )t
+	</select> 
+	
+	<delete id="deleteTeacherOfManager" parameterType="TeacherVO">
+		delete from kt_bas_teacher where school_id=#{school_id} and phone=#{phone}
+	</delete>
+	
+	 <update id="updateTeacherOfManager" parameterType="TeacherVO">
+		update kt_bas_teacher set
+		<if test="teacher_name!=null and teacher_name!=''">
+			teacher_name=#{teacher_name},
+			all_letter=#{all_letter},
+			first_letter=#{first_letter},
+		</if>
+		<if test="new_phone!=null and new_phone!=''">
+			phone=#{new_phone},
+		</if>
+		<if test="sex!=null">
+			sex=#{sex},
+		</if>
+		update_by=#{update_by},
+		update_date=#{update_date},
+		version=version+1 where phone=#{phone}
+	</update> 
+	
+	<update id="updateLetter" parameterType="TeacherVO">
+	update kt_bas_teacher set all_letter=#{all_letter},first_letter=#{first_letter} where teacher_id=#{teacher_id}
+	</update>
+	
+	<delete id="deleteByClassid" parameterType="Integer">
+	delete from kt_bas_teacher where class_id=#{class_id}
+	</delete>
+	
+	<select id="getTeacherNotContact" parameterType="Map" resultType="String">
+	SELECT distinct a.phone
+	FROM kt_bas_teacher a
+	WHERE school_id = #{school_id} and (teacher_name like CONCAT('%',#{teacher_name},'%')  or phone like 
+		CONCAT('%',#{teacher_name},'%') ) and
+			NOT EXISTS (
+				SELECT
+					1
+				FROM
+					kt_bas_contact_list b
+				WHERE
+					contact_id = #{contact_id}
+				AND b.phone = a.phone
+			)
+	</select>
+	
+	<select id="getTeacherById" parameterType="Integer" resultType="TeacherVO">
+	select phone,school_id,user_id,duty,team_type,grade_id,class_id,contact_id from kt_bas_teacher 
+	where teacher_id=#{teacher_id}
+	</select>
+	
+	<update id="updateTeacherOne" parameterType="TeacherVO">
+	UPDATE kt_bas_teacher
+		SET grade_id = NULL,
+	 	class_id = NULL,
+	 	contact_id=null,
+	 	team_type=null,
+	 	class_name = NULL,
+	 	course = NULL,
+	 	duty = NULL,
+	 	is_charge = NULL,update_by=#{update_by},update_date=#{update_date},version=version+1 
+ 	where teacher_id=#{teacher_id}
+	</update>
+	
+	<update id="updateTeacherIsGraduateByGradeID" parameterType="ClassVO">
+	UPDATE kt_bas_teacher
+		SET is_graduate = 1,
+		update_by=#{update_by},
+		update_date=#{update_date}
+ 	where grade_id=#{grade_id}
+	</update>
+	
+	<select id="getTeacherListByClass" parameterType="ReceiveVO" resultType="Integer">
+		select distinct user_id as user_id from kt_bas_teacher
+		<where>
+			school_id=#{school_id} 
+			<if test="team_type!=null and team_type!=''">
+			and team_type=#{team_type}
+			</if>
+			<if test="group_id!=null and group_id!=0">
+			and grade_id=#{group_id}
+			</if>
+			<if test="team_id!=null and team_id!=0">
+			 and class_id=#{team_id}
+			 </if>
+		 </where>
+	</select>
+	
+	<select id="getTeacherListByInterest" parameterType="Integer" resultType="Integer">
+	select distinct user_id as user_id from kt_bas_teacher where contact_id=#{contact_id}
+	</select>
+	
+	<delete id="deleteInterestTeacher" parameterType="TeacherVO">
+	delete from kt_bas_teacher where school_id=#{school_id} and team_type=#{team_type} and contact_id=#{contact_id}
+	</delete>
+
+	<select id="getTeacherByPhone" parameterType="TeacherVO" resultType="TeacherVO">
+	SELECT
+	school_id,
+	phone,
+	grade_id,
+	duty,
+	course,
+	is_charge,
+	contact_id,
+	team_type,
+	COUNT(1) AS count
+	FROM
+	kt_bas_teacher
+	WHERE
+	school_id = #{school_id}
+	AND phone = #{phone}
+	and is_graduate=0
+	GROUP BY
+	team_type,
+	grade_id,
+	contact_id,
+	course,
+	duty,
+	is_charge
+	</select>
+
+	<select id="getTeacherByCourse" parameterType="TeacherVO" resultType="TeacherVO">
+	SELECT
+	class_id,
+	teacher_id
+	FROM
+	kt_bas_teacher
+	WHERE
+	school_id = #{school_id}
+	AND phone = #{phone}
+	AND is_graduate = 0
+	<if test="grade_id!=null">
+	AND grade_id = #{grade_id}
+	</if>
+	AND course = #{course}
+	AND is_charge = #{is_charge}
+	</select>
+	<select id="getTeacherTotal" parameterType="Integer" resultType="Integer">
+	SELECT COUNT(t.teacher_id) FROM ( SELECT teacher_id FROM kt_bas_teacher WHERE school_id = #{school_id} GROUP BY phone) t
+	</select>
+
+	<select id="getTeacherNameByInterest" parameterType="Integer" resultType="String">
+		select teacher_name from kt_bas_teacher where contact_id=#{contact_id}
+	</select>
+
+	<select id="getTeacherByDuty" parameterType="TeacherVO" resultType="TeacherVO">
+		select teacher_id
+		from kt_bas_teacher
+		where school_id=#{school_id} and phone=#{phone} and duty=#{duty}
+	</select>
+	<select id="getTeacherListByDuty" parameterType="TeacherVO" resultType="TeacherVO">
+		SELECT
+			teacher_id AS teacher_id,
+			phone AS phone,
+			school_id AS school_id,
+			user_id AS user_id,
+			is_charge AS is_charge,
+			course AS course,
+			teacher_name AS teacher_name,
+			sex AS sex
+		FROM kt_bas_teacher t1
+		WHERE school_id = #{school_id}
+		<if test="is_filtered == 1">
+			AND NOT EXISTS(
+			SELECT 1 FROM kt_bas_teacher t2
+			WHERE t1.phone = t2.phone
+			AND t2.school_id = #{school_id}
+			<if test="duty != '' and duty != null">
+				AND t2.duty = #{duty}
+			</if>
+			<if test="grade_id != '' and grade_id != null">
+				AND t2.grade_id = #{grade_id}
+			</if>
+			<if test="class_id != '' and class_id != null">
+				AND t2.class_id = #{class_id}
+			</if>
+			)
+		</if>
+		<if test="is_filtered == 0">
+			<if test="duty != '' and duty != null">
+				AND duty = #{duty}
+			</if>
+			<if test="grade_id != '' and grade_id != null">
+				AND grade_id = #{grade_id}
+			</if>
+			<if test="class_id != '' and class_id != null">
+				AND class_id = #{class_id}
+			</if>
+		</if>
+		<if test="teacher_name != '' and teacher_name != null">
+			AND teacher_name  like CONCAT('%',#{teacher_name},'%')
+		</if>
+		<if test="is_filtered == 1">
+			GROUP BY phone
+		</if>
+		<if test="is_filtered == 0">
+			GROUP BY phone,course
+		</if>
+	</select>
+
+	<select id="getTeacherCount" parameterType="TeacherVO" resultType="Integer">
+		SELECT count(DISTINCT phone) AS count
+		FROM kt_bas_teacher
+		WHERE school_id = #{school_id}
+		<if test="duty!=null and duty!=''">
+			AND duty = #{duty}
+		</if>
+		<if test="is_charge==1">
+			and is_charge=#{is_charge}
+		</if>
+		AND is_graduate = 0
+	</select>
+
+	<select id="getTeacherDuty" parameterType="TeacherVO" resultType="TeacherVO">
+		select duty,course from kt_bas_teacher
+		where school_id=#{school_id} and phone=#{phone} and duty is not null and duty!='' GROUP BY duty,course
+	</select>
+</mapper>

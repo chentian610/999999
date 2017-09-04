@@ -1,0 +1,88 @@
+/*引入字体图标*/
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+ /*设置样式*/
+.container .zjq-form-header{height: 58px;border-bottom:1px solid #e9e9e9;padding: 15px 41px 15px 39px;}
+.glyphicon {display: inline-block;font-family: 'Glyphicons Halflings';}
+.container .zjq-search{position: relative;width: 35%;height: 30px;margin: 0;height: 30px;}
+.container .zjq-search input{width: 100%;height: 30px;} 
+.container .form-control-feedback{ position: absolute;right: 10px;top:0;}
+.container .zjq-form-header .btn{width:100px;background:#1cbb9e;color: #fff;height: 30px;line-height:18px;margin: 0 20px;}
+.container .zjq-form-header .add{width:120px;}
+.container .zjq-form-header select{width: 139px;height: 30px;margin: 0 33px;border-color: #d1dae1;color: #9b9b9b;}
+.container .zjq-user{padding: 0 41px 0 39px;}
+.container .zjq-detail{font-family:".PingFang-SC-Regular";text-align: left;font-size:18px;color:#4a4a4a;border-right:1px solid #e9e9e9;margin: 0;padding: 0;padding-top: 34px;width: 80%;}
+.container .zjq-message{margin-bottom: 50px;}
+.container .zjq-sure-m{margin-top: -20px;margin-left: 15px;font-size:15px;}
+.container .zjq-sure-m li{margin-bottom: 20px;line-height: 17px;height: 17px;}
+.container .zjq-sure-m li input{margin-left: 36px;width: 60px;height: 30px;line-height: 18px;background:#1cbb9e;color: #fff;font-family:".PingFang-SC-Medium";float: right;margin-right: 15px;} .container .zjq-message .zjq-sure-f{margin-left: 15px;margin-top: -28px;}
+.container .zjq-message .zjq-sure-f label{font-size: 15px;font-family:".PingFang-SC-Regular";}
+.container .zjq-message .zjq-sure-f .fl .form-group{height: 30px;font-size:15px;color:#4a4a4a;text-align:left;margin-bottom: 30px;}
+.container .zjq-message .zjq-sure-f .fl .form-group label{padding: 0;line-height: 30px;color:#4a4a4a;font-weight: normal;}
+.container .zjq-message .zjq-sure-f .form-group input{height: 30px;}
+.container .zjq-message .zjq-sure-f .fl .form-group .button{background:#1cbb9e;width:60px;height:30px;line-height: 18px;color: #fff;float: right;margin-right: 15px;}
+.container .zjq-message .zjq-sure-f .fr{padding-right: 15px;}
+.container .zjq-message .zjq-sure-f .fr .form-group{height: 30px;font-size:15px;color:#4a4a4a;text-align:left;margin-bottom: 30px;}
+.container .zjq-message .zjq-sure-f .fr .form-group label{padding: 0;line-height: 30px;font-weight: normal;}
+.container .zjq-message .zjq-sure-f .fr .zjq-input{padding: 0 15px;}
+.container .zjq-message .zjq-sure-f .fr .form-group .button{background:#1cbb9e;width:60px;height:30px;line-height: 18px;color: #fff;float: right;margin-right: 15px;}
+.container .zjq-user .zjq-submit{background:#1cbb9e;width:350px;height:40px;color: #fff;line-height: 28px;display: block;font-size: 19px;font-weight: bold;}
+/*侧边按钮样式*/
+.container .zjq-buttons{width: 20%;margin:0 auto;margin-top:75px;}
+.container .zjq-buttons .zjq-button{width:100px;height:75px;margin:0 auto;margin-bottom:120px;}
+.container .zjq-buttons input{width: 100px;height: 30px;line-height: 18px;background:#1cbb9e;color: #fff;font-family:".PingFang-SC-Medium";font-weight: bold;}
+.container .zjq-buttons .disable{background:#a9aab4;}
+
+/**************autoWidth媒体查询自适应宽度布局**********************/
+@media screen and (min-width:1200px) {
+ .container .zjq-search{width: 35%;}
+}
+@media screen and (min-width:992px) and (max-width:1200px){
+	.container .zjq-search{width: 25%;}
+	.container .zjq-form-header .btn{margin: 0 10px;}
+	.container .zjq-message .zjq-sure-f .fr .zjq-input{padding: 0 5px;}
+	.container .zjq-message .zjq-sure-f label{font-size: 10px;font-family:".PingFang-SC-Regular";}
+  .container .zjq-message .zjq-sure-f .fr{padding-right: 5px;}
+  .container .zjq-detail{width: 85%;}
+  .container .zjq-buttons{width: 15%;}
+  .container .zjq-sure-m li input{margin: 0;width: 60px;height: 30px;font-size: 10px;line-height: 8px;padding: 0 8px;}
+  .container .zjq-buttons .zjq-button{width:100px;height:75px;margin:0 auto;margin-bottom:120px;}
+  .container .zjq-message .zjq-sure-f .fl .form-group .button,
+  .container .zjq-message .zjq-sure-f .fr .form-group .button{margin: 0;width: 40px;height: 20px;font-size: 10px;line-height: 8px;padding: 0 8px;margin-top: 5px;}
+}
+@media screen and (min-width:768px) and (max-width:992px){
+	.container .zjq-search{width: 25%;}
+	.container .zjq-form-header .btn{margin: 0 5px;}
+	.container .zjq-message .zjq-sure-f .fr .zjq-input{padding: 0 5px;}
+	.container .zjq-message .zjq-sure-f label{font-size: 10px;font-family:".PingFang-SC-Regular";}
+  .container .zjq-message .zjq-sure-f .fr{padding-right: 5px;}
+  .container .zjq-detail{width: 85%;}
+  .container .zjq-buttons{width: 15%;}
+  .container .zjq-sure-m li input{margin: 0;width: 60px;height: 30px;font-size: 10px;line-height: 8px;padding: 0 8px;}
+  .container .zjq-buttons .zjq-button{width:100px;height:75px;margin:0 auto;margin-bottom:120px;}
+  .container .zjq-message .zjq-sure-f .fl .form-group .button,
+  .container .zjq-message .zjq-sure-f .fr .form-group .button{margin: 0;width: 40px;height: 20px;font-size: 10px;line-height: 8px;padding: 0 8px;margin-top: 5px;}
+}
+.container .qtop {padding-top:25px;}
+.container .qtop .ftop-serach{display:inline;width: 280px;height: 30px;margin: 0;height: 30px;}
+.container .qtop .ftop-serach input{display:inline;width: 280px;height: 30px;}
+.container .qtop .ftop-serach span{position: relative;right: 28px;}
+.container .qtop .qbb-search{display:inline;background-color: #1cbb9e;padding-top:4px;height:30px;border-radius:5px;width:100px;color: #fff;}
+.container .qtop .qbb-select{display:inline;border-style:none;border:1px solid #d1dae1;border-radius:2px;width:137px;height:28px;margin-left: 20px;}
+
+#modal  h1{font-weight:bold;text-align: center;font-size:24px;color:#4a4a4a;height: 26px;}
+#modal .box .fl .form-group{width: 230px;height: 30px;font-size:15px;color:#4a4a4a;text-align:left;margin-bottom: 30px;}
+#modal .box .fl .form-group label{padding: 0;line-height: 30px;color:#4a4a4a;font-weight: normal;}
+#modal .box .form-group input{height: 30px;}
+#modal .box .fl .form-group .button{background:#1cbb9e;width:60px;height:30px;line-height: 18px;color: #fff;}
+#modal .box .fr .form-group{width: 268px;height: 30px;font-size:15px;color:#4a4a4a;text-align:left;margin-bottom: 30px;}
+#modal .box .fr .form-group label{padding: 0;line-height: 30px;font-weight: normal;}
+#modal .box .done{background:#1cbb9e;width:350px;height:40px;margin: 0 auto;display: block;color: #fff;font-size: 19px;font-family:".STHeitiSC-Medium";}
+.buttons{background:#1cbb9e;width:48%;height:30px;line-height: 18px;color: #fff;    margin-right: 25%;}
+.lable-width{min-width:37%; margin-top: 10px;}
+.input-width{width: 63%; margin-bottom: 5px;}
+.select-css{height: 30px; width: 100%; border-radius: 5px; border: 1px solid #ccc;}
+.button-css{background: #1cbb9e;color: #fff;margin-top: 5px; float: right;}

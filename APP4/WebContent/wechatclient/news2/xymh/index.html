@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>校园门户</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="../js/init.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/animate.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/hxx.cache.img.css"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	</head>
+
+	<body>
+		<div id="app" v-cloak>
+			<div class="hxx-page">
+				<header class="mui-bar mui-bar-nav">
+				    <a v-if='page == 2' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				    <h1 class="mui-title" id="schoolTitle">{{school_name}}</h1>
+				</header>
+				<div class="mui-content">
+				    <div class="mui-slider mui-fullscreen">
+						<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+							<div class="mui-scroll">
+								<a v-for='(group,group_index) in page1.new_list' class="mui-control-item" :class='{"mui-active":group_index==0}' :href='"#"+group.value'>{{group.text}}</a>
+							</div>
+						</div>
+						<div class="mui-slider-group">
+							<div v-for='(group,group_index) in page1.new_list' :id='group.value' class="mui-slider-item mui-control-content" :class='{"mui-active":group_index==0}'>
+								<div id="scroll1" class="mui-scroll-wrapper">
+									<div class="mui-scroll">
+										<ul class="hxx-portal-group">
+											<template v-for='(item,item_index) in group.item_list'>
+												<li v-if='item.other_field == "032030" && item.news_list.length > 0' @tap='gotoDetailPage(item.news_list[0])' class="hxx-portal-item hxx-portal-xxjj">
+													<div class="hxx-portal-img hxx-cache-image" :data-img-url='item.news_list[0].main_pic_url'></div>
+													<h5 class="hxx-icon">{{item.dict_value}}&#xe630;</h5>
+												</li>
+												<li v-else-if='item.other_field == "032005" && item.news_list.length > 0' @tap='gotoDetailPage(item.news_list[0])' class="hxx-portal-item hxx-portal-xzzc">
+													<h4>{{item.dict_value}}</h4>
+													<div class="hxx-portal-img hxx-cache-image" :data-img-url='item.news_list[0].main_pic_url'></div>
+													<p>{{item.news_list[0].content_text}}</p>
+												</li>
+												<li v-else-if='item.other_field == "032040" && item.news_list.length > 0' class="hxx-portal-item hxx-portal-xxly">
+													<h4 @tap='gotoListPage(item)' class="hxx-icon">{{item.dict_value}}</h4>
+													<ul class="hxx-xxly-group">
+														<li v-for='(news,news_index) in item.news_list' v-if='news_index<1' @tap='gotoDetailPage(news)' class="hxx-xxly-item">
+															<div class="hxx-portal-img hxx-cache-image" :data-img-url='news.main_pic_url'></div>
+															<p>{{item.news_list[0].title}}</p>
+														</li>
+													</ul>
+												</li>
+												<li v-else-if='item.other_field == "032025" && item.news_list.length > 0' class="hxx-portal-item hxx-portal-yxxz">
+													<h4 @tap='gotoListPage(item)' class="hxx-icon">{{item.dict_value}}</h4>
+													<div class="hxx-stu-list">
+														<div v-for='(news,news_index) in item.news_list' v-if='news_index<3' @tap='gotoDetailPage(news)' class="hxx-portal-img hxx-cache-image" :data-img-url='news.main_pic_url'></div>
+													</div>
+												</li>
+												<li v-else-if='item.other_field == "032010" && item.news_list.length > 0' class="hxx-portal-item hxx-portal-xydt">
+													<h4 @tap='gotoListPage(item)' class="hxx-icon">{{item.dict_value}}</h4>
+													<div class="hxx-news-list">
+														<div v-for='(news,news_index) in item.news_list' v-if='news_index<4' @tap='gotoDetailPage(news)' class="hxx-portal-img hxx-cache-image" :data-img-url='news.main_pic_url'></div>
+													</div>
+												</li>
+												<li v-else-if='item.other_field == "032015" && item.news_list.length > 0' class="hxx-portal-item hxx-portal-djdj">
+													<h4 @tap='gotoListPage(item)' class="hxx-icon">{{item.dict_value}}</h4>
+													<ul class="hxx-djdj-group">
+														<li v-for='(news,news_index) in item.news_list' v-if='news_index<3' @tap='gotoDetailPage(news)' class="hxx-djdj-item">
+															<div class="hxx-portal-img hxx-cache-image" :data-img-url='news.main_pic_url'></div>
+															<p>{{news.content_text}}</p>
+														</li>
+													</ul>
+												</li>
+												<!--<li v-if='item.other_field == "032010"' class="hxx-portal-item hxx-portal-zszs">
+													<h4 @tap='gotoListPage(item)' class="hxx-icon">{{item.dict_value}}</h4>
+													<ul class="hxx-zszs-group">
+														<li v-for='(news,news_index) in item.news_list' v-if='news_index<2' @tap='gotoDetailPage(news)' class="hxx-zszs-item">
+															<div class="hxx-portal-img" :style="{backgroundImage: 'url('+news.main_pic_url+')'}"></div>
+															<p>{{news.title}}</p>
+														</li>
+													</ul>
+												</li>-->
+											</template>
+											<div v-if='state == 3' @tap='GetDictSchoolList' class="hxx-tip-unconnection">
+												<img src="../images/tip_unconnection.png">
+												<div>请求失败，请检查网络后点击刷新</div>
+								    	    </div>
+											<div v-if='state == 2' class="hxx-tip-empty">
+												<img src="../images/tip_empty.png">
+											</div>
+											<div v-if='state == 0' class="hxx-tip-loading">
+												<img src="../images/tip_load.gif">
+											</div>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div v-if='state == 3' @tap='GetDictSchoolList' class="hxx-tip-unconnection">
+								<img src="../images/tip_unconnection.png">
+								<div>请求失败，请检查网络后点击刷新</div>
+				    	    </div>
+							<div v-if='state == 2' class="hxx-tip-empty">
+								<img src="../images/tip_empty.png">
+							</div>
+							<div v-if='state == 0' class="hxx-tip-loading">
+								<img src="../images/tip_load.gif">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div v-show='page == 1' @tap='page = 0' class="hxx-page hxx-login-btn">
+				<div class="hxx-icon hxx-login-head">
+					&#xe647;
+					<div @tap.stop='gotoLogin("003005")' class="hxx-btn">
+						教师登录
+					</div>
+					<div @tap.stop='gotoLogin("003015")' class="hxx-btn">
+						家长登录
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/hxx.cache.img.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+</html>

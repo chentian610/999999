@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="balanceMap">
+	<!--插入表kt_bas_balance -->
+	<insert id="insertBalance" parameterType="BalanceVO">insert into kt_bas_balance
+		(
+		agent_id,
+		balance,
+		create_by,
+		create_date,
+		version
+		) VALUES (
+		#{agent_id},
+		#{balance},
+		#{create_by},
+		#{create_date},
+		0
+		)
+	</insert>
+	<select id="getBalanceByID" parameterType="BalanceVO" resultType="BalanceVO">
+		SELECT
+		balance_id AS balance_id,
+		agent_id AS agent_id,
+		balance AS balance,
+		create_by AS create_by,
+		create_date AS create_date,
+		version AS version
+		FROM kt_bas_balance
+		WHERE agent_id = #{agent_id}
+	</select>
+	<select id="getBalanceByPhone" parameterType="BalanceVO" resultType="BalanceVO">
+	SELECT
+		balance_id AS balance_id,
+		agent_id AS agent_id,
+		balance AS balance,
+		create_by AS create_by,
+		create_date AS create_date,
+		version AS version
+		FROM kt_bas_balance
+		WHERE agent_id in (SELECT agent_id FROM kt_bas_agent WHERE phone = #{phone})
+	</select>
+	<update id="updateBalance" parameterType="BalanceVO">
+		UPDATE kt_bas_balance SET
+		balance = #{balance},
+		version = version + 1,
+		update_by = #{update_by},
+		update_date = #{update_date}
+		WHERE agent_id = #{agent_id}
+	</update>
+</mapper>
+

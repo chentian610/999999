@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bedroomMap">
+	<!-- 操作寝室表 -->
+	<!--插入表kt_bas_bedroom 插入寝室信息-->
+	<insert id="insertBedroom" parameterType="BedroomVO">
+		insert into kt_bas_bedroom(
+			school_id,
+			bedroom_name,
+			create_by,
+			create_date,
+			version
+		)values(
+			#{school_id},
+			#{bedroom_name},
+			#{create_by},
+			#{create_date},
+			0
+		)
+	</insert>
+	<!-- 根据bedroom_id查询寝室信息 -->
+	<select id="getBedroomInfoById" parameterType="Integer" resultType="BedroomVO">
+		select 
+			school_id,
+			bedroom_name,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			version
+		from kt_bas_bedroom
+		where
+			bedroom_id=#{bedroom_id}
+	</select>
+	<!-- 根据前缀，楼层查询寝室信息 -->
+	<select id="getBedroomInfoByFloor" parameterType="String" resultType="BedroomVO">
+		select 
+			school_id,
+			bedroom_name,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			version
+		from kt_bas_bedroom
+		where
+			bedroom_code like #{bedroom}
+	</select>
+	<!--更新表kt_bas_bedroom 跟新寝室信息-->
+	<update id="updateBedroom" parameterType="BedroomVO">
+		update kt_bas_bedroom
+		set 
+			school_id=#{school_id},
+			bedroom_name=#{bedroom_name},
+			update_by=#{update_by},
+			update_date=#{update_date},
+			version=version + 1
+		where 
+			bedroom_id = #{bedroom_id}
+	</update>
+	<select id="getBedroomList" parameterType="BedroomVO" resultType="BedroomVO">
+		select 
+		bedroom_id,
+			school_id,
+			bedroom_name,
+			sex
+		from kt_bas_bedroom
+		<where>
+			school_id=#{school_id}
+			<if test="bedroom_pre!=null">
+			 and bedroom_name like #{bedroom_pre}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="addBedroom" parameterType="BedroomVO">
+		insert into kt_bas_bedroom(
+			school_id,
+			bedroom_name,sex,
+			create_by,
+			create_date,
+			version
+		)values(
+			#{school_id},
+			#{bedroom_name},#{sex},
+			#{create_by},
+			#{create_date},
+			0
+		)
+	</insert>
+	
+	<delete id="deleteBedroom" parameterType="Integer">
+		delete from kt_bas_bedroom where bedroom_id=#{bedroom_id}
+	</delete>
+	
+	
+	
+	<!-- 操作床位表 -->
+	<!-- 查询表kt_bas_position_bed  根据根据寝室id和床位号查询学生信息 -->
+	<select id="getStudentByBedCode" parameterType="BedVO" resultType="BedVO">select  
+		student_id,
+		student_code,
+		student_name
+		from kt_bas_position_bed
+		where school_id=#{school_id}
+		and bedroom_id=#{bedroom_id}	
+		and bed_code=#{bed_code}
+	</select>
+	<!-- 根据学生名找床位 -->
+	<select id="getBedListByStudentName" parameterType="BedVO" resultType="BedVO">select 
+		id as id,
+		bedroom_id as bedroom_id,
+		bedroom_name as bedroom_name,
+		bed_code as bed_code
+		from kt_bas_position_bed
+		where school_id=#{school_id}
+		and student_name=#{student_name}
+	</select>
+	<!-- 根据学生code找床位 -->
+	<select id="getBedListByStudentCode" parameterType="BedVO" resultType="BedVO">select 
+		id as id,
+		bedroom_id as bedroom_id,
+		bedroom_name as bedroom_name,
+		bed_code as bed_code
+		from kt_bas_position_bed
+		where school_id=#{school_id}
+		and student_code=#{student_code}
+	</select>
+	
+	<!-- 插入表kt_bas_position_bed  插入床位信息-->
+	<insert id="insertBedOfStudent" parameterType="BedVO">
+		insert into kt_bas_position_bed (
+			school_id,
+			bedroom_id,
+			bedroom_name,
+			bed_code,
+			student_id,
+			student_code,
+			student_name,
+			create_by,
+			create_date,
+			version
+		)values(
+			#{school_id},
+			#{bedroom_id},
+			#{bedroom_name},
+			#{bed_code},
+			#{student_id},
+			#{student_code},
+			#{student_name},
+			#{create_by},
+			#{create_date},
+			0
+		)
+	</insert>
+	
+	<!--更新表kt_bas_position_bed 更新学生床位信息-->
+	<update id="updateBedOfStudent" parameterType="BedVO">
+		update kt_bas_position_bed
+		set
+			student_code=#{student_code},
+			update_by=#{update_by},
+			update_date=#{update_date},
+			version=version+1
+		where 
+			bedroom_id = #{bedroom_id}
+		and 
+			bed_code=#{bed_code}
+	</update>
+	<!-- 根据寝室号、床位号删除学生信息 -->
+	<delete id="deleteBedOfStudent" parameterType="BedVO">delete
+		from kt_bas_position_bed 
+		where bedroom_id=#{bedroom_id}
+		<if test="bed_code != null and bed_code !=0">
+			and bed_code=#{bed_code}
+		</if>
+		<if test="student_id!=null and student_id!=0">
+		and student_id=#{student_id}
+		</if>
+	</delete>
+	
+	<!-- 查询表 kt_bas_position_bed 根据bedroom_id查询给定寝室所有床位信息-->
+	<select id="getBedListByBedroomId" parameterType="Integer" resultType="BedVO">select 
+			bedroom_id as bedroom_id,
+			bedroom_name as bedroom_name,
+			bed_code as bed_code, 
+			student_id as student_id,
+			student_code as student_code, 
+			student_name as student_name
+			from kt_bas_position_bed 
+			where bedroom_id=#{bedroom_id} order by bed_code
+	</select>
+	<!--查询表kt_bas_position_bed -->
+	<select id="getBedPositionList" parameterType="Integer"
+		resultType="BedVO">select
+		id as id,
+		school_id as school_id,
+		bedroom_id as bedroom_id,
+		bedroom_name as bedroom_name,
+		bed_code as bed_code,
+		student_id as student_id,
+		student_code as student_code,
+		student_name as student_name,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_position_bed
+		where bedroom_id=#{bedroom_id}
+	</select>
+	
+		<!--查询表kt_bas_position_bed -->
+	<select id="getStudentListFromBedroom" parameterType="Integer" resultType="BedVO">select
+		id as id,
+		school_id as school_id,
+		bedroom_id as bedroom_id,
+		bedroom_name as bedroom_name,
+		bed_code as bed_code,
+		student_id as student_id,
+		student_code as student_code,
+		student_name as student_name,
+		create_by as create_by,
+		create_date as create_date,
+		update_by as update_by,
+		update_date as update_date,
+		version as version
+		from kt_bas_position_bed
+	</select>
+	
+	<!--查询表kt_bas_position_bed -->
+	<select id="getBedroomByStuID" parameterType="BedVO" resultType="BedVO">select
+		id as id,
+		school_id as school_id,
+		bedroom_id as bedroom_id,
+		bedroom_name as bedroom_name,
+		bed_code as bed_code,
+		student_id as student_id,
+		student_code as student_code,
+		student_name as student_name
+		from kt_bas_position_bed
+		where school_id = #{school_id}
+		and student_id = #{student_id}
+	</select>
+	
+	<update id="updateStudent" parameterType="BedVO">
+		update kt_bas_position_bed set student_code=#{student_code},student_name=#{student_name},update_by=#{update_by},
+		update_date=#{update_date},version=version+1 where student_id=#{student_id} and school_id=#{school_id}
+	</update>
+	
+	<select id="getCount" parameterType="Integer" resultType="Integer">
+		select count(*) as count from kt_bas_position_bed where bedroom_id=#{bedroom_id}
+	</select>
+	
+	<select id="getMax" parameterType="Integer" resultType="String">
+	SELECT
+		max(CAST(bed_code AS SIGNED))+1  AS bed_code
+	FROM
+		kt_bas_position_bed
+	WHERE
+		bedroom_id = #{bedroom_id}
+	</select>
+
+	<delete id="deleteGraduateStudent" parameterType="Integer">
+		delete from kt_bas_position_bed where student_id in (select student_id from kt_bas_student
+		where grade_id=#{grade_id})
+	</delete>
+
+    <delete id="deleteStudent" parameterType="Integer">
+        delete from kt_bas_position_bed where student_id=#{student_id}
+    </delete>
+</mapper>
+

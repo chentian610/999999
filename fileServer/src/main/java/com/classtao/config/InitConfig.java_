@@ -1,0 +1,50 @@
+package com.classtao.config;
+
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
+
+/**
+* Created by zhangpeng on 16-3-22.
+* 取代Beans.xml，纯注解配置各种BEAN
+*/
+@Configuration
+@ComponentScan("com.classtao")
+@EnableWebMvc
+public class InitConfig {
+   /**
+    * jsp视图解析器的bean
+    * @return
+    */
+   @Bean
+   public UrlBasedViewResolver setupViewResolver() {
+       UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+       resolver.setPrefix("/WEB-INF/");
+       resolver.setSuffix(".jsp");
+       resolver.setViewClass(JstlView.class);
+       return resolver;
+   }
+
+//   /**
+//    * 配置数据源
+//    * @return
+//    */
+//   @Bean(name = "dataSource")
+//   public ComboPooledDataSource getDataSource() {
+//       try {
+//           ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//           dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/mfdb");
+//           dataSource.setDriverClass("com.mysql.jdbc.Driver");
+//           dataSource.setUser("root");
+//           dataSource.setPassword("zp1228");
+//           dataSource.setMaxPoolSize(75);
+//           return dataSource;
+//       } catch (Exception e) {
+//           return null;
+//       }
+//   }
+}

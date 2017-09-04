@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration status="INFO">
+    <!--先定义所有的appender-->
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5p] [%t] %d %c - %m%n" />
+        </Console>
+        <!--文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，适合临时测试用-->
+        <RollingFile  name="ERROR-OUT" fileName="E:/APP4/error.log" filePattern="E:/APP4/error-%d{yyyy-MM-dd}.log" append="true">
+            <!--文件只记录level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="error"/>
+            <PatternLayout charset="UTF-8" pattern="22222222 %d {HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="INFO-OUT" fileName="E:/APP4/info.log"  filePattern="E:/APP4/info-%d{yyyy-MM-dd}.log" append="true">
+            <!--文件只记录level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="INFO"/>
+            <PatternLayout charset="UTF-8" pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+        <!--建立一个默认的root的logger-->
+        <root level="INFO">
+            <appender-ref ref="ERROR-OUT"/>
+            <appender-ref ref="INFO-OUT"/>
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+</configuration>

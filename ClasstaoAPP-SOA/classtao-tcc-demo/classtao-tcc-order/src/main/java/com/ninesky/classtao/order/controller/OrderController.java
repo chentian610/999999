@@ -104,9 +104,11 @@ public class OrderController {
             payResultTip = "支付成功";
         else if("PAY_FAILED".equals(status))
             payResultTip = "支付失败";
+        else if ("PAYING".equals(status))
+            payResultTip = "支付中";
 
         mv.addObject("payResult",payResultTip);
-        mv.addObject("product",dao.queryForList("shopMap.findById",productId));
+        mv.addObject("product",dao.queryObject("productMap.findById",productId));
 
         mv.addObject("capitalAmount",capitalService.getCapitalAccountByUserId(payerUserId));
         mv.addObject("redPacketAmount",redpackageService.getRedPacketAccountByUserId(payerUserId));

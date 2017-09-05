@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -30,6 +31,7 @@ import java.util.Set;
 @EnableTransactionManagement
 @Configuration
 @PropertySource({"classpath:jdbc.properties"})
+@ImportResource(locations={"classpath:tcc-transaction.xml","classpath:tcc-transaction-dubbo.xml"})
 public class TccDatabaseConfig {
     private static final Logger logger = LoggerFactory.getLogger(TccDatabaseConfig.class);
 
